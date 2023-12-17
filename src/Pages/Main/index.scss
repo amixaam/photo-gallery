@@ -1,0 +1,91 @@
+.image-background {
+    width: 100dvw;
+
+    background: url(../../images/Gallery/poland_starry_night.jpg);
+    background-size: cover;
+    background-position: center 20%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.container {
+    width: calc(100dvw - 10rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.landing {
+    height: 92.2dvh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25rem;
+}
+
+.title-content {
+    text-align: center;
+    font-family: "Rubik", sans-serif;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+.title-paragraph {
+    text-align: center;
+    font-family: "Rubik", sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+.title-stars {
+    height: auto;
+    width: fit-content;
+    position: absolute;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.gradient {
+    background: url(../../images/Gradients/pink_grainy.png);
+    background-position: center center;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.scroll-indicator {
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+
+    margin-right: 5rem;
+    margin-bottom: 2rem;
+
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+@keyframes floatAnimation {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    80% {
+        transform: translateY(-10px);
+    }
+}

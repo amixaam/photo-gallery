@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap");
+
+* {
+    margin: 0px;
+}
+
+body {
+    background-color: rgb(0, 0, 0);
+}
