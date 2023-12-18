@@ -1,22 +1,22 @@
 .image-background {
-    width: 100dvw;
-
-    background: url(../../images/Gallery/poland_starry_night.jpg);
+    background: url(../../images/Gallery/monument_night.jpg);
     background-size: cover;
-    background-position: center 20%;
+    background-position: center 50%;
 
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 .container {
-    width: calc(100dvw - 10rem);
+    // width: calc(100dvw - 10rem);
     display: flex;
     flex-direction: column;
 }
 
+// LANDING
+
 .landing {
-    height: 92.2dvh;
+    min-height: 80dvh;
 
     display: flex;
     flex-direction: column;
@@ -69,23 +69,114 @@
     -webkit-text-fill-color: transparent;
 }
 
-.scroll-indicator {
-    position: absolute;
-    right: 0%;
-    bottom: 0%;
-
-    margin-right: 5rem;
-    margin-bottom: 2rem;
-
-    animation: floatAnimation 3s ease-in-out infinite;
+// SHOWCASE
+.showcase-container {
+    width: 100%;
 }
 
-@keyframes floatAnimation {
-    0%,
-    100% {
-        transform: translateY(0);
+// ANIMATION
+.showcase-animation {
+    width: 100%;
+    height: 12dvh;
+    position: relative;
+    overflow: hidden;
+}
+
+.transition-wave {
+    position: absolute;
+    fill: none;
+    width: 200%;
+    left: 0;
+    stroke-width: 3px;
+    stroke: #fcbadb;
+    z-index: 1;
+    animation: wave-animation linear 25s infinite;
+}
+
+.transition-wave-inner {
+    position: absolute;
+    fill: #ec81c7;
+    stroke: #ec81c7;
+    width: 200%;
+    left: 0;
+    stroke-width: 3px;
+
+    animation: wave-animation linear 25s infinite;
+}
+
+@keyframes wave-animation {
+    0% {
+        transform: translateX(0%);
     }
-    80% {
-        transform: translateY(-10px);
+    100% {
+        transform: translateX(-49.75%);
+    }
+}
+
+// CONTENT
+
+.showcase-content {
+    width: 100%;
+    height: 100%;
+    background: url(../../images/decoration/grain.png),
+        linear-gradient(180deg, #ec81c7 38.54%, #915dba 100%), lightgray;
+    background-size: 300px 300px, auto, auto;
+    background-repeat: repeat, no-repeat, no-repeat;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7rem;
+    padding-bottom: 5rem;
+}
+
+.showcase-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .showcase-title {
+        color: #943c75;
+        text-align: center;
+        font-family: "Rubik", sans-serif;
+        font-size: 5rem;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        text-transform: uppercase;
+    }
+    .showcase-title-flair {
+        fill: none;
+        width: calc(100% + 4rem);
+    }
+}
+
+.showcase-button {
+    width: 13.875rem;
+    height: 3.3125rem;
+    border-radius: 0.625rem;
+    background: #f6d4ea;
+
+    color: #943c75;
+    text-align: center;
+    font-family: "Rubik", sans-serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-transform: uppercase;
+    border: none;
+}
+
+// footer
+
+.footer-container {
+    display: flex;
+    flex-direction: row;
+
+    p {
+        font-family: "Rubik", sans-serif;
+        color: white;
+        opacity: 0.4;
     }
 }
