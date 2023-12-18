@@ -127,3 +127,10 @@
     }
     left: -50%;
 }
+
+@media screen and (max-width: 480px) {
+    .stars-flair,
+    .title-stars {
+        display: none;
+    }
+}
