@@ -19,8 +19,8 @@ export default function MainPage() {
             title: "beautiful zakupane mountain range",
             description:
                 "This is a beautiful example of the natural beauty of Poland. The mountains takes up the majority of the frame and the sky is a clear blue. ",
-            date: "14.08.2023",
-            location: "Czechia, prague",
+            date: "13.08.2023",
+            location: "Poland, zakupane",
         },
         {
             id: 2,
