@@ -10,6 +10,7 @@ import Grain from "../../images/decoration/grain.png";
 import Castle from "../../images/Gallery/poland_mountains.jpg";
 import Tree from "../../images/Gallery/fall_tree_night.jpg";
 import StarryNight from "../../images/Gallery/poland_starry_night.jpg";
+import { Link } from "react-router-dom";
 
 export default function MainPage() {
     const data = [
@@ -128,7 +129,9 @@ export default function MainPage() {
                             location={item.location}
                         />
                     ))}
-                    <button className="showcase-button">MOre photos</button>
+                    <Link to="/gallery" className="showcase-button">
+                        MOre photos
+                    </Link>
                     <div className="footer-container">
                         <p>@amixam / @amixaam</p>
                     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImageController;
+use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/images', [ImageController::class, 'getAllImages']);
-Route::post('/images/upload', [ImageController::class, 'uploadImage']);
+Route::middleware([CorsMiddleware::class])->group(function () {
+    Route::get('/images', [ImageController::class, 'getAllImages']);
+    Route::get('/images/{filename}', [ImageController::class, 'getImage']);
+    Route::post('/images/upload', [ImageController::class, 'uploadImage']);
+});
