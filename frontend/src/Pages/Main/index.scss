@@ -1,14 +1,10 @@
 .image-background {
-    background: url(../../images/Gallery/monument_night.jpg);
-    background-size: cover;
-    background-position: center 50%;
-
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 .container {
-    // width: calc(100dvw - 10rem);
+    width: calc(100dvw - 10rem);
     display: flex;
     flex-direction: column;
 }
@@ -21,6 +17,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+
+    .landing-image-container {
+        top: 0%;
+        position: fixed;
+        background-color: red;
+        width: 100dvw;
+        height: 130dvh;
+        background: url(../../images/Gallery/monument_night.jpg);
+        background-size: cover;
+        z-index: -1;
+    }
 }
 
 .title-container {
@@ -112,10 +119,19 @@
 
 @media screen and (max-width: 768px) {
     .showcase-animation {
-        height: 50px; /* Example: Adjust height for smaller screens */
+        height: 50px;
     }
 }
-
+@media screen and (min-width: 2000px) {
+    .showcase-animation {
+        height: 150px;
+    }
+}
+@media screen and (min-width: 3000px) {
+    .showcase-animation {
+        height: 260px;
+    }
+}
 // CONTENT
 
 .showcase-content {
@@ -189,6 +205,11 @@
 @media screen and (max-width: 768px) {
     .landing {
         min-height: 87dvh;
+
+        .landing-image-container {
+            background-size: auto 170%;
+            background-position: top center;
+        }
     }
     .title-content {
         font-size: 6rem;
@@ -218,9 +239,24 @@
             opacity: 0.4;
         }
     }
+
+    .container {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .title-stars {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 480px) {
+    .landing {
+        .landing-image-container {
+            background-size: auto 200%;
+        }
+    }
     .title-content {
         font-size: 4.5rem;
     }
@@ -232,7 +268,7 @@
     }
     .showcase-button {
         width: 90%;
-        padding: 2rem 0rem;
-        font-size: 1.5rem;
+        padding: 1.5rem 0rem;
+        font-size: 2rem;
     }
 }

@@ -6,45 +6,11 @@ import Calendar from "../../../images/decoration/icons/calendar.svg";
 import Stars from "../../../images/decoration/stars.png";
 
 export default function ImageItem(props) {
-    const image = props.image;
-    const title = props.title;
-    const description = props.description;
-    const date = props.date;
-    const location = props.location;
+    const { image, title, description, date, location, frame, clipPath } =
+        props;
 
     return (
         <div className="ImageItem-container">
-            {/* <div className="image-container">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="100%"
-                    height="100%"
-                    viewBox="0 0 235 258"
-                    fill="white"
-                >
-                    <defs>
-                        <pattern
-                            id="imagePattern"
-                            patternUnits="userSpaceOnUse"
-                            width="100%"
-                            height="100%"
-                        >
-                            <image
-                                xlinkHref={image}
-                                width="100%"
-                                height="100%"
-                                preserveAspectRatio="xMidYMid slice"
-                            />
-                        </pattern>
-                    </defs>
-                    <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M114.328 10.311C146.468 3.07288 189.234 -8.28452 212.99 9.42862C238.482 28.4367 214.463 61.6862 219.019 88.3725C221.901 105.26 237.047 120.07 234.767 137.009C232.435 154.335 219.183 169.066 206.211 183.535C191.588 199.845 176.397 215.505 154.58 226.451C126.372 240.602 93.6396 265.944 62.6267 255.571C30.0084 244.662 36.6065 207.595 23.7471 182.692C15.6406 166.993 3.65311 152.954 1.009 136.245C-1.58484 119.853 0.758989 103.46 8.77522 88.0786C17.1373 72.0333 31.2874 58.7454 47.6998 46.6532C67.6828 31.9305 87.4523 16.3636 114.328 10.311Z"
-                        fill="url(#imagePattern)"
-                    />
-                </svg>
-            </div> */}
             <div className="image-container">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +19,8 @@ export default function ImageItem(props) {
                     viewBox="0 0 235 258"
                 >
                     <defs>
-                        <clipPath id="clipPath">
-                            <path d="M114.328 10.311C146.468 3.07288 189.234 -8.28452 212.99 9.42862C238.482 28.4367 214.463 61.6862 219.019 88.3725C221.901 105.26 237.047 120.07 234.767 137.009C232.435 154.335 219.183 169.066 206.211 183.535C191.588 199.845 176.397 215.505 154.58 226.451C126.372 240.602 93.6396 265.944 62.6267 255.571C30.0084 244.662 36.6065 207.595 23.7471 182.692C15.6406 166.993 3.65311 152.954 1.009 136.245C-1.58484 119.853 0.758989 103.46 8.77522 88.0786C17.1373 72.0333 31.2874 58.7454 47.6998 46.6532C67.6828 31.9305 87.4523 16.3636 114.328 10.311Z" />
+                        <clipPath id={clipPath}>
+                            <path d={frame} />
                         </clipPath>
                     </defs>
                     <image
@@ -62,9 +28,10 @@ export default function ImageItem(props) {
                         width="100%"
                         height="100%"
                         preserveAspectRatio="xMidYMid slice"
-                        clipPath="url(#clipPath)"
+                        clipPath={`url(#${clipPath})`}
                     />
                 </svg>
+                <div className="stars-flair"></div>
             </div>
             <div className="content-container">
                 <h1 className="title">{title}</h1>
@@ -88,8 +55,6 @@ export default function ImageItem(props) {
                 <p className="description">{description}</p>
                 <button className="full-button">see full</button>
             </div>
-
-            <img className="stars-flair" src={Stars} alt="" />
         </div>
     );
 }
