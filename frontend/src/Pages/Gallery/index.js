@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
+import ImageTile from "./components/ImageTile";
+import ImageModal from "./components/ImageModal";
 
 function GalleryPage() {
     // const [images, setImages] = useState([]);
+    // const [selectedImage, setselectedImage] = useState(null);
 
     // useEffect(() => {
     //     const getImages = async () => {
@@ -22,22 +25,27 @@ function GalleryPage() {
     //     getImages();
     // }, []);
 
+    // const handleImageClick = (imageData) => {
+    //     setselectedImage(imageData);
+    // };
+
+    // const closeModal = () => {
+    //     setselectedImage(null);
+    // };
+
     return (
         <>
             <p>not for vercel yet..</p>
             {/* <div className="image-container">
                 {images.map((image, index) => (
-                    <div key={index}>
-                        <img
-                            className="test-image"
-                            src={image.image_url}
-                            alt={`Image ${index}`}
-                        />
-                        <p>{image.picture_data.title}</p>
-                        <p>{image.picture_data.description}</p>
-                    </div>
+                    <ImageTile
+                        key={index}
+                        ImageData={image}
+                        onImageClick={handleImageClick}
+                    />
                 ))}
-            </div> */}
+            </div>
+            <ImageModal imageData={selectedImage} onClose={closeModal} /> */}
         </>
     );
 }

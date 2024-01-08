@@ -13,7 +13,7 @@ class ImageController extends Controller
     public function getAllImages()
     {
         // $csrf = csrf_token();
-        // // return response()->json(["images" => $csrf]);
+        // return response()->json(["token" => $csrf]);
 
 
         $imagesWithDetails = Image::all();

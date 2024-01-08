@@ -70,8 +70,8 @@
 .gradient {
     background: url(../../images/Gradients/pink_grainy.png);
     background-position: center center;
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
