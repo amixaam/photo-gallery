@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use App\Models\image;
+use Illuminate\support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use intervention\Image\Image;
+
+use App\Models\image as ImageModel;
 use Illuminate\Support\Facades\Validator;
 
 class ImageController extends Controller
@@ -12,11 +16,11 @@ class ImageController extends Controller
 
     public function getAllImages()
     {
-        // $csrf = csrf_token();
-        // return response()->json(["token" => $csrf]);
+        $csrf = csrf_token();
+        return response()->json(["token" => $csrf]);
 
 
-        $imagesWithDetails = Image::all();
+        $imagesWithDetails = ImageModel::all();
 
         $formattedImages = $imagesWithDetails->map(function ($image) {
             return [
@@ -40,7 +44,7 @@ class ImageController extends Controller
             abort(404);
         }
 
-        $picture = Image::where('imageURL', 'images/' . $filename)->first();
+        $picture = ImageModel::where('imageURL', 'images/' . $filename)->first();
 
         return response()->json([
             'image_url' => asset("storage/images/$filename"),
@@ -51,35 +55,6 @@ class ImageController extends Controller
         ]);
     }
 
-    // public function uploadImage(Request $request)
-    // {
-    //     // Validate the incoming request, check if the request contains an image, etc.
-    //     $request->validate([
-    //         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation rules
-    //         'title' => 'required|string',
-    //         'description' => 'nullable|string',
-    //         'location' => 'nullable|string',
-    //         'date' => 'nullable|date',
-    //     ]);
-
-    //     // Store the uploaded image in the 'images' folder within the storage directory
-    //     $imagePath = $request->file('image')->store('images', 'public');
-
-    //     // Create a new photo instance and set its properties
-    //     $photo = new Image();
-    //     $photo->title = $request->input('title');
-    //     $photo->description = $request->input('description') ?: "No description provided."; // Set default if empty or null
-    //     $photo->imageURL = $imagePath; // Assuming imageURL is the path to the image
-    //     $photo->location = $request->input('location') ?: "No location provided."; // Set default if empty or null
-    //     $photo->date = $request->input('date');
-
-    //     // Save the photo details to the database
-    //     $photo->save();
-
-    //     // You can save the $imagePath to your database along with any other image-related data
-
-    //     return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath]);
-    // }
     public function uploadImage(Request $request)
     {
         // Validate the incoming request
@@ -95,22 +70,39 @@ class ImageController extends Controller
             return response()->json(['error' => $validator->errors()], 422); // Unprocessable Entity
         }
 
+
         try {
-            // Store the uploaded image in the 'images' folder within the storage directory
             $imagePath = $request->file('image')->store('images', 'public');
 
-            // Create a new photo instance and set its properties
-            $photo = new Image();
-            $photo->title = $request->input('title');
-            $photo->description = $request->input('description') ?: "No description provided.";
-            $photo->imageURL = $imagePath;
-            $photo->location = $request->input('location') ?: "No location provided.";
-            $photo->date = $request->input('date');
+            // // thumbnail creation
+            // $lowResImagePath = "";
 
-            // Save the photo details to the database
-            $photo->save();
+            // Read the uploaded image
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($request->file('image'));
 
-            return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath]);
+            // Generate a low-resolution image
+            $lowResImage = $image->resizeDown(null, 400);
+
+            // Save the low-resolution image to storage
+            $lowResImagePath = 'thumbnails/' . $request->file('image')->hashName();
+            // Storage::put($lowResImagePath, (string) $lowResImage->encode('png', 100));
+            // Save the high-resolution image to storage
+            $imagePath = 'images/' . $request->file('image')->hashName();
+            // Storage::put($imagePath, (string) $image->encode());
+
+
+            // $photo = new ImageModel();
+            // $photo->title = $request->input('title');
+            // $photo->description = $request->input('description') ?: "No description provided.";
+            // $photo->imageURL = $imagePath;
+            // $photo->thumbnailURL = $lowResImagePath;
+            // $photo->location = $request->input('location') ?: "No location provided.";
+            // $photo->date = $request->input('date');
+
+            // $photo->save();
+
+            return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $lowResImagePath]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to upload image.'], 500); // Internal Server Error
         }

@@ -4,39 +4,42 @@ import ImageTile from "./components/ImageTile";
 import ImageModal from "./components/ImageModal";
 
 function GalleryPage() {
-    // const [images, setImages] = useState([]);
-    // const [selectedImage, setselectedImage] = useState(null);
+    const [images, setImages] = useState([]);
+    const [selectedImage, setselectedImage] = useState(null);
 
-    // useEffect(() => {
-    //     const getImages = async () => {
-    //         try {
-    //             const response = await fetch("http://127.0.0.1:8000/images");
-    //             if (!response.ok) {
-    //                 throw new Error("Network response was not ok.");
-    //             }
+    useEffect(() => {
+        const getImages = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/images");
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
 
-    //             const data = await response.json();
-    //             setImages(data.images);
-    //         } catch (error) {
-    //             console.error("Error fetching images: ", error);
-    //         }
-    //     };
+                const data = await response.json();
+                setImages(data.images);
+            } catch (error) {
+                console.error("Error fetching images: ", error);
+            }
+        };
 
-    //     getImages();
-    // }, []);
+        getImages();
+    }, []);
 
-    // const handleImageClick = (imageData) => {
-    //     setselectedImage(imageData);
-    // };
+    const handleImageClick = (imageData) => {
+        setselectedImage(imageData);
+    };
 
-    // const closeModal = () => {
-    //     setselectedImage(null);
-    // };
+    const closeModal = () => {
+        setselectedImage(null);
+    };
+
+    if (!images) {
+        return <p>Not for vercel.</p>
+    }
 
     return (
         <>
-            <p>not for vercel yet..</p>
-            {/* <div className="image-container">
+            <div className="image-container">
                 {images.map((image, index) => (
                     <ImageTile
                         key={index}
@@ -45,7 +48,7 @@ function GalleryPage() {
                     />
                 ))}
             </div>
-            <ImageModal imageData={selectedImage} onClose={closeModal} /> */}
+            <ImageModal imageData={selectedImage} onClose={closeModal} />
         </>
     );
 }
