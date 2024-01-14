@@ -1,7 +1,10 @@
-p {
-    color: white;
-}
+.image-container {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
 
-.test-image {
-    max-width: 15rem;
+    background-color: rgb(43, 43, 43);
 }

@@ -1,10 +1,10 @@
 .gallery-tile {
     cursor: pointer;
-    width: 15rem;
-    aspect-ratio: 1;
+    height: 15rem;
+    width: fit-content;
 
     .thumbnail {
-        width: 100%;
+        border-radius: 15px;
         height: 100%;
         object-fit: cover;
     }

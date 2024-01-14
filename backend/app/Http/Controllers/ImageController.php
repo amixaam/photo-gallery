@@ -3,32 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use intervention\Image\Image;
-
-use App\Models\image as ImageModel;
 use Illuminate\Support\Facades\Validator;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Encoders\JpegEncoder;
+
+
+use App\Models\Photo as PhotoTable;
 
 class ImageController extends Controller
 {
 
     public function getAllImages()
     {
-        $csrf = csrf_token();
-        return response()->json(["token" => $csrf]);
+        // $csrf = csrf_token();
+        // return response()->json(["token" => $csrf]);
 
-
-        $imagesWithDetails = ImageModel::all();
-
+        $imagesWithDetails = PhotoTable::all();
         $formattedImages = $imagesWithDetails->map(function ($image) {
             return [
-                'image_url' => asset("storage/$image->imageURL"),
-                'picture_data' => [
-                    'title' => $image->title,
-                    'description' => $image->description,
-                ]
+                'thumbnail' => asset("storage/$image->thumbnailURL"),
+                'filename' => basename($image->thumbnailURL),
             ];
         });
 
@@ -44,13 +40,15 @@ class ImageController extends Controller
             abort(404);
         }
 
-        $picture = ImageModel::where('imageURL', 'images/' . $filename)->first();
+        $picture = PhotoTable::where('imageURL', 'images/' . $filename)->first();
 
         return response()->json([
             'image_url' => asset("storage/images/$filename"),
             'picture_data' => [
                 'title' => $picture->title,
                 'description' => $picture->description,
+                'location' => $picture->location,
+                'date' => $picture->date,
             ]
         ]);
     }
@@ -59,7 +57,7 @@ class ImageController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:15000', // 15 MB max size (in kb)
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', // 20 MB max size (in kb)
             'title' => 'required|string',
             'description' => 'nullable|string',
             'location' => 'nullable|string',
@@ -72,39 +70,32 @@ class ImageController extends Controller
 
 
         try {
+            //full-res
             $imagePath = $request->file('image')->store('images', 'public');
 
-            // // thumbnail creation
-            // $lowResImagePath = "";
-
-            // Read the uploaded image
-            $manager = new ImageManager(new Driver());
+            //thumbnails
+            $manager = ImageManager::withDriver(new Driver());
             $image = $manager->read($request->file('image'));
+            $resize = $image->scaleDown(height: 400)->encode(new JpegEncoder());
+            $thumbnailPath = storage_path('app/public/thumbnails/' . $request->file('image')->hashName());
+            $resize->save($thumbnailPath);
 
-            // Generate a low-resolution image
-            $lowResImage = $image->resizeDown(null, 400);
+            $shortThumbnailPath = 'thumbnails/' . $request->file('image')->hashName();
 
-            // Save the low-resolution image to storage
-            $lowResImagePath = 'thumbnails/' . $request->file('image')->hashName();
-            // Storage::put($lowResImagePath, (string) $lowResImage->encode('png', 100));
-            // Save the high-resolution image to storage
-            $imagePath = 'images/' . $request->file('image')->hashName();
-            // Storage::put($imagePath, (string) $image->encode());
+            //saving to table
+            $photo = new PhotoTable();
+            $photo->title = $request->input('title') ?: "No title provided.";
+            $photo->description = $request->input('description') ?: "No description provided.";
+            $photo->imageURL = $imagePath;
+            $photo->thumbnailURL = $shortThumbnailPath;
+            $photo->location = $request->input('location') ?: "No location provided.";
+            $photo->date = $request->input('date');
 
+            $photo->save();
 
-            // $photo = new ImageModel();
-            // $photo->title = $request->input('title');
-            // $photo->description = $request->input('description') ?: "No description provided.";
-            // $photo->imageURL = $imagePath;
-            // $photo->thumbnailURL = $lowResImagePath;
-            // $photo->location = $request->input('location') ?: "No location provided.";
-            // $photo->date = $request->input('date');
-
-            // $photo->save();
-
-            return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $lowResImagePath]);
+            return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $shortThumbnailPath]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to upload image.'], 500); // Internal Server Error
+            return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
         }
     }
 }

@@ -4,11 +4,11 @@ import ImageTile from "./components/ImageTile";
 import ImageModal from "./components/ImageModal";
 
 function GalleryPage() {
-    const [images, setImages] = useState([]);
+    const [thumbnails, setthumbnails] = useState([]);
     const [selectedImage, setselectedImage] = useState(null);
 
     useEffect(() => {
-        const getImages = async () => {
+        const getThumbnails = async () => {
             try {
                 const response = await fetch("http://127.0.0.1:8000/images");
                 if (!response.ok) {
@@ -16,34 +16,48 @@ function GalleryPage() {
                 }
 
                 const data = await response.json();
-                setImages(data.images);
+                setthumbnails(data.images);
             } catch (error) {
                 console.error("Error fetching images: ", error);
             }
         };
 
-        getImages();
+        getThumbnails();
     }, []);
 
-    const handleImageClick = (imageData) => {
-        setselectedImage(imageData);
+    const handleImageClick = async (filename) => {
+        if (thumbnails) {
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/images/" + filename
+                );
+                if (!response.ok) {
+                    throw new Error("Network response was not ok.");
+                }
+
+                const data = await response.json();
+                setselectedImage(data);
+            } catch (error) {
+                console.error("Error fetching images: ", error);
+            }
+        }
     };
 
     const closeModal = () => {
         setselectedImage(null);
     };
 
-    if (!images) {
-        return <p>Not for vercel.</p>
+    if (!thumbnails) {
+        return <p>Not for vercel.</p>;
     }
 
     return (
         <>
             <div className="image-container">
-                {images.map((image, index) => (
+                {thumbnails.map((thumbnail, index) => (
                     <ImageTile
                         key={index}
-                        ImageData={image}
+                        ThumbnailData={thumbnail}
                         onImageClick={handleImageClick}
                     />
                 ))}

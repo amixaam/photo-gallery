@@ -22,10 +22,10 @@ const ImageModal = ({ imageData, onClose }) => {
                     Close
                 </button>
                 <div className="split">
-                    <p className="title">{title}</p>
-                    <p className="description">{description}</p>
-                    <p className="location">{location}</p>
-                    <p className="date">{date}</p>
+                    <p className="title">title: {title}</p>
+                    <p className="description">description: {description}</p>
+                    <p className="location">location: {location}</p>
+                    <p className="date">date: {date}</p>
                 </div>
                 <div className="split">
                     <img
