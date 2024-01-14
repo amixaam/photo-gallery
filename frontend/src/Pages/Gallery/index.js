@@ -7,6 +7,8 @@ function GalleryPage() {
     const [thumbnails, setthumbnails] = useState([]);
     const [selectedImage, setselectedImage] = useState(null);
 
+    const [loadingThumbnails, setLoadingThumbnails] = useState(true);
+
     useEffect(() => {
         const getThumbnails = async () => {
             try {
@@ -17,8 +19,10 @@ function GalleryPage() {
 
                 const data = await response.json();
                 setthumbnails(data.images);
+                setLoadingThumbnails(false);
             } catch (error) {
                 console.error("Error fetching images: ", error);
+                setLoadingThumbnails(false);
             }
         };
 
@@ -53,14 +57,23 @@ function GalleryPage() {
 
     return (
         <>
-            <div className="image-container">
-                {thumbnails.map((thumbnail, index) => (
-                    <ImageTile
-                        key={index}
-                        ThumbnailData={thumbnail}
-                        onImageClick={handleImageClick}
-                    />
-                ))}
+            <div className="gallery-image-container">
+                <div className="tile-container">
+                    {loadingThumbnails ? (
+                        <div className="loading-screen">loading...</div>
+                    ) : (
+                        thumbnails.map((thumbnail, index) => (
+                            <ImageTile
+                                key={index}
+                                ThumbnailData={thumbnail}
+                                onImageClick={handleImageClick}
+                            />
+                        ))
+                    )}
+                </div>
+                <div className="footer-container">
+                    <p>@amixam / @amixaam</p>
+                </div>
             </div>
             <ImageModal imageData={selectedImage} onClose={closeModal} />
         </>

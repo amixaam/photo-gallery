@@ -16,16 +16,39 @@ const ImageModal = ({ imageData, onClose }) => {
             onRequestClose={onClose}
             ariaHideApp={false}
             shouldCloseOnOverlayClick={true}
+            style={{
+                overlay: {
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0,0,0, 0.5)",
+                },
+                content: {
+                    position: "absolute",
+                    top: "40px",
+                    left: "150px",
+                    right: "150px",
+                    bottom: "40px",
+                    background: "linear-gradient(#EC81C7, #915DBA)",
+                    overflow: "auto",
+                    border: "none",
+                    WebkitOverflowScrolling: "touch",
+                    borderRadius: "15px",
+                    outline: "none",
+                    padding: "10px",
+                },
+            }}
         >
             <div className="gallery-tile-modal">
-                <button onClick={onClose} className="close-button">
-                    Close
-                </button>
                 <div className="split">
-                    <p className="title">title: {title}</p>
-                    <p className="description">description: {description}</p>
-                    <p className="location">location: {location}</p>
-                    <p className="date">date: {date}</p>
+                    <p className="title">{title}</p>
+                    <div className="statistics">
+                        <p className="location">location: {location}</p>
+                        <p className="date">date: {date}</p>
+                    </div>
+                    <p className="description">{description}</p>
                 </div>
                 <div className="split">
                     <img
