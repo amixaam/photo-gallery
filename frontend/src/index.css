@@ -6,6 +6,7 @@
 * {
     margin: 0px;
     text-wrap: wrap;
+    min-width: 0;
 }
 
 body {
