@@ -3,10 +3,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 
+:root {
+    --grain-bg: url(./images/decoration/grain.png),
+        linear-gradient(180deg, #ec81c7 40%, #915dba 100%), lightgray;
+    --bg-overlay: rgba(255, 255, 255, 0.3);
+}
+
 * {
     margin: 0px;
     text-wrap: wrap;
     min-width: 0;
+    font-family: "Roboto", sans-serif;
 }
 
 body {

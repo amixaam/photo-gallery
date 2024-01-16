@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
+
 import ImageTile from "./components/ImageTile";
 import ImageModal from "./components/ImageModal";
+import Header from "../../Reuse/Header";
 
 function GalleryPage() {
     const [thumbnails, setthumbnails] = useState([]);
@@ -56,8 +58,10 @@ function GalleryPage() {
     }
 
     return (
-        <>
+        <div className="gallery-view-container">
+            <Header />
             <div className="gallery-image-container">
+                <div className="settings-container"></div>
                 <div className="tile-container">
                     {loadingThumbnails ? (
                         <div className="loading-screen">loading...</div>
@@ -71,12 +75,9 @@ function GalleryPage() {
                         ))
                     )}
                 </div>
-                <div className="footer-container">
-                    <p>@amixam / @amixaam</p>
-                </div>
             </div>
             <ImageModal imageData={selectedImage} onClose={closeModal} />
-        </>
+        </div>
     );
 }
 

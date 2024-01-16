@@ -1,20 +1,49 @@
+.gallery-view-container {
+    background: var(--grain-bg);
+    background-size: 300px 300px, auto, auto;
+    background-repeat: repeat, no-repeat, no-repeat;
+
+    header {
+        margin: 0rem 5rem;
+
+        .logo,
+        .nav-button {
+            color: #943c75 !important;
+        }
+    }
+}
+
 .gallery-image-container {
-    background: linear-gradient(#ec81c7, #915dba);
-    min-height: 100dvh;
+    min-height: calc(100dvh - 6rem);
     max-width: 100dvw;
+
     display: flex;
-    flex-direction: column;
-    gap: 10rem;
-    padding: 1rem;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 0rem 1rem 1rem 1rem;
+
+    .settings-container {
+        flex-basis: 20%;
+        padding: 0.5rem;
+        align-self: stretch;
+
+        background-color: var(--bg-overlay);
+        border-radius: 15px;
+    }
 
     .tile-container {
-        display: flex;
-        gap: 0.75rem;
+        flex-basis: 80%;
         padding: 0.5rem;
+
+        display: flex;
         align-items: flex-start;
         align-content: flex-start;
+        flex: 1 0 0;
+        align-self: stretch;
         flex-wrap: wrap;
-        background-color: rgba($color: #fff, $alpha: 0.3);
+        gap: 0.5rem;
+
+        background-color: var(--bg-overlay);
         border-radius: 15px;
 
         .loading-screen {

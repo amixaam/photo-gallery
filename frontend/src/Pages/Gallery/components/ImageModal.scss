@@ -1,56 +1,121 @@
 .gallery-tile-modal {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    gap: 10px;
-
     display: flex;
-    justify-content: space-between;
-    .split:nth-child(1) {
-        flex: 40%;
-        background-color: rgba($color: white, $alpha: 0.3);
-        border-radius: 7px;
+    align-items: flex-start;
+    gap: 16px;
+
+    height: 100%;
+
+    .details-container {
+        background-color: var(--bg-overlay);
+        border-radius: 15px;
         padding: 1rem;
 
-        .title {
-            font-family: "Rubik", sans-serif;
-            font-size: 4.5rem;
-            line-height: 24px;
-            color: rgba($color: #915dba, $alpha: 1);
-            font-style: normal;
-            font-weight: 800;
-            line-height: 90%;
-            text-transform: uppercase;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+
+        flex-basis: 30%;
+
+        .download-button {
+            display: flex;
+            padding: 12px 20px;
+            flex-direction: column;
+            align-items: center;
+            align-self: stretch;
+
+            border-radius: 10px;
+            background: #f6d4ea;
+            cursor: pointer;
+
+            p {
+                color: #943c75;
+                text-align: center;
+                font-family: Rubik;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: normal;
+                text-transform: uppercase;
+            }
         }
-        .description {
-            font-family: "Roboto", sans-serif;
-            color: white;
-            font-size: 1.25rem;
-            line-height: 24px;
-            font-style: normal;
-            font-weight: 800;
-            line-height: normal;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            align-self: stretch;
+
+            .title {
+                align-self: stretch;
+
+                color: #943c75;
+                text-align: center;
+                font-family: Rubik;
+                font-size: 48px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: 90%;
+                text-transform: uppercase;
+            }
+
+            .wave-detail {
+                width: 100%;
+            }
+
+            .description {
+                align-self: stretch;
+
+                color: #943c75;
+                text-align: justify;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 110%;
+            }
+
+            .statistics-container {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                align-content: flex-start;
+                gap: 0px 16px;
+                align-self: stretch;
+                flex-wrap: wrap;
+
+                .statistic {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    p {
+                        color: #f6d4ea;
+                        font-family: Rubik;
+                        font-size: 20px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                        text-transform: uppercase;
+                    }
+                }
+            }
         }
     }
-    .split:nth-child(2) {
+
+    .image-container {
         background-color: black;
-        border-radius: 7px;
+        border-radius: 15px;
         overflow: hidden;
-        flex: 60%;
+        height: 100%;
+
+        flex-basis: 70%;
     }
 
     .full-res-image {
         width: 100%;
         height: 100%;
         object-fit: contain;
-    }
-
-    .close-button {
-        position: absolute;
-        right: 0;
-        top: 2px;
-
-        background-color: transparent;
-        border: none;
     }
 }

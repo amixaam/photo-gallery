@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/api/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
+
 Route::middleware([CorsMiddleware::class])->group(function () {
     Route::get('/images', [ImageController::class, 'getAllImages']);
     Route::get('/images/{filename}', [ImageController::class, 'getImage']);

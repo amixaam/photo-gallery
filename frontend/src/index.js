@@ -6,12 +6,14 @@ import "./index.css";
 import MainPage from "./Pages/Main";
 import GalleryPage from "./Pages/Gallery";
 import Modal from "react-modal";
+import Admin from "./Pages/Admin";
 
 const App = () => {
     return (
         <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/admin" element={<Admin />} />
         </Routes>
     );
 };

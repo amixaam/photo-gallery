@@ -14,12 +14,8 @@ use App\Models\Photo as PhotoTable;
 
 class ImageController extends Controller
 {
-
     public function getAllImages()
     {
-        // $csrf = csrf_token();
-        // return response()->json(["token" => $csrf]);
-
         $imagesWithDetails = PhotoTable::all();
         $formattedImages = $imagesWithDetails->map(function ($image) {
             return [
@@ -57,7 +53,7 @@ class ImageController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', // 20 MB max size (in kb)
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', // 20 MB max size (in kb)
             'title' => 'required|string',
             'description' => 'nullable|string',
             'location' => 'nullable|string',
@@ -68,34 +64,35 @@ class ImageController extends Controller
             return response()->json(['error' => $validator->errors()], 422); // Unprocessable Entity
         }
 
+        return response()->json(['message' => 'Image uploaded successfully']); // Return a success response
 
-        try {
-            //full-res
-            $imagePath = $request->file('image')->store('images', 'public');
+        // try {
+        //     //full-res
+        //     $imagePath = $request->file('image')->store('images', 'public');
 
-            //thumbnails
-            $manager = ImageManager::withDriver(new Driver());
-            $image = $manager->read($request->file('image'));
-            $resize = $image->scaleDown(height: 400)->encode(new JpegEncoder());
-            $thumbnailPath = storage_path('app/public/thumbnails/' . $request->file('image')->hashName());
-            $resize->save($thumbnailPath);
+        //     //thumbnails
+        //     $manager = ImageManager::withDriver(new Driver());
+        //     $image = $manager->read($request->file('image'));
+        //     $resize = $image->scaleDown(height: 400)->encode(new JpegEncoder());
+        //     $thumbnailPath = storage_path('app/public/thumbnails/' . $request->file('image')->hashName());
+        //     $resize->save($thumbnailPath);
 
-            $shortThumbnailPath = 'thumbnails/' . $request->file('image')->hashName();
+        //     $shortThumbnailPath = 'thumbnails/' . $request->file('image')->hashName();
 
-            //saving to table
-            $photo = new PhotoTable();
-            $photo->title = $request->input('title') ?: "No title provided.";
-            $photo->description = $request->input('description') ?: "No description provided.";
-            $photo->imageURL = $imagePath;
-            $photo->thumbnailURL = $shortThumbnailPath;
-            $photo->location = $request->input('location') ?: "No location provided.";
-            $photo->date = $request->input('date');
+        //     //saving to table
+        //     $photo = new PhotoTable();
+        //     $photo->title = $request->input('title') ?: "No title provided.";
+        //     $photo->description = $request->input('description') ?: "No description provided.";
+        //     $photo->imageURL = $imagePath;
+        //     $photo->thumbnailURL = $shortThumbnailPath;
+        //     $photo->location = $request->input('location') ?: "No location provided.";
+        //     $photo->date = $request->input('date');
 
-            $photo->save();
+        //     $photo->save();
 
-            return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $shortThumbnailPath]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
-        }
+        //     return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $shortThumbnailPath]);
+        // } catch (\Exception $e) {
+        //     return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
+        // }
     }
 }
