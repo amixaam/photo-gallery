@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('thumbnailURL');
             $table->string('location')->nullable();
             $table->date('date')->nullable();
-
+            $table->time('time')->nullable();
             $table->timestamps();
         });
     }

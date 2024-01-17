@@ -11,6 +11,7 @@ function Admin() {
         description: "",
         location: "",
         date: "",
+        time: "",
     });
 
     // handling
@@ -28,14 +29,7 @@ function Admin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // get CSRF token
-        // const response = await fetch("http://127.0.0.1:8000/api/csrf-token", {
-        // });
-        // const getData = await response.json();
-        // const csrfToken = getData.csrf_token;
-
-        // POST endpoint
-        const apiEndpoint = "http://127.0.0.1:8000/images/upload";
+        const apiEndpoint = "http://127.0.0.1:8000/api/images/upload";
 
         const data = new FormData();
         Object.keys(formData).forEach((key) => {
@@ -45,9 +39,6 @@ function Admin() {
         try {
             const response = await fetch(apiEndpoint, {
                 method: "POST",
-                // headers: {
-                //     "X-CSRF-TOKEN": csrfToken,
-                // },
                 body: data,
             });
 
@@ -67,7 +58,7 @@ function Admin() {
             <Header />
             <div className="admin-form-container">
                 <form onSubmit={handleSubmit}>
-                    {/* <label>
+                    <label>
                         Image:
                         <input
                             type="file"
@@ -105,7 +96,7 @@ function Admin() {
                             value={formData.location}
                             onChange={handleChange}
                         />
-                    </label> */}
+                    </label>
                     <br />
                     <label>
                         Date:
@@ -113,6 +104,18 @@ function Admin() {
                             type="date"
                             name="date"
                             value={formData.date}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Time:
+                        <input
+                            type="text"
+                            name="time"
+                            pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+                            placeholder="HH:mm:ss"
+                            value={formData.time}
                             onChange={handleChange}
                         />
                     </label>

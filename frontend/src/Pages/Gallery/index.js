@@ -6,15 +6,17 @@ import ImageModal from "./components/ImageModal";
 import Header from "../../Reuse/Header";
 
 function GalleryPage() {
-    const [thumbnails, setthumbnails] = useState([]);
     const [selectedImage, setselectedImage] = useState(null);
-
     const [loadingThumbnails, setLoadingThumbnails] = useState(true);
+
+    const [thumbnails, setthumbnails] = useState([]);
 
     useEffect(() => {
         const getThumbnails = async () => {
             try {
-                const response = await fetch("http://127.0.0.1:8000/images");
+                const response = await fetch(
+                    "http://127.0.0.1:8000/api/images"
+                );
                 if (!response.ok) {
                     throw new Error("Network response was not ok.");
                 }
@@ -35,7 +37,7 @@ function GalleryPage() {
         if (thumbnails) {
             try {
                 const response = await fetch(
-                    "http://127.0.0.1:8000/images/" + filename
+                    "http://127.0.0.1:8000/api/images/" + filename
                 );
                 if (!response.ok) {
                     throw new Error("Network response was not ok.");
@@ -51,6 +53,33 @@ function GalleryPage() {
 
     const closeModal = () => {
         setselectedImage(null);
+    };
+
+    const handleImageDownloadClick = async () => {
+        try {
+            if (selectedImage && selectedImage.image_url) {
+                const response = await fetch(selectedImage.image_url);
+                const blob = await response.blob();
+
+                // Create a download link
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement("a");
+                link.href = url;
+
+                // Extract the filename from the URL or use a default name
+                const filename = selectedImage.title || "downloaded_image";
+                link.setAttribute("download", `${filename}.jpg`);
+
+                // Append the link to the body and trigger the click event
+                document.body.appendChild(link);
+                link.click();
+
+                // Remove the link from the body
+                document.body.removeChild(link);
+            }
+        } catch (error) {
+            console.error("Error downloading image: ", error);
+        }
     };
 
     if (!thumbnails) {
@@ -76,7 +105,11 @@ function GalleryPage() {
                     )}
                 </div>
             </div>
-            <ImageModal imageData={selectedImage} onClose={closeModal} />
+            <ImageModal
+                imageData={selectedImage}
+                onClose={closeModal}
+                onDownload={handleImageDownloadClick}
+            />
         </div>
     );
 }

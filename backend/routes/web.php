@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ImageController;
-use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +19,4 @@ Route::get('/', function () {
 
 Route::get('/api/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
-});
-
-Route::middleware([CorsMiddleware::class])->group(function () {
-    Route::get('/images', [ImageController::class, 'getAllImages']);
-    Route::get('/images/{filename}', [ImageController::class, 'getImage']);
-    Route::post('/images/upload', [ImageController::class, 'uploadImage']);
 });

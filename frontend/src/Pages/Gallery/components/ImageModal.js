@@ -5,13 +5,13 @@ import WaveDecal from "../../../images/decoration/wave.svg";
 import LocationIcon from "../../../images/decoration/icons/location.svg";
 import CalendarIcon from "../../../images/decoration/icons/calendar.svg";
 
-const ImageModal = ({ imageData, onClose }) => {
+const ImageModal = ({ imageData, onClose, onDownload }) => {
     if (!imageData) {
         return null;
     }
 
     const { image_url, picture_data } = imageData;
-    const { title, description, location, date } = picture_data;
+    const { title, description, location, date, time } = picture_data;
 
     return (
         <Modal
@@ -60,12 +60,14 @@ const ImageModal = ({ imageData, onClose }) => {
                             </div>
                             <div className="statistic">
                                 <img src={CalendarIcon} alt="" />
-                                <p>{date ? date : "no date"}</p>
+                                <p>
+                                    {date ? date : "no date"} {time ? time : ""}
+                                </p>
                             </div>
                         </div>
                         <p className="description">{description}</p>
                     </div>
-                    <div className="download-button">
+                    <div className="download-button" onClick={onDownload}>
                         <p>download full-res</p>
                     </div>
                 </div>
