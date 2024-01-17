@@ -5,7 +5,7 @@ import WaveDecal from "../../../images/decoration/wave.svg";
 import LocationIcon from "../../../images/decoration/icons/location.svg";
 import CalendarIcon from "../../../images/decoration/icons/calendar.svg";
 
-const ImageModal = ({ imageData, onClose, onDownload }) => {
+const ImageModal = ({ imageData, onClose, onNext, onPrevious }) => {
     if (!imageData) {
         return null;
     }
@@ -35,8 +35,6 @@ const ImageModal = ({ imageData, onClose, onDownload }) => {
                     right: "150px",
                     bottom: "40px",
                     background: "var(--grain-bg)",
-                    // background:
-                    // "url('../../../images/decoration/grain.png'), linear-gradient(180deg, #ec81c7 40%, #915dba 100%), lightgray",
                     backgroundSize: "300px 300px, auto, auto",
                     backgroundRepeat: "repeat, no-repeat, no-repeat",
                     overflow: "auto",
@@ -51,12 +49,12 @@ const ImageModal = ({ imageData, onClose, onDownload }) => {
             <div className="gallery-tile-modal">
                 <div className="details-container">
                     <div className="content">
-                        <p className="title">{title}</p>
+                        <p className="title">{title ? title : "no title"}</p>
                         <img src={WaveDecal} alt="" className="wave-detail" />
                         <div className="statistics-container">
                             <div className="statistic">
                                 <img src={LocationIcon} alt="" />
-                                <p>{location}</p>
+                                <p>{location ? location : "no location"}</p>
                             </div>
                             <div className="statistic">
                                 <img src={CalendarIcon} alt="" />
@@ -65,10 +63,17 @@ const ImageModal = ({ imageData, onClose, onDownload }) => {
                                 </p>
                             </div>
                         </div>
-                        <p className="description">{description}</p>
+                        <p className="description">
+                            {description ? description : "no description"}
+                        </p>
                     </div>
-                    <div className="download-button" onClick={onDownload}>
-                        <p>download full-res</p>
+                    <div className="buttons-container">
+                        <div className="flex-button" onClick={onPrevious}>
+                            <p>previous</p>
+                        </div>
+                        <div className="flex-button" onClick={onNext}>
+                            <p>next</p>
+                        </div>
                     </div>
                 </div>
                 <div className="image-container">

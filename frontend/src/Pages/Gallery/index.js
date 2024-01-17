@@ -7,9 +7,9 @@ import Header from "../../Reuse/Header";
 
 function GalleryPage() {
     const [selectedImage, setselectedImage] = useState(null);
-    const [loadingThumbnails, setLoadingThumbnails] = useState(true);
-
     const [thumbnails, setthumbnails] = useState([]);
+
+    const [loadingThumbnails, setLoadingThumbnails] = useState(true);
 
     useEffect(() => {
         const getThumbnails = async () => {
@@ -55,31 +55,30 @@ function GalleryPage() {
         setselectedImage(null);
     };
 
-    const handleImageDownloadClick = async () => {
-        try {
-            if (selectedImage && selectedImage.image_url) {
-                const response = await fetch(selectedImage.image_url);
-                const blob = await response.blob();
+    const handlePagination = async (direction) => {
+        if (selectedImage && thumbnails) {
+            const currentIndex = thumbnails.findIndex(
+                (thumbnail) => thumbnail.filename === selectedImage.filename
+            );
 
-                // Create a download link
-                const url = window.URL.createObjectURL(new Blob([blob]));
-                const link = document.createElement("a");
-                link.href = url;
-
-                // Extract the filename from the URL or use a default name
-                const filename = selectedImage.title || "downloaded_image";
-                link.setAttribute("download", `${filename}.jpg`);
-
-                // Append the link to the body and trigger the click event
-                document.body.appendChild(link);
-                link.click();
-
-                // Remove the link from the body
-                document.body.removeChild(link);
+            let newIndex;
+            if (direction === "next") {
+                newIndex = (currentIndex + 1) % thumbnails.length; // Circular navigation
+            } else if (direction === "previous") {
+                newIndex =
+                    (currentIndex - 1 + thumbnails.length) % thumbnails.length; // Circular navigation
             }
-        } catch (error) {
-            console.error("Error downloading image: ", error);
+
+            await handleImageClick(thumbnails[newIndex].filename);
         }
+    };
+
+    const handleNextPagination = () => {
+        handlePagination("next");
+    };
+
+    const handlePreviousPagination = () => {
+        handlePagination("previous");
     };
 
     if (!thumbnails) {
@@ -108,7 +107,8 @@ function GalleryPage() {
             <ImageModal
                 imageData={selectedImage}
                 onClose={closeModal}
-                onDownload={handleImageDownloadClick}
+                onNext={handleNextPagination}
+                onPrevious={handlePreviousPagination}
             />
         </div>
     );

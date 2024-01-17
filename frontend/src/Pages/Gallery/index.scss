@@ -25,25 +25,18 @@
     .settings-container {
         flex-basis: 20%;
         padding: 0.5rem;
-        align-self: stretch;
-
+        max-height: 40rem;
         background-color: var(--bg-overlay);
         border-radius: 15px;
     }
 
     .tile-container {
         flex-basis: 80%;
-        padding: 0.5rem;
 
         display: flex;
-        align-items: flex-start;
-        align-content: flex-start;
-        flex: 1 0 0;
-        align-self: stretch;
         flex-wrap: wrap;
         gap: 0.5rem;
 
-        background-color: var(--bg-overlay);
         border-radius: 15px;
 
         .loading-screen {
@@ -61,9 +54,5 @@
             font-weight: 800;
             line-height: normal;
         }
-    }
-    .footer-container {
-        display: flex;
-        justify-content: center;
     }
 }

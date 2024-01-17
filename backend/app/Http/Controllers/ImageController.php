@@ -40,6 +40,7 @@ class ImageController extends Controller
 
         return response()->json([
             'image_url' => asset("storage/images/$filename"),
+            'filename' => $filename,
             'picture_data' => [
                 'title' => $picture->title,
                 'description' => $picture->description,
@@ -55,7 +56,7 @@ class ImageController extends Controller
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:20000', // 20 MB max size (in kb)
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'description' => 'nullable|string',
             'location' => 'nullable|string',
             'date' => 'nullable|date',
@@ -73,7 +74,7 @@ class ImageController extends Controller
             //thumbnails
             $manager = ImageManager::withDriver(new Driver());
             $image = $manager->read($request->file('image'));
-            $resize = $image->scaleDown(height: 400)->encode(new JpegEncoder());
+            $resize = $image->scaleDown(height: 500)->encode(new JpegEncoder());
             $thumbnailPath = storage_path('app/public/thumbnails/' . $request->file('image')->hashName());
             $resize->save($thumbnailPath);
 
@@ -81,11 +82,11 @@ class ImageController extends Controller
 
             //saving to table
             $photo = new PhotoTable();
-            $photo->title = $request->input('title') ?: "No title provided.";
-            $photo->description = $request->input('description') ?: "No description provided.";
+            $photo->title = $request->input('title');
+            $photo->description = $request->input('description');
             $photo->imageURL = $imagePath;
             $photo->thumbnailURL = $shortThumbnailPath;
-            $photo->location = $request->input('location') ?: "No location provided.";
+            $photo->location = $request->input('location');
             $photo->date = $request->input('date');
             $photo->time = $request->input('time');
 

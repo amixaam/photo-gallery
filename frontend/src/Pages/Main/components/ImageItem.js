@@ -53,7 +53,6 @@ export default function ImageItem(props) {
                     </div>
                 </div>
                 <p className="description">{description}</p>
-                <button className="full-button">see full</button>
             </div>
         </div>
     );
