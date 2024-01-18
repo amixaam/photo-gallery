@@ -1,21 +1,61 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 :root {
+    --white: white;
+    --black: black;
+    --ladning-title-img: url(./images/Gradients/pink_grainy.png);
     --grain-bg: url(./images/decoration/grain.png),
         linear-gradient(180deg, #ec81c7 40%, #915dba 100%), lightgray;
-    --bg-overlay: rgba(255, 255, 255, 0.3);
+    --inner-grain-bg: url(./images/decoration/grain.png),
+        linear-gradient(180deg, #c54699 40%, #652f8f 100%), lightgray;
+    --grain-to-black: url(./images/decoration/grain.png),
+        linear-gradient(180deg, #4937b8, #000000), lightgray;
+    --pink-white: #f6d4ea;
+    --pink-dark: #7a3362;
+    --input-pink: #c54699;
+    --input-black: rgba(0, 0, 0, 0.3);
 }
 
+/* defaults */
 * {
     margin: 0px;
-    text-wrap: wrap;
     min-width: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: "Roboto Flex", sans-serif;
+    color: var(--pink-white);
 }
 
 body {
-    background-color: rgb(0, 0, 0);
+    background-color: var(--white);
+}
+
+.content-margin {
+    width: 90vw;
+    margin: auto;
+    /* border: #4937b8 3px solid; */
+}
+
+.flex-button {
+    display: flex;
+    padding: 1rem 4rem;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 15px;
+    background: var(--pink-white);
+
+    color: var(--pink-dark);
+    text-align: center;
+    font-family: Rubik;
+    font-size: 3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0px 0px 100px 0px transparent;
+    transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flex-button:hover {
+    box-shadow: 0px 0px 100px 0px var(--pink-white);
+    color: var(--input-pink);
 }

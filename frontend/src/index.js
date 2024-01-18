@@ -1,7 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { createRoot } from "react-dom/client"; // Updated import
-import ReactDOM from "react-dom";
+import React, { useEffect } from "react";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    useLocation,
+} from "react-router-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import MainPage from "./Pages/Main";
 import GalleryPage from "./Pages/Gallery";
@@ -9,6 +13,12 @@ import Modal from "react-modal";
 import Admin from "./Pages/Admin";
 
 const App = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to the top on route change
+    }, [location.pathname]); // Trigger effect when the pathname changes
+
     return (
         <Routes>
             <Route path="/" element={<MainPage />} />

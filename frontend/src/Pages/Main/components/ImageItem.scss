@@ -1,161 +1,82 @@
 .ImageItem-container {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    gap: 3rem;
 
-    width: fit-content;
-    gap: 1.5rem;
-
-    .image-container {
-        z-index: 0;
-
-        width: 20rem;
-        height: 19rem;
-        .stars-flair {
-            height: inherit;
-            width: inherit;
-
-            user-select: none;
-            -webkit-user-drag: none;
-            transform: rotate(180deg);
-            background-image: url(../../../images/decoration/image_stars.png);
-            background-size: cover;
-            transform: translateY(-300px);
-        }
+    .image {
+        height: 350px;
+        aspect-ratio: 1;
     }
 
-    .content-container {
-        z-index: 1;
+    .content {
         display: flex;
-        width: 40rem;
-        height: 100%;
         flex-direction: column;
         align-items: flex-start;
-        gap: 4px;
+        gap: 0.5rem;
 
-        .statistics-container {
-            display: flex;
-            gap: 16px;
-            margin-top: 4px;
-            align-self: stretch;
-            flex-wrap: wrap;
+        max-width: 750px;
 
-            .statistic {
-                display: flex;
-                align-items: center;
-                gap: 4px;
-
-                p {
-                    color: #f6d4ea;
-                    font-family: Rubik;
-                    font-size: 20px;
-                    font-style: normal;
-                    font-weight: 500;
-                    line-height: normal;
-                    text-transform: uppercase;
-                }
-            }
-        }
-
-        .title {
-            color: #f6d4ea;
-            font-family: "Rubik", sans-serif;
-            font-size: 2.25rem;
-            font-style: normal;
+        h1 {
+            color: var(--pink-white);
+            font-family: Rubik;
+            font-size: 4rem;
             font-weight: 800;
+            text-transform: uppercase;
             line-height: 90%;
-            text-transform: uppercase;
-            // border: red 3px solid;
-        }
-
-        .title-flair {
-            // border: red 3px solid;
-            height: fit-content;
-            max-width: 100%;
-            flex-shrink: 0;
-            stroke-width: 1px;
-            stroke: #943c75;
-            fill: #943c75;
-        }
-
-        .description {
             align-self: stretch;
-            // border: red 3px solid;
-            color: #943c75;
+        }
+
+        img {
+            align-self: stretch;
+        }
+
+        p {
+            color: var(--pink-dark);
             text-align: justify;
-            font-family: "Roboto", sans-serif;
-            font-size: 1.25rem;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-
-            margin-bottom: 1.25rem;
-        }
-
-        .full-button {
-            border-radius: 0.3125rem;
-            background: #f6d4ea;
-            width: 8.5rem;
-            height: 2.0625rem;
-            flex-shrink: 0;
-            color: #943c75;
-            font-family: "Rubik", sans-serif;
-            font-size: 1.25rem;
-            font-style: normal;
-            font-weight: 800;
-            line-height: normal;
-            text-transform: uppercase;
-
-            border: none;
+            font-size: 2rem;
+            font-weight: 550;
+            align-self: stretch;
+            line-height: 130%;
         }
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1184px) {
     .ImageItem-container {
         flex-direction: column;
-        align-items: center;
-
-        .image-container {
-            z-index: 0;
-            width: 90%;
+        .image {
+            height: 386px;
         }
 
-        .content-container {
-            width: 100dvw;
-            display: flex;
-            align-items: center;
-
-            .title {
-                font-size: 2rem;
-                text-align: center;
+        .content {
+            max-width: 100%;
+            text-align: center;
+            h1 {
+                font-size: 3rem;
             }
-            .description {
-                margin: 0rem 2rem;
+            img {
+                width: 100%;
             }
-            .full-button {
-                margin-top: 2rem;
-                width: 15rem;
-                height: 4rem;
-                font-size: 2rem;
+            p {
             }
         }
     }
 }
 
-@media screen and (max-width: 480px) {
-    .ImageItem-container .content-container .statistics-container p {
-        font-size: 1rem;
-    }
-}
-
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 430px) {
     .ImageItem-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .statistics-container {
-        justify-content: center;
+        .image {
+            height: 100%;
+        }
+
+        .content {
+            max-width: 100%;
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1.5rem;
+            }
+        }
     }
 }

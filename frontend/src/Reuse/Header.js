@@ -5,12 +5,15 @@ import { Link } from "react-router-dom";
 export default function Header() {
     return (
         <header>
-            <Link to="/" className="logo">
-                RB
-            </Link>
-            <Link to="/gallery" className="nav-button">
-                All photos
-            </Link>
+            <div className="left-side">
+                <Link to="/" className="logo nav-colors">
+                    RB
+                </Link>
+                <Link to="/gallery" className="nav-button nav-colors">
+                    All photos
+                </Link>
+            </div>
+            <div className="right-side"></div>
         </header>
     );
 }

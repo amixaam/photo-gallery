@@ -1,17 +1,17 @@
 import React from "react";
 import "./ImageItem.scss";
 
-import Location from "../../../images/decoration/icons/location.svg";
-import Calendar from "../../../images/decoration/icons/calendar.svg";
 import Stars from "../../../images/decoration/stars.png";
+import TitleFlair from "../../../images/decoration/title_flair.svg";
+import Statistics from "../../../Reuse/Statistics";
+import AnimatedWave from "../../../Reuse/AnimatedWave";
 
 export default function ImageItem(props) {
-    const { image, title, description, date, location, frame, clipPath } =
-        props;
+    const { image, title, description, statistics, frame, clipPath } = props;
 
     return (
         <div className="ImageItem-container">
-            <div className="image-container">
+            <div className="image">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="100%"
@@ -31,28 +31,12 @@ export default function ImageItem(props) {
                         clipPath={`url(#${clipPath})`}
                     />
                 </svg>
-                <div className="stars-flair"></div>
             </div>
-            <div className="content-container">
-                <h1 className="title">{title}</h1>
-                <svg
-                    className="title-flair"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 529 18"
-                >
-                    <path d="M1.75243 12.394C0.932356 12.5114 0.362717 13.2714 0.4801 14.0914C0.597483 14.9115 1.35744 15.4811 2.17751 15.3638L1.75243 12.394ZM59.5376 9.1211L59.5951 7.6222L59.5951 7.6222L59.5376 9.1211ZM117.109 13.8789L117.094 12.379L117.109 13.8789ZM232.255 13.8789L232.255 15.3789L232.255 13.8789ZM289.826 9.1211L289.826 7.6211L289.826 9.1211ZM404.972 9.1211L404.987 10.621V10.621L404.972 9.1211ZM462.543 13.8789L462.486 15.3778L462.543 13.8789ZM528.689 7.894L518.889 0.548223L511.543 10.3482L521.343 17.694L528.689 7.894ZM2.17751 15.3638C21.3919 12.6134 40.4473 9.89016 59.4801 10.62L59.5951 7.6222C40.245 6.8802 20.9192 9.65054 1.75243 12.394L2.17751 15.3638ZM59.4801 10.62C69.002 10.9851 78.5251 12.2142 88.1493 13.3397C97.7456 14.4619 107.425 15.4784 117.125 15.3788L117.094 12.379C107.603 12.4764 98.0919 11.4819 88.4977 10.36C78.9313 9.24128 69.2638 7.99298 59.5951 7.6222L59.4801 10.62ZM117.125 15.3788C126.82 15.2793 136.502 14.0646 146.078 12.8957C155.685 11.723 165.19 10.5955 174.678 10.6211L174.686 7.62111C164.983 7.59491 155.298 8.74784 145.714 9.91776C136.1 11.0914 126.591 12.2815 117.094 12.379L117.125 15.3788ZM174.678 10.6211C184.167 10.6467 193.672 11.8257 203.284 13.012C212.865 14.1945 222.552 15.3841 232.255 15.3789L232.254 12.3789C222.766 12.384 213.262 11.2207 203.652 10.0346C194.073 8.85242 184.387 7.6473 174.686 7.62111L174.678 10.6211ZM232.255 15.3789C241.958 15.3737 251.645 14.1735 261.225 12.9887C270.836 11.7998 280.339 10.6262 289.827 10.6211L289.826 7.6211C280.123 7.62635 270.436 8.82646 260.856 10.0113C251.245 11.2002 241.742 12.3738 232.254 12.3789L232.255 15.3789ZM289.827 10.6211C299.315 10.616 308.819 11.7793 318.429 12.9654C328.008 14.1476 337.694 15.3527 347.395 15.3789L347.403 12.3789C337.914 12.3533 328.409 11.1743 318.797 9.98797C309.216 8.80553 299.529 7.61585 289.826 7.6211L289.827 10.6211ZM347.395 15.3789C357.098 15.4051 366.783 14.2522 376.367 13.0822C385.981 11.9086 395.49 10.7185 404.987 10.621L404.956 7.62118C395.261 7.72067 385.579 8.93538 376.003 10.1043C366.397 11.277 356.891 12.4045 347.403 12.3789L347.395 15.3789ZM404.987 10.621C414.478 10.5236 423.989 11.5181 433.583 12.64C443.15 13.7587 452.817 15.007 462.486 15.3778L462.601 12.38C453.079 12.0149 443.556 10.7858 433.932 9.66032C424.335 8.53812 414.656 7.52163 404.956 7.62118L404.987 10.621ZM462.486 15.3778C481.836 16.1198 501.162 13.3495 520.329 10.606L519.904 7.63623C500.689 10.3866 481.634 13.1098 462.601 12.38L462.486 15.3778Z" />
-                </svg>
-                <div className="statistics-container">
-                    <div className="statistic">
-                        <img src={Location} alt="" />
-                        <p className="location">{location}</p>
-                    </div>
-                    <div className="statistic">
-                        <img src={Calendar} alt="" />
-                        <p className="date">{date}</p>
-                    </div>
-                </div>
-                <p className="description">{description}</p>
+            <div className="content">
+                <h1>{title}</h1>
+                <img src={TitleFlair} alt="" className="title-flair" />
+                <Statistics statistics={statistics} />
+                <p>{description}</p>
             </div>
         </div>
     );
