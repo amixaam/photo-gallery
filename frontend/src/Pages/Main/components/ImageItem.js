@@ -1,10 +1,8 @@
 import React from "react";
 import "./ImageItem.scss";
 
-import Stars from "../../../images/decoration/stars.png";
 import TitleFlair from "../../../images/decoration/title_flair.svg";
 import Statistics from "../../../Reuse/Statistics";
-import AnimatedWave from "../../../Reuse/AnimatedWave";
 
 export default function ImageItem(props) {
     const { image, title, description, statistics, frame, clipPath } = props;

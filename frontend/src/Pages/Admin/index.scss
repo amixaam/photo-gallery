@@ -3,22 +3,12 @@
     background-size: 300px 300px, auto, auto;
     background-repeat: repeat, no-repeat, no-repeat;
 
-    header {
-        margin: 0rem 5rem;
-
-        .logo,
-        .nav-button {
-            color: #943c75 !important;
-        }
+    .nav-colors {
+        color: var(--pink-dark);
     }
-}
 
-.admin-form-container {
-        min-height: calc(100dvh - 6rem);
-        max-width: 100dvw;
-
+    .content {
         display: flex;
         flex-direction: row;
-        gap: 1rem;
-        padding: 0rem 1rem 1rem 1rem;
     }
+}

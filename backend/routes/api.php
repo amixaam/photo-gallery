@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/images', [ImageController::class, 'getAllImages']);
-Route::get('/images/{filename}', [ImageController::class, 'getImage']);
+Route::get('/images', [ImageController::class, 'getGalleryData']);
+Route::get('/image', [ImageController::class, 'getImage']);
+Route::get('/dir', [ImageController::class, 'getAllFolders']);
 Route::post('/images/upload', [ImageController::class, 'uploadImage']);

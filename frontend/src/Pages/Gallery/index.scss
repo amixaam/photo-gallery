@@ -1,58 +1,82 @@
 .gallery-view-container {
-    background: var(--grain-bg);
-    background-size: 300px 300px, auto, auto;
-    background-repeat: repeat, no-repeat, no-repeat;
+    position: relative;
 
-    header {
-        margin: 0rem 5rem;
+    .nav-colors {
+        color: var(--pink-dark);
+    }
 
-        .logo,
-        .nav-button {
-            color: #943c75 !important;
+    .background-container {
+        position: absolute;
+        width: 100%;
+        min-height: 90vh;
+        z-index: -1;
+
+        .wave-container {
+            position: absolute;
+            width: 100%;
+            height: fit-content;
+            top: 100%;
+            overflow: hidden;
         }
+
+        .inner-wave {
+            fill: #915dba;
+            stroke-width: 3px;
+            stroke: #c687f9;
+            width: 200%;
+            transform: scaleY(-1);
+            animation: wave-animation-upside-down 20s linear infinite;
+        }
+
+        .background-color {
+            background: var(--grain-bg);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+        }
+    }
+
+    .gallery-content {
+        position: relative;
+        z-index: 0;
+    }
+
+    .image-container {
+        display: flex;
+        padding: 1rem;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 1rem;
+        flex: 1 0 0;
+        flex-wrap: wrap;
+
+        border-radius: 15px;
+        background: var(--grain-to-black);
     }
 }
 
-.gallery-image-container {
-    min-height: calc(100dvh - 6rem);
-    max-width: 100dvw;
-
+.loading-screen {
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    padding: 0rem 1rem 1rem 1rem;
-
-    .settings-container {
-        flex-basis: 20%;
-        padding: 0.5rem;
-        max-height: 40rem;
-        background-color: var(--bg-overlay);
-        border-radius: 15px;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    p {
+        color: #f6d4ea;
+        text-align: center;
+        font-family: Rubik;
+        font-size: 1.5rem;
+        font-weight: 800;
+        text-transform: uppercase;
     }
+}
 
-    .tile-container {
-        flex-basis: 80%;
-
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-
-        border-radius: 15px;
-
-        .loading-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
-
-            color: white;
-            font-family: "Roboto", sans-serif;
-            font-size: 1.25rem;
-            line-height: 24px;
-            font-style: normal;
-            font-weight: 800;
-            line-height: normal;
-        }
+@keyframes wave-animation-upside-down {
+    0% {
+        transform: translateX(0%) scaleY(-1);
+    }
+    100% {
+        transform: translateX(-50%) scaleY(-1);
     }
 }

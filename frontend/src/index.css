@@ -5,15 +5,29 @@
     --black: black;
     --ladning-title-img: url(./images/Gradients/pink_grainy.png);
     --grain-bg: url(./images/decoration/grain.png),
-        linear-gradient(180deg, #ec81c7 40%, #915dba 100%), lightgray;
+        linear-gradient(180deg, #ec81c7 40%, #915dba 100%);
     --inner-grain-bg: url(./images/decoration/grain.png),
-        linear-gradient(180deg, #c54699 40%, #652f8f 100%), lightgray;
-    --grain-to-black: url(./images/decoration/grain.png),
-        linear-gradient(180deg, #4937b8, #000000), lightgray;
+        linear-gradient(180deg, #c54699 40%, #652f8f 100%);
+    --grain-to-black: url(./images/decoration/grain-50.png),
+        linear-gradient(180deg, rgba(72, 55, 184, 0.5), rgba(0, 0, 0, 0.5));
     --pink-white: #f6d4ea;
     --pink-dark: #7a3362;
     --input-pink: #c54699;
     --input-black: rgba(0, 0, 0, 0.3);
+
+    --shine-dark: linear-gradient(
+        90deg,
+        var(--pink-dark),
+        #b23889,
+        var(--pink-dark)
+    );
+
+    --shine-light: linear-gradient(
+        90deg,
+        var(--pink-white),
+        #ffa5df,
+        var(--pink-white)
+    );
 }
 
 /* defaults */
@@ -25,7 +39,7 @@
 }
 
 body {
-    background-color: var(--white);
+    background-color: var(--black);
 }
 
 .content-margin {
@@ -34,6 +48,9 @@ body {
     /* border: #4937b8 3px solid; */
 }
 
+/* UNIVERSAL STYLES */
+
+/* button */
 .flex-button {
     display: flex;
     padding: 1rem 4rem;
@@ -49,6 +66,7 @@ body {
     font-family: Rubik;
     font-size: 3rem;
     font-weight: 800;
+    border: none;
     text-transform: uppercase;
     text-decoration: none;
     box-shadow: 0px 0px 100px 0px transparent;
@@ -58,4 +76,69 @@ body {
 .flex-button:hover {
     box-shadow: 0px 0px 100px 0px var(--pink-white);
     color: var(--input-pink);
+}
+
+/* selector */
+.flex-selector {
+    position: relative;
+    color: var(--pink-white);
+    font-family: Rubik;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+
+    background-color: var(--input-pink);
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    border: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url(./images/decoration/icons/selection.svg);
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center;
+    background-size: 1rem;
+
+    max-width: 25rem;
+    width: 100%;
+    box-shadow: 0px 0px 40px 0px transparent;
+    position: relative;
+    transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flex-selector:hover {
+    box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.2);
+    /* background-color: #a5337d;
+    color: var(--white); */
+    filter: brightness(1.1);
+}
+/* shine */
+.shine-dark:hover {
+    background: var(--shine-dark);
+}
+
+.shine-light:hover {
+    background: var(--shine-light);
+}
+
+.text-shine:hover {
+    background-size: 200% 100%;
+    background-position: -100% center;
+    transition: background-position 0.5s ease;
+    animation: shine 1s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Add a keyframe animation to create a shimmering effect */
+@keyframes shine {
+    0% {
+        background-position: -100% center;
+    }
+    100% {
+        background-position: 100% center;
+    }
 }

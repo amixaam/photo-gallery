@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-
 import "./ImageTile.scss";
 
 function ImageTile({ ThumbnailData, onImageClick }) {
     return (
         <div
             className="gallery-tile"
-            onClick={() => onImageClick(ThumbnailData.filename)}
+            onClick={() => onImageClick(ThumbnailData)}
         >
             <img src={ThumbnailData.thumbnail} className="thumbnail" />
         </div>

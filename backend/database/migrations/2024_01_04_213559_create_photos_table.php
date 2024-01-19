@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('imageURL');
             $table->string('thumbnailURL');
             $table->string('location')->nullable();
             $table->date('date')->nullable();
             $table->time('time')->nullable();
+            $table->string('camera')->nullable();
+            $table->string('folder');
             $table->timestamps();
         });
     }

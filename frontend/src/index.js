@@ -11,6 +11,7 @@ import MainPage from "./Pages/Main";
 import GalleryPage from "./Pages/Gallery";
 import Modal from "react-modal";
 import Admin from "./Pages/Admin";
+import UhOh from "./Pages/UhOh";
 
 const App = () => {
     const location = useLocation();
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/" element={<MainPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/UhOh" element={<UhOh />} />
         </Routes>
     );
 };

@@ -27,7 +27,7 @@ function Statistics({ statistics }) {
             {Object.entries(statistics).map(([name, statistic]) => (
                 <div className="statistic" key={name}>
                     <img src={getIcon(name)} alt="" />
-                    <p>{statistic}</p>
+                    <p>{statistic ? statistic : "no data"}</p>
                 </div>
             ))}
         </div>
