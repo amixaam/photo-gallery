@@ -28,6 +28,14 @@ export default function Header({
                 >
                     All photos
                 </Link>
+                {sessionStorage.getItem("token") && (
+                    <Link
+                        to="/admin"
+                        className={`nav-button nav-colors text-shine ${shineClass}`}
+                    >
+                        Admin
+                    </Link>
+                )}
             </div>
             <div className="right-side">
                 {location.pathname === "/gallery" && (

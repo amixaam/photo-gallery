@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->time('time')->nullable();
             $table->string('camera')->nullable();
+            $table->string('resolution');
             $table->string('folder');
             $table->timestamps();
         });

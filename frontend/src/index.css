@@ -78,6 +78,10 @@ body {
     color: var(--input-pink);
 }
 
+.flex-button:active {
+    filter: brightness(0.7);
+}
+
 /* selector */
 .flex-selector {
     position: relative;
@@ -87,6 +91,7 @@ body {
     font-weight: 800;
     text-transform: uppercase;
 
+    /* butu forshi grain */
     background-color: var(--input-pink);
     padding: 0.75rem 1.25rem;
     border-radius: 10px;
@@ -114,6 +119,25 @@ body {
     color: var(--white); */
     filter: brightness(1.1);
 }
+
+/* input */
+.flex-input {
+    display: flex;
+    width: 25.75rem;
+    padding: 0.75rem 1.25rem;
+    align-items: center;
+    gap: 0.25rem;
+    border: none;
+    border-radius: 0.625rem;
+    background: url(./images/decoration/grain-50.png), #943c75;
+    min-width: 25.75rem;
+    color: #f6d4ea;
+    text-align: center;
+    font-family: Rubik;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
 /* shine */
 .shine-dark:hover {
     background: var(--shine-dark);

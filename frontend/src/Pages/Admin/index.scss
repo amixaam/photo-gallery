@@ -1,14 +1,95 @@
 .admin-view-container {
-    background: var(--grain-bg);
-    background-size: 300px 300px, auto, auto;
-    background-repeat: repeat, no-repeat, no-repeat;
+    position: relative;
 
     .nav-colors {
         color: var(--pink-dark);
     }
 
-    .content {
+    .background-container {
+        position: absolute;
+        width: 100%;
+        min-height: 90vh;
+        z-index: -1;
+
+        .wave-container {
+            position: absolute;
+            width: 100%;
+            height: fit-content;
+            top: 100%;
+            overflow: hidden;
+
+            .inner-wave {
+                fill: #915dba;
+                stroke-width: 3px;
+                stroke: #c687f9;
+                width: 200%;
+                transform: scaleY(-1);
+                animation: wave-animation-upside-down 20s linear infinite;
+            }
+        }
+
+        .background-color {
+            background: var(--grain-bg);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+        }
+    }
+}
+
+.admin-content {
+    position: relative;
+    z-index: 0;
+
+    .forms-container {
         display: flex;
-        flex-direction: row;
+        height: 70vh;
+        box-sizing: border-box;
+    }
+    .upload-image {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        padding: 1rem;
+        border-radius: 15px;
+        background: var(--inner-grain-bg);
+
+        .top {
+            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: var(--pink-white);
+            text-align: center;
+            font-family: Rubik;
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 90%;
+            text-transform: uppercase;
+        }
+
+        .flex-button {
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: var(--pink-dark);
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .flex-input[type="file"]::file-selector-button {
+            display: none;
+        }
+
+        .flex-input {
+            background-color: rgba(0, 0, 0, 0.33);
+        }
     }
 }

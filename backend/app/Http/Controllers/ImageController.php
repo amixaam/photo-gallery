@@ -121,6 +121,7 @@ class ImageController extends Controller
             // Thumbnails
             $manager = ImageManager::withDriver(new Driver());
             $image = $manager->read($request->file('image'));
+            $resolutionString = $image->width() . ' x ' . $image->height();
             $resize = $image->scaleDown(height: 500)->encode(new JpegEncoder());
             $thumbnailPath = storage_path('app/public/' . $thumbnailFolderPath . '/' . $request->file('image')->hashName());
             $resize->save($thumbnailPath);
@@ -137,7 +138,8 @@ class ImageController extends Controller
             $photo->date = $request->input('date');
             $photo->time = $request->input('time');
             $photo->camera = $request->input('camera');
-            $photo->folder = $folderName; // Store the folder name
+            $photo->resolution = $resolutionString;
+            $photo->folder = $folderName;
 
             $photo->save();
 

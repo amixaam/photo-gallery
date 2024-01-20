@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => 60,
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +73,6 @@ return [
     | request. You may change the middleware listed below as required.
     |
     */
-
     'middleware' => [
         'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
