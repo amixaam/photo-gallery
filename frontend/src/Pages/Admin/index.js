@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./index.scss";
@@ -6,10 +6,14 @@ import "./index.scss";
 import Header from "../../Reuse/Header";
 import CSRF from "../../Reuse/CSRF";
 import Wave from "../../Reuse/Wave";
+import ImageContainer from "./components/ImageContainer";
+import EditImageModal from "./components/EditImageModal";
 
 function Admin() {
     const token = sessionStorage.getItem("token");
     const navigate = useNavigate();
+
+    const [csrfToken, setCsrfToken] = useState(null);
 
     if (!token) {
         window.location.href = "/uhoh";
@@ -52,7 +56,6 @@ function Admin() {
         e.preventDefault();
 
         const apiEndpoint = "http://127.0.0.1:8000/api/images/upload";
-        const csrfToken = await CSRF();
 
         const data = new FormData();
         Object.keys(formData).forEach((key) => {
@@ -71,8 +74,149 @@ function Admin() {
                 },
                 body: data,
             });
+
+            if (response.ok) {
+                await fetchImageData();
+            }
         } catch (error) {
             console.error("Error uploading image:", error);
+        }
+    };
+
+    //image
+
+    const optionsSetRef = useRef(false);
+    const [imageData, setImageData] = useState([]);
+    const [filteredImages, setFilteredImages] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const fetchImageData = async () => {
+        try {
+            const response = await fetch(
+                "http://127.0.0.1:8000/api/images/full"
+            );
+            if (!response.ok) {
+                throw new Error("Network response was not ok.");
+            }
+
+            const data = await response.json();
+
+            // make dropdown options from folders in data.folders
+            const newOptions = data.folders.map((folder) => ({
+                label: folder,
+                value: folder,
+            }));
+
+            // Update the dropdown options by filtering out existing options
+            setDropdownOptions((prevOptions) => {
+                const uniqueOptions = newOptions.filter((newOption) => {
+                    return !prevOptions.some(
+                        (prevOption) => prevOption.value === newOption.value
+                    );
+                });
+
+                return [...prevOptions, ...uniqueOptions];
+            });
+
+            setImageData(data.images);
+        } catch (error) {
+            console.error("Error fetching images: ", error);
+        }
+    };
+
+    useEffect(() => {
+        const getCSRF = async () => {
+            setCsrfToken(await CSRF());
+        };
+
+        getCSRF();
+        fetchImageData();
+    }, [optionsSetRef]);
+
+    // dropdown
+
+    const [selectedDropdownValue, setSelectedDropdownValue] = useState("all");
+    const [dropdownOptions, setDropdownOptions] = useState([
+        { label: "all", value: "all" },
+    ]);
+
+    const handleDropdownChange = (event) => {
+        const selectedValue = event.target.value;
+        setSelectedDropdownValue(selectedValue);
+    };
+
+    useEffect(() => {}, [imageData]);
+
+    useEffect(() => {
+        const filteredImages =
+            selectedDropdownValue === "all"
+                ? imageData // Show all images
+                : imageData.filter(
+                      (image) => image.folder === selectedDropdownValue
+                  );
+
+        setFilteredImages(filteredImages);
+    }, [selectedDropdownValue, imageData]);
+
+    // image container interact
+
+    const handleImageClick = async (data) => {
+        setSelectedImage(data);
+    };
+
+    const closeModal = () => {
+        setSelectedImage(null);
+    };
+
+    // update & delete
+
+    const handleDeleteImage = async (e, id) => {
+        e.preventDefault();
+        const apiEndpoint = `http://127.0.0.1:8000/api/images/delete/${id}`;
+
+        try {
+            const token = sessionStorage.getItem("token");
+            const response = await fetch(apiEndpoint, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+            });
+
+            if (response.ok) {
+                await fetchImageData();
+                closeModal();
+            }
+        } catch (error) {
+            console.error("Error updating image:", error);
+        }
+    };
+
+    const handleUpdateImage = async (e, data) => {
+        e.preventDefault();
+        const apiEndpoint = "http://127.0.0.1:8000/api/images/update";
+
+        try {
+            const token = sessionStorage.getItem("token");
+            const response = await fetch(apiEndpoint, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                await fetchImageData();
+                closeModal();
+            }
+        } catch (error) {
+            console.error("Error updating image:", error);
         }
     };
 
@@ -85,7 +229,7 @@ function Admin() {
                 </div>
             </div>
             <div className="admin-content content-margin">
-                <Header />
+                <Header handleLogout={HandleLogOut} />
                 <div className="forms-container">
                     <form onSubmit={handleSubmit} className="upload-image">
                         <div className="top">
@@ -161,13 +305,39 @@ function Admin() {
                             Upload
                         </button>
                     </form>
-                    <div className="logout-button-container">
-                        <div className="flex-button" onClick={HandleLogOut}>
-                            Log out
+                    <div className="image-list">
+                        <div className="filtering-options-container">
+                            <h1>All images</h1>
+                            <select
+                                className="flex-selector"
+                                id="selector"
+                                onChange={handleDropdownChange}
+                                value={selectedDropdownValue}
+                            >
+                                {dropdownOptions.map((option, index) => (
+                                    <option key={index} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
+                        {filteredImages.map((data, index) => (
+                            <ImageContainer
+                                key={index}
+                                data={data}
+                                handleImageClick={handleImageClick}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
+            <EditImageModal
+                imageData={selectedImage}
+                onClose={closeModal}
+                csrfToken={csrfToken}
+                handleUpdateImage={handleUpdateImage}
+                handleDeleteImage={handleDeleteImage}
+            />
         </div>
     );
 }

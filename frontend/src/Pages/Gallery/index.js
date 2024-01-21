@@ -5,7 +5,6 @@ import ImageTile from "./components/ImageTile";
 import ImageModal from "./components/ImageModal";
 import Header from "../../Reuse/Header";
 import Wave from "../../Reuse/Wave";
-import { json } from "react-router-dom";
 
 function GalleryPage() {
     const [selectedImage, setselectedImage] = useState(null);

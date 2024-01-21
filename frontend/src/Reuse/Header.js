@@ -5,6 +5,7 @@ export default function Header({
     onDropdownChange,
     selectedDropdownValue,
     dropdownOptions,
+    handleLogout,
 }) {
     const location = useLocation();
 
@@ -52,6 +53,13 @@ export default function Header({
                                 </option>
                             ))}
                         </select>
+                    </div>
+                )}
+                {location.pathname === "/admin" && (
+                    <div className="dropdown-container">
+                        <div className="flex-button" onClick={handleLogout}>
+                            Log out
+                        </div>
                     </div>
                 )}
             </div>

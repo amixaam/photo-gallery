@@ -19,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/image', [ImageController::class, 'getImage']);
 Route::get('/images', [ImageController::class, 'getGalleryData']);
 
+Route::get('/images/full', [ImageController::class, 'getMoreInfoThumbnail']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/images/upload', [ImageController::class, 'uploadImage']);
+    Route::put('images/update', [ImageController::class, 'updateImage']);
+    Route::delete('images/delete/{id}', [ImageController::class, 'deleteImage']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

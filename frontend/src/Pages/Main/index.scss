@@ -116,6 +116,15 @@
         gap: 4rem;
         margin-bottom: 4rem;
     }
+
+    footer {
+        a {
+            color: rgba($color: white, $alpha: 0.3);
+            font-family: Rubik;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+    }
 }
 
 // ANIMATION

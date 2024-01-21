@@ -1,0 +1,106 @@
+.a-image-container {
+    cursor: pointer;
+    width: 100%;
+    max-height: 135px;
+    overflow: clip;
+    display: flex;
+    box-sizing: border-box;
+    padding: 1rem;
+    align-items: flex-start;
+    flex-direction: row;
+    align-content: flex-start;
+    gap: 1rem;
+    align-self: stretch;
+    flex-wrap: wrap;
+    border-radius: 15px;
+    background: url(../../../images/decoration/grain-50.png),
+        linear-gradient(180deg, rgba(167, 55, 184, 0.5), rgba(72, 55, 184, 0.5));
+
+    transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+    .thumbnail {
+        height: 100px;
+        aspect-ratio: 4/3;
+        border-radius: 15px;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        flex: 1 0 0;
+        align-self: stretch;
+
+        h1 {
+            align-self: stretch;
+            color: var(--pink-white);
+            font-family: Rubik;
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 90%;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: var(--pink-white);
+            overflow: hidden;
+            max-height: 45px;
+
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 110%;
+        }
+
+        .statistics-wrapper > .statistic {
+            p {
+                font-size: 1.25rem;
+            }
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+}
+
+.a-image-container:hover {
+    box-shadow: 0px 4px 100px 0px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
+}
+
+@media screen and (max-width: 1000px) {
+    .a-image-container {
+        max-height: 150px;
+
+        .thumbnail {
+            height: 120px;
+        }
+
+        .content {
+            .statistics-wrapper {
+                justify-content: flex-start;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .a-image-container {
+        max-height: 150px;
+
+        .content {
+            .statistics-wrapper {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+                line-height: 110%; /* 1.1rem */
+            }
+        }
+    }
+}

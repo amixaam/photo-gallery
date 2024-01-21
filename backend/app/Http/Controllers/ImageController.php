@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
-
+use Illuminate\Support\Facades\File;
 
 use App\Models\Photo as PhotoTable;
 
@@ -37,8 +37,28 @@ class ImageController extends Controller
         return response()->json(['images' => $formattedImages, 'folders' => $folderNames]);
     }
 
-    public function getAllFolders()
+    public function getMoreInfoThumbnail()
     {
+        $imagesWithDetails = PhotoTable::all();
+        $formattedImages = $imagesWithDetails->map(function ($image) {
+            return [
+                'thumbnail' => asset("storage/$image->thumbnailURL"),
+                'filename' => basename($image->thumbnailURL),
+                'folder' => $image->folder,
+                'picture_data' => [
+                    'image_url' => asset("storage/$image->imageURL"),
+                    'title' => $image->title,
+                    'description' => $image->description,
+                    'location' => $image->location,
+                    'date' => $image->date,
+                    'time' => $image->time,
+                    'camera' => $image->camera,
+                    'resolution' => $image->resolution,
+                    'id' => $image->id,
+                ]
+            ];
+        });
+
         $mainFolderPath = 'images';
 
         $folders = Storage::disk('public')->directories($mainFolderPath);
@@ -47,7 +67,7 @@ class ImageController extends Controller
             return str_replace($mainFolderPath . '/', '', $folderPath);
         }, $folders);
 
-        return response()->json($folderNames);
+        return response()->json(['images' => $formattedImages, 'folders' => $folderNames]);
     }
 
     public function getImage(Request $request)
@@ -144,6 +164,86 @@ class ImageController extends Controller
             $photo->save();
 
             return response()->json(['message' => 'Image uploaded successfully', 'image_path' => $imagePath, 'thumbnail_path' => $shortThumbnailPath]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
+        }
+    }
+
+    public function deleteImage($id)
+    {
+        try {
+            // Find the image by ID
+            $photo = PhotoTable::find($id);
+
+            if (!$photo) {
+                return response()->json(['error' => 'Image not found'], 404); // Not Found
+            }
+
+            Storage::disk('public')->delete($photo->imageURL);
+            Storage::disk('public')->delete($photo->thumbnailURL);
+
+            $photo->delete();
+            $this->deleteEmptyFolders("app/public/images/" . $photo->folder);
+            $this->deleteEmptyFolders("app/public/thumbnails/" . $photo->folder);
+
+            return response()->json(['message' => 'Image deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
+        }
+    }
+
+    private function deleteEmptyFolders($directory)
+    {
+        $items = File::allFiles(storage_path($directory));
+
+        if (count($items) === 0) {
+            // Directory is empty, delete it
+            File::deleteDirectory(storage_path($directory));
+
+            // Recursively check and delete parent directories if empty
+            $parentDirectory = dirname($directory);
+            $this->deleteEmptyFolders($parentDirectory);
+        }
+    }
+
+    public function updateImage(Request $request)
+    {
+
+        // Validate the incoming request
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|int',
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'location' => 'nullable|string',
+            'date' => 'nullable|date',
+            'time' => 'nullable|date_format:H:i:s', // format: HH:mm:ss
+            'camera' => 'nullable|string',
+            'folder' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422); // Unprocessable Entity
+        }
+
+        try {
+            $photo = PhotoTable::where('id', $request->input('id'))->first();
+
+            if (!$photo) {
+                return response()->json(['error' => 'Image not found'], 404); // Not Found
+            }
+
+            $photo->title = $request->input('title', $photo->title);
+            $photo->description = $request->input('description', $photo->description);
+            $photo->location = $request->input('location', $photo->location);
+            $photo->date = $request->input('date', $photo->date);
+            $photo->time = $request->input('time', $photo->time);
+            $photo->camera = $request->input('camera', $photo->camera);
+            $photo->folder = $request->input('folder', $photo->folder);
+
+            // Save changes
+            $photo->save();
+
+            return response()->json(['message' => 'Image updated successfully', 'updated_photo' => $photo]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500); // Internal Server Error
         }

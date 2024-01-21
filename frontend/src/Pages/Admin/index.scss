@@ -4,6 +4,10 @@
     .nav-colors {
         color: var(--pink-dark);
     }
+    // header > .right-side > .dropdown-container > .flex-button {
+    //     font-size: 1.5rem;
+    //     padding: 0.75rem 3rem;
+    // }
 
     .background-container {
         position: absolute;
@@ -41,14 +45,18 @@
 .admin-content {
     position: relative;
     z-index: 0;
+    box-sizing: border-box;
 
     .forms-container {
         display: flex;
-        height: 70vh;
-        box-sizing: border-box;
+        width: 100%;
+        height: 72vh;
+        gap: 1rem;
     }
     .upload-image {
         height: 100%;
+        box-sizing: border-box;
+        width: 35%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -69,8 +77,8 @@
             font-family: Rubik;
             font-size: 3rem;
             font-weight: 900;
-            line-height: 90%;
             text-transform: uppercase;
+            line-height: 100%;
         }
 
         .flex-button {
@@ -89,7 +97,79 @@
         }
 
         .flex-input {
+            width: 100%;
+            min-width: 0rem;
             background-color: rgba(0, 0, 0, 0.33);
+            text-align: left;
+            box-sizing: border-box;
+            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .flex-input:focus {
+            background-color: rgba(0, 0, 0, 0.5);
+            outline: none;
         }
     }
+    .image-list {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 15px;
+        background: var(--inner-grain-bg);
+
+        .filtering-options-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            h1 {
+                line-height: 100%;
+                color: var(--pink-white);
+                text-align: center;
+                font-family: Rubik;
+                font-size: 3rem;
+                font-weight: 900;
+                text-transform: uppercase;
+            }
+            .flex-selector {
+                background-color: rgba(0, 0, 0, 0.33);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .admin-content {
+        .forms-container {
+            flex-direction: column;
+            height: 100%;
+        }
+        .upload-image {
+            width: 100%;
+            gap: 1rem;
+        }
+
+        .image-list {
+            .filtering-options-container {
+                flex-direction: column;
+                gap: 1rem;
+
+                .flex-selector {
+                    max-width: 100%;
+                }
+            }
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
 }
