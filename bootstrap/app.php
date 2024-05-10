@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
         ]);
     })->withMiddleware(function (Middleware $middleware) {
-        $middleware->trustProxies(at: ['kolton.ns.cloudflare.com', 'susan.ns.cloudflare.com']);
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
