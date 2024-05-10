@@ -1,3 +1,1 @@
-# A rewrite of the original photo-gallery
-
-Written in laravel / vite inertia
+Most basic Laravel authentication system with ReactJS and Inertia
