@@ -57,6 +57,7 @@ input {
     overflow: hidden;
 }
 
+/* arc.net */
 .test::after {
     content: "";
     background-repeat: repeat-x;
