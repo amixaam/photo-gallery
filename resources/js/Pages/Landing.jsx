@@ -136,7 +136,7 @@ export default function Landing() {
                                         </div>
                                         <div className="flex flex-row items-center ml-[-4px] sm:ml-0 opacity-70 gap-1">
                                             <img
-                                                src="/icons/info.svg"
+                                                src="/images/info.svg"
                                                 alt=""
                                                 className="scale-[0.6] select-none sm:scale-75"
                                             />
@@ -184,7 +184,7 @@ export default function Landing() {
                         <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
                             View source
                         </p>
-                        <img src="/icons/redirect.svg" alt="" />
+                        <img src="/images/redirect.svg" alt="" />
                     </a>
                 </div>
             </section>

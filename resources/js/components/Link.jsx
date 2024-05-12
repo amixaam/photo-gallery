@@ -8,7 +8,7 @@ export const Link = ({ text = "No text given", href = "#" }) => {
                 {text}
                 {href === "#" ? " (Missing link)" : ""}
             </p>
-            <img src="/icons/redirect.svg" alt="" className="scale-75" />
+            <img src="images/redirect.svg" alt="" className="scale-75" />
         </a>
     );
 };
