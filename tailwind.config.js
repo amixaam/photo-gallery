@@ -13,7 +13,7 @@ export default {
                 dark: "#541B40",
                 bg: "#110E25",
                 bgsecondary: "#0D0716",
-                footer: "#1C0B26",
+                footer: "#1e1233",
                 footersecondary: "#24153D",
             },
         },
