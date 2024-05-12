@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Navbar() {
     return (
-        <nav className="fixed top-0 left-0 right-0 pt-8 flex justify-center z-10">
+        <nav className="fixed top-0 left-0 right-0 pt-4 sm:pt-8 flex justify-center z-10">
             <div className="flex sm:gap-5 mx-4 sm:mx-0 px-3 py-2 justify-between w-full sm:w-fit bg-secondary20 border-secondary20 border-2 sm:justify-center rounded-full backdrop-blur-xl">
                 <Link
                     href={route("landing")}
