@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import MainLayout from "../Layouts/MainLayout";
 
 const tempData = [
     {
@@ -20,7 +21,7 @@ const tempData = [
 
     {
         title: "Freedom statue",
-        alt: "freedom statue in Rīga",
+        alt: "Freedom statue in Rīga",
         date: "date",
         location: "Latvia",
         url: "/images/freedom.webp",
@@ -44,18 +45,8 @@ const tempData = [
 
 export default function Landing() {
     return (
-        <>
-            <div className="fixed w-full h-[100vh] pointer-events-none overflow-hidden z-[5]">
-                <div
-                    className="w-full h-full bg-cover bg-center"
-                    style={{
-                        backgroundImage: `url('/images/grain.png')`,
-                        backgroundSize: "100px 100px",
-                    }}
-                ></div>
-            </div>
-            <div className="overflow-x-hidden flex flex-col min-h-screen bg-bgsecondary">
-                <Navbar />
+        <MainLayout>
+            <div className="overflow-x-hidden flex flex-col">
                 <div className="">
                     <section className="h-[37rem] xl:h-[50rem] gap-24 flex flex-col items-center justify-center bg-gradient-to-b from-secondary to-primary">
                         <div className="flex flex-col items-center justify-center">
@@ -120,45 +111,48 @@ export default function Landing() {
                     </div>
                     <section>
                         <div className="w-screen overflow-x-hidden py-2">
-                            <div className="w-max h-full flex flex-row gap-6 sm:gap-16 justify-center scroll">
-                                {[...tempData, ...tempData].map((image) => (
-                                    <a
-                                        href="#"
-                                        className="flex flex-col gap-2 group"
-                                    >
-                                        <img
-                                            src={image.url}
-                                            alt={
-                                                image.alt
-                                                    ? image.alt
-                                                    : image.title
-                                            }
-                                            className="w-[220px] sm:w-[440px] rounded-3xl flex-1 bg-secondary20 select-none opacity-80 group-[&:hover]:opacity-100 group-[&:hover]:scale-[1.01] transition-all duration-200"
-                                        />
-                                        <div className="flex flex-col sm:flex-row justify-between sm:items-center text-nowrap sm:opacity-10 translate-y-2 group-[&:hover]:opacity-100 group-[&:hover]:translate-y-0 transition-all duration-200">
-                                            <div className="flex flex-row gap-2 items-center">
-                                                <img
-                                                    src="/images/star.svg"
-                                                    alt=""
-                                                    className="scale-75 sm:scale-100 select-none "
-                                                />
-                                                <h3 className="text-text text-base sm:text-3xl">
-                                                    {image.title}
-                                                </h3>
+                            <div className="w-max h-full flex flex-row gap-6 sm:gap-16 justify-center scroll relative z-[6]">
+                                {[...tempData, ...tempData].map(
+                                    (image, index) => (
+                                        <a
+                                            key={index}
+                                            href="#"
+                                            className="flex flex-col gap-2 group"
+                                        >
+                                            <img
+                                                src={image.url}
+                                                alt={
+                                                    image.alt
+                                                        ? image.alt
+                                                        : image.title
+                                                }
+                                                className="w-[220px] sm:w-[440px] rounded-3xl flex-1 bg-secondary20 select-none opacity-80 group-[&:hover]:opacity-100 group-[&:hover]:scale-[1.01] transition-all duration-200"
+                                            />
+                                            <div className="flex flex-col sm:flex-row justify-between sm:items-center text-nowrap sm:opacity-10 translate-y-2 group-[&:hover]:opacity-100 group-[&:hover]:translate-y-0 transition-all duration-200">
+                                                <div className="flex flex-row gap-2 items-center">
+                                                    <img
+                                                        src="/images/star.svg"
+                                                        alt=""
+                                                        className="scale-75 sm:scale-100 select-none "
+                                                    />
+                                                    <h3 className="text-text text-base sm:text-3xl">
+                                                        {image.title}
+                                                    </h3>
+                                                </div>
+                                                <div className="flex flex-row items-center ml-[-4px] sm:ml-0 opacity-70 gap-1">
+                                                    <img
+                                                        src="/images/info.svg"
+                                                        alt=""
+                                                        className="scale-[0.6] select-none sm:scale-75"
+                                                    />
+                                                    <p className="text-text text-sm sm:text-base">
+                                                        {image.location}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="flex flex-row items-center ml-[-4px] sm:ml-0 opacity-70 gap-1">
-                                                <img
-                                                    src="/images/info.svg"
-                                                    alt=""
-                                                    className="scale-[0.6] select-none sm:scale-75"
-                                                />
-                                                <p className="text-text text-sm sm:text-base">
-                                                    {image.location}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                ))}
+                                        </a>
+                                    )
+                                )}
                             </div>
                         </div>
                     </section>
@@ -200,8 +194,7 @@ export default function Landing() {
                         </a>
                     </div>
                 </section>
-                <Footer />
             </div>
-        </>
+        </MainLayout>
     );
 }

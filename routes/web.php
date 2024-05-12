@@ -19,11 +19,9 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/', function () {
     return Inertia::render('Landing');
 })->name('landing');
-
 Route::get('/gallery', function () {
     return Inertia::render('Gallery');
 })->name('gallery');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {

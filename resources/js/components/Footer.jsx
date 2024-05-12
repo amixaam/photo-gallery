@@ -1,6 +1,6 @@
 import { Link } from "./Link";
 
-export const Footer = () => {
+export const Footer = ({ grainPrefs, setGrainPrefs }) => {
     return (
         <footer>
             <div className="relative h-[64px] rotate-180">
@@ -31,7 +31,31 @@ export const Footer = () => {
                             href="https://www.youtube.com/@amixam"
                         />
                     </div>
-                    <p className="text-text link">© Roberts Briņķis, 2024</p>
+                    <div className="flex flex-row justify-between">
+                        <p className="text-text link">
+                            © Roberts Briņķis, 2024
+                        </p>
+                        <div className="flex flex-row gap-8">
+                            <button
+                                onClick={() => setGrainPrefs(!grainPrefs)}
+                                className="hover:scale-110 transition-all"
+                            >
+                                <p className="text-text link">
+                                    Grain {grainPrefs ? "on" : "off"}
+                                </p>
+                            </button>
+                            <a
+                                href="/dashboard"
+                                className="hover:scale-125 transition-all"
+                            >
+                                <img
+                                    src="/images/key.svg"
+                                    alt=""
+                                    className="scale-75 sm:scale-100 select-none"
+                                />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
