@@ -45,7 +45,7 @@ const tempData = [
 export default function Landing() {
     return (
         <>
-            <div className="fixed w-full h-full pointer-events-none overflow-hidden z-[5]">
+            <div className="fixed w-full h-[100vh] pointer-events-none overflow-hidden z-[5]">
                 <div
                     className="w-full h-full bg-cover bg-center"
                     style={{
