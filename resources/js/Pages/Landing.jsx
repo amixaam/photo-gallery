@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import MainLayout from "../Layouts/MainLayout";
 import GalleryTitle from "../components/GalleryTitle";
+import PrimaryButton from "../components/PrimaryButton";
+import { Link } from "@inertiajs/inertia-react";
 
 const tempData = [
     {
@@ -66,14 +68,10 @@ export default function Landing() {
                         </div>
                         <div className="flex flex-col items-center justify-center gap-2">
                             <p className="text-text">Don't worry, it's</p>
-                            <a
-                                href="/gallery"
-                                className="group bg-gradient-to-b from-text from-20% to-60% to-textdark py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100"
-                            >
-                                <h4 className="text-dark drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
-                                    Coming soon 🚧
-                                </h4>
-                            </a>
+                            <PrimaryButton
+                                text="Coming soon 🚧"
+                                href={route("gallery")}
+                            />
                         </div>
                     </section>
                     <div className="relative h-[64px]">
@@ -101,7 +99,7 @@ export default function Landing() {
                             <div className="w-max h-full flex flex-row gap-6 sm:gap-16 justify-center scroll relative z-[6]">
                                 {[...tempData, ...tempData].map(
                                     (image, index) => (
-                                        <a
+                                        <Link
                                             key={index}
                                             href="#"
                                             className="flex flex-col gap-2 group"
@@ -137,7 +135,7 @@ export default function Landing() {
                                                     </p>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     )
                                 )}
                             </div>
@@ -161,14 +159,14 @@ export default function Landing() {
                         />
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center">
-                        <a
+                        <Link
                             href="/gallery"
                             className="group bg-secondary20 py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100 "
                         >
                             <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
                                 Coming soon 🚧
                             </p>
-                        </a>
+                        </Link>
                         <p className="text-text">or</p>
                         <a
                             href="https://github.com/amixaam/photo-gallery"

@@ -1,4 +1,5 @@
 import { Link } from "./Link";
+import { Link as InertiaLink } from "@inertiajs/inertia-react";
 
 export const Footer = ({ grainPrefs, setGrainPrefs }) => {
     return (
@@ -44,7 +45,7 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                                     Grain {grainPrefs ? "on" : "off"}
                                 </p>
                             </button>
-                            <a
+                            <InertiaLink
                                 href="/dashboard"
                                 className="hover:scale-125 transition-all"
                             >
@@ -53,7 +54,7 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                                     alt=""
                                     className="scale-75 sm:scale-100 select-none"
                                 />
-                            </a>
+                            </InertiaLink>
                         </div>
                     </div>
                 </div>

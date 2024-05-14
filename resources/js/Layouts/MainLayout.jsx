@@ -31,7 +31,7 @@ const MainLayout = ({ auth, children }) => {
                     ></div>
                 </div>
             )}
-            <div className="bg-bgsecondary">
+            <div className="bg-gradient-to-t from-bgsecondary to-bg">
                 <Navbar showAdmin={auth ? true : false} />
                 <div className="min-h-screen">{children}</div>
                 <Footer grainPrefs={grainPrefs} setGrainPrefs={setGrainPrefs} />

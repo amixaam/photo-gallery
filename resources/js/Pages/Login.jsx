@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import GalleryTitle from "../components/GalleryTitle";
 import PrimaryButton from "../components/PrimaryButton";
 import Loader from "../components/Loader";
+import { TextInput } from "../components/TextInput";
 
 export default function Login() {
     function changeHandler(e) {
@@ -36,13 +37,13 @@ export default function Login() {
                         type="text"
                         name="username"
                         onchange={changeHandler}
-                        error={errors.username}
+                        error={errors.username || errors.error}
                     />
                     <TextInput
                         type="password"
                         name="password"
                         onchange={changeHandler}
-                        error={errors.password}
+                        error={errors.password || errors.error}
                     />
                     <PrimaryButton
                         text="Login"
@@ -54,25 +55,3 @@ export default function Login() {
         </MainLayout>
     );
 }
-
-const TextInput = ({
-    type = "text",
-    name = "Input",
-    onchange = () => {},
-    error = "",
-}) => {
-    return (
-        <label className="flex flex-col">
-            <input
-                type={type}
-                name={name}
-                placeholder={name}
-                onChange={onchange}
-                className={`px-4 py-2 rounded-md text-text font-medium
-                    ${error ? "bg-error20 placeholder-error" : "bg-secondary20 placeholder-text50"}
-                    `}
-            />
-            {error && <p className="text-error">{error}</p>}
-        </label>
-    );
-};

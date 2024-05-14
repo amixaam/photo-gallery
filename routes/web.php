@@ -27,4 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/upload', function () {
+        return Inertia::render('Upload');
+    })->name('upload');
 });
