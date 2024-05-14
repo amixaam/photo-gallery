@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import MainLayout from "../Layouts/MainLayout";
+import GalleryTitle from "../components/GalleryTitle";
 
 const tempData = [
     {
@@ -50,21 +51,7 @@ export default function Landing() {
                 <div className="">
                     <section className="h-[37rem] xl:h-[50rem] gap-24 flex flex-col items-center justify-center bg-gradient-to-b from-secondary to-primary">
                         <div className="flex flex-col items-center justify-center">
-                            <div className="flex text-nowrap items-center -skew-x-6">
-                                <img
-                                    src="/images/landing-stars.svg"
-                                    alt=""
-                                    className="scale-75 sm:scale-100 select-none"
-                                />
-                                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl">
-                                    photo-gallery
-                                </h1>
-                                <img
-                                    src="/images/landing-stars.svg"
-                                    alt=""
-                                    className="rotate-180 scale-75 sm:scale-100 select-none"
-                                />
-                            </div>
+                            <GalleryTitle />
                             <div className="flex flex-row gap-[1ch]">
                                 <h4 className="text-text drop-shadow-md">
                                     Made with love,
