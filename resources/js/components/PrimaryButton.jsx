@@ -12,10 +12,15 @@ function PrimaryButton({
         return (
             <button
                 onClick={onClick}
-                className="group min-h-[2.7rem] justify-center items-center flex bg-gradient-to-b from-text from-20% to-60% to-textdark py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100"
+                className="group  justify-center items-center flex bg-gradient-to-b from-text from-20% to-60% to-textdark py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100"
             >
                 {processing ? (
-                    <Loader />
+                    <>
+                        <Loader />
+                        <h4 className="text-dark drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all flex justify-center opacity-0">
+                            {text[0]}
+                        </h4>
+                    </>
                 ) : (
                     <h4 className="text-dark drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all flex justify-center">
                         {text}
