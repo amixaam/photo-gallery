@@ -60,7 +60,7 @@ export default function Landing() {
                                 </h4>
                                 <a
                                     href="https://github.com/amixaam"
-                                    className="text-text hover:underline transition-all focus:brightness-90"
+                                    className="text-text hover:underline transition-all active:brightness-90"
                                 >
                                     <h4>@amixaam</h4>
                                 </a>
@@ -161,7 +161,7 @@ export default function Landing() {
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center">
                         <Link
                             href="/gallery"
-                            className="group bg-secondary20 py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100 "
+                            className="group bg-secondary20 py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 "
                         >
                             <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
                                 Coming soon 🚧
@@ -170,7 +170,7 @@ export default function Landing() {
                         <p className="text-text">or</p>
                         <a
                             href="https://github.com/amixaam/photo-gallery"
-                            className="group bg-secondary20 flex gap-2 items-center py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 focus:drop-shadow-xl focus:scale-100 focus:brightness-95 focus:duration-100 "
+                            className="group bg-secondary20 flex gap-2 items-center py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 "
                         >
                             <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
                                 View source
