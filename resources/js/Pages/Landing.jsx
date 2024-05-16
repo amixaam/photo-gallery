@@ -50,8 +50,8 @@ export default function Landing() {
     return (
         <MainLayout>
             <div className="overflow-x-hidden flex flex-col">
-                <div className="">
-                    <section className="h-[37rem] xl:h-[50rem] gap-24 flex flex-col items-center justify-center bg-gradient-to-b from-secondary to-primary">
+                <div>
+                    <section className="h-[37rem] xl:h-[85vh] gap-24 flex flex-col items-center justify-center bg-gradient-to-b from-secondary to-primary">
                         <div className="flex flex-col items-center justify-center">
                             <GalleryTitle />
                             <div className="flex flex-row gap-[1ch]">
@@ -67,9 +67,9 @@ export default function Landing() {
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-center gap-2">
-                            <p className="text-text">Don't worry, it's</p>
+                            <p className="text-text">View the new</p>
                             <PrimaryButton
-                                text="Coming soon 🚧"
+                                text="2023 collection"
                                 href={route("collections")}
                             />
                         </div>
@@ -78,7 +78,7 @@ export default function Landing() {
                         <div className="wave" />
                     </div>
                 </div>
-                <main className="h-screen flex flex-col items-center justify-center gap-12 sm:gap-24 ">
+                <main className="h-screen flex flex-col items-center justify-center mt-16  gap-8 ">
                     <div className="flex text-nowrap items-center -skew-x-6">
                         <img
                             src="/images/landing-stars-flipped.svg"
@@ -111,7 +111,7 @@ export default function Landing() {
                                                         ? image.alt
                                                         : image.title
                                                 }
-                                                className="w-[220px] sm:w-[440px] rounded-3xl flex-1 bg-secondary20 select-none opacity-80 group-[&:hover]:opacity-100 group-[&:hover]:scale-[1.01] transition-all duration-200"
+                                                className="w-[220px] sm:w-[380px] rounded-3xl flex-1 bg-secondary20 select-none opacity-80 group-[&:hover]:opacity-100 group-[&:hover]:scale-[1.01] transition-all duration-200"
                                             />
                                             <div className="flex flex-col sm:flex-row justify-between sm:items-center text-nowrap sm:opacity-10 translate-y-2 group-[&:hover]:opacity-100 group-[&:hover]:translate-y-0 transition-all duration-200">
                                                 <div className="flex flex-row gap-2 items-center">
@@ -164,7 +164,7 @@ export default function Landing() {
                             className="group bg-secondary20 py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 "
                         >
                             <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
-                                Coming soon 🚧
+                                Collections
                             </p>
                         </Link>
                         <p className="text-text">or</p>

@@ -15,7 +15,7 @@ export default function Navbar({ showAdmin }) {
                     href={route("collections")}
                     className="group px-4 rounded-full py-1 hover:bg-secondary hover:scale-105 transition-all active:scale-100 active:brightness-95"
                 >
-                    <h4 className="text-text drop-shadow-lg">Gallery</h4>
+                    <h4 className="text-text drop-shadow-lg">Collections</h4>
                 </Link>
                 {showAdmin && (
                     <Link

@@ -5,9 +5,12 @@ import { TextInput } from "../components/TextInput";
 import axios from "axios";
 import { router } from "@inertiajs/react";
 import ZipImages from "../utils/ZipImages";
+import Loader from "../components/Loader";
 
 export default function Dashboard({ auth }) {
     const [files, setFiles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             "image/*": [],
@@ -69,7 +72,16 @@ export default function Dashboard({ auth }) {
 
         ZipImages(files).then((zip) => {
             data.append("zip", zip);
-            router.post(route("upload.post"), data, {});
+            router.post(route("upload.post"), data, {
+                onStart: () => {
+                    setIsLoading(true);
+                },
+                onError: (error) => console.error(error),
+                onFinish: () => {
+                    setFiles([]);
+                    setIsLoading(false);
+                },
+            });
         });
     }
 
@@ -80,8 +92,13 @@ export default function Dashboard({ auth }) {
                     Upload
                 </h1>
                 <section
-                    className={`bg-footer h-fit border-text50 border-2 border-dashed rounded-3xl transition-all duration-500 ease-in-out`}
+                    className={`bg-footer h-fit border-text50 border-2 border-dashed rounded-3xl transition-all duration-500 ease-in-out relative`}
                 >
+                    {isLoading && (
+                        <div className="absolute bg-bg70 w-full h-full flex items-center justify-center rounded-3xl">
+                            <Loader style={"scale-[2]"} color="#EC81C7" />
+                        </div>
+                    )}
                     <div
                         {...getRootProps({ className: "dropzone" })}
                         className="h-full py-8 rounded-3xl flex flex-col justify-center items-center"
@@ -98,12 +115,14 @@ export default function Dashboard({ auth }) {
                     <>
                         <div className="flex flex-row gap-4 items-center">
                             <IconButton
+                                disabled={isLoading}
                                 onClick={() => clearImage()}
                                 text="Clear all"
                                 href="/images/close.svg"
                             />
-                            <TextInput name="Collection" />
+                            <TextInput name="Collection" disabled={isLoading} />
                             <IconButton
+                                disabled={isLoading}
                                 onClick={submitHandler}
                                 text="Upload"
                                 href="/images/upload.svg"
@@ -115,7 +134,6 @@ export default function Dashboard({ auth }) {
                         <div className="flex flex-wrap gap-4">{thumbs}</div>
                     </>
                 )}
-                {/* <Link href={route("logout")}>Logout</Link> */}
             </main>
         </MainLayout>
     );
@@ -127,11 +145,13 @@ const IconButton = ({
     onClick = () => {
         console.log("Clicked!");
     },
+    disabled = false,
 }) => {
     return (
         <button
             onClick={onClick}
             className="flex gap-2 px-4 py-2 rounded-md text-text font-medium bg-footersecondary hover:scale-105 hover:drop-shadow-xl active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 transition-all duration-200"
+            disabled={disabled}
         >
             <img src={href} alt="" />
             {text}
