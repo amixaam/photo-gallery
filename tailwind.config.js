@@ -13,7 +13,7 @@ export default {
                 textdark: "#FDC6EA",
                 dark: "#541B40",
                 bg: "#110E25",
-                bg50: "#0D071690",
+                bg70: "rgba(13, 7, 22, 0.7)",
                 bgsecondary: "#0D0716",
                 footer: "#1e1233",
                 footersecondary: "#24153D",

@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { TextInput } from "../components/TextInput";
 import axios from "axios";
 import { router } from "@inertiajs/react";
+import ZipImages from "../utils/ZipImages";
 
 export default function Dashboard({ auth }) {
     const [files, setFiles] = useState([]);
@@ -65,25 +66,11 @@ export default function Dashboard({ auth }) {
 
     function submitHandler() {
         const data = new FormData();
-        data.append("image", files[0]);
 
-        router.post(route("upload.post"), data, {});
-        
-        // axios
-        //     .post(route("upload.post"), data, {
-        //         // headers: {
-        //         //     "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-        //         // },
-        //     })
-        //     .then((res) => {
-        //         console.log("then");
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     })
-        //     .finally((res) => {
-        //         console.log("finally");
-        // });
+        ZipImages(files).then((zip) => {
+            data.append("zip", zip);
+            router.post(route("upload.post"), data, {});
+        });
     }
 
     return (

@@ -8,19 +8,18 @@ function Gallery({ collection, selectedImage }) {
     return (
         <>
             <div
-                className={`${ViewModal ? "opacity-100" : "opacity-0 pointer-events-none"} py-24 w-screen h-screen flex flex-col justify-center items-center fixed bg-bg50 z-20 transition-all duration-200`}
+                className={`w-screen h-screen flex justify-center items-center fixed bg-bg70 z-20 transition-all duration-200 ${!ViewModal && "opacity-0 pointer-events-none"} `}
                 onClick={() => setViewModal(false)}
             >
-                <div className="w-fit h-full">
-                    <img
-                        src={`/storage/${selectedImage?.path}`}
-                        alt=""
-                        className="h-full rounded-3xl"
-                    />
-                    <div className="flex flex-col w-full">
-                        <h3 className="text-text">{selectedImage?.title}</h3>
-                        <p className="text-text">{selectedImage?.alt_text}</p>
+                <div className="h-full py-24 flex flex-col items-center">
+                    <div className="h-full">
+                        <img
+                            src={`/storage/${selectedImage?.path}`}
+                            alt={selectedImage?.alt_text}
+                            className="rounded-3xl h-full "
+                        />
                     </div>
+                    <h3 className="text-text">{selectedImage?.title}</h3>
                 </div>
             </div>
             <MainLayout>
@@ -39,11 +38,7 @@ function Gallery({ collection, selectedImage }) {
                                     className="hover:scale-[1.025] transition-all duration-200"
                                 >
                                     <img
-                                        src={
-                                            window.location.origin +
-                                            "/storage/" +
-                                            image.path
-                                        }
+                                        src={"/storage/images/" + image.title}
                                         alt={image.alt_text}
                                         className="h-96 rounded-3xl"
                                     />
