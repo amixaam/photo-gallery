@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { useDropzone } from "react-dropzone";
 import { TextInput } from "../components/TextInput";
+import axios from "axios";
+import { router } from "@inertiajs/react";
 
 export default function Dashboard({ auth }) {
     const [files, setFiles] = useState([]);
@@ -61,6 +63,29 @@ export default function Dashboard({ auth }) {
         setFiles(files.filter((file) => file !== image));
     };
 
+    function submitHandler() {
+        const data = new FormData();
+        data.append("image", files[0]);
+
+        router.post(route("upload.post"), data, {});
+        
+        // axios
+        //     .post(route("upload.post"), data, {
+        //         // headers: {
+        //         //     "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        //         // },
+        //     })
+        //     .then((res) => {
+        //         console.log("then");
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //     })
+        //     .finally((res) => {
+        //         console.log("finally");
+        // });
+    }
+
     return (
         <MainLayout auth={auth}>
             <main className="mx-8 pt-24 sm:pt-24 sm:mx-24 flex flex-col gap-4">
@@ -92,6 +117,7 @@ export default function Dashboard({ auth }) {
                             />
                             <TextInput name="Collection" />
                             <IconButton
+                                onClick={submitHandler}
                                 text="Upload"
                                 href="/images/upload.svg"
                             />

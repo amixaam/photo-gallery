@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->json('images')->default(json_encode([])); // public_id array from images array
+            $table->string('slug');
+            $table->string('cover_path')->nullable(); // cover image id, must be inside 'images' row
             $table->timestamps();
         });
     }

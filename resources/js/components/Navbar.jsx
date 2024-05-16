@@ -12,7 +12,7 @@ export default function Navbar({ showAdmin }) {
                     <h4 className="text-text drop-shadow-lg">Home</h4>
                 </Link>
                 <Link
-                    href={route("gallery")}
+                    href={route("collections")}
                     className="group px-4 rounded-full py-1 hover:bg-secondary hover:scale-105 transition-all active:scale-100 active:brightness-95"
                 >
                     <h4 className="text-text drop-shadow-lg">Gallery</h4>

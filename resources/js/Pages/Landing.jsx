@@ -70,7 +70,7 @@ export default function Landing() {
                             <p className="text-text">Don't worry, it's</p>
                             <PrimaryButton
                                 text="Coming soon 🚧"
-                                href={route("gallery")}
+                                href={route("collections")}
                             />
                         </div>
                     </section>
@@ -160,7 +160,7 @@ export default function Landing() {
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center">
                         <Link
-                            href="/gallery"
+                            href={route("collections")}
                             className="group bg-secondary20 py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 "
                         >
                             <p className="text-text drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all">
