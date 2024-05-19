@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('cover_path')->nullable(); // cover image id, must be inside 'images' row
+            $table->boolean('is_public')->default(true); // mainly for "my best work" section in landing
             $table->timestamps();
         });
     }

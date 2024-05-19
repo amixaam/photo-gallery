@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { useDropzone } from "react-dropzone";
 import { TextInput } from "../components/TextInput";
-import axios from "axios";
 import { router } from "@inertiajs/react";
 import ZipImages from "../utils/ZipImages";
 import Loader from "../components/Loader";
@@ -40,11 +39,15 @@ export default function Dashboard({ auth }) {
         <img
             key={file.name}
             src={file.preview}
-            className="h-48 rounded-md hover:scale-105 transition-all duration-200 hover:opacity-75 cursor-pointer"
+            className={`${isLoading && "opacity-50"} w-full mb-6 rounded-md hover:scale-105 transition-all duration-200 hover:opacity-75 cursor-pointer`}
             onLoad={() => {
                 URL.revokeObjectURL(file.preview);
             }}
-            onClick={() => clearImage(file)}
+            onClick={() => {
+                if (!isLoading) {
+                    clearImage(file);
+                }
+            }}
         />
     ));
 
@@ -87,10 +90,11 @@ export default function Dashboard({ auth }) {
 
     return (
         <MainLayout auth={auth}>
-            <main className="mx-8 pt-24 sm:pt-24 sm:mx-24 flex flex-col gap-4">
-                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
-                    Upload
-                </h1>
+            <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+                Upload
+            </h1>
+
+            <main className="flex flex-col gap-4">
                 <section
                     className={`bg-footer h-fit border-text50 border-2 border-dashed rounded-3xl transition-all duration-500 ease-in-out relative`}
                 >
@@ -113,7 +117,7 @@ export default function Dashboard({ auth }) {
 
                 {thumbs.length && (
                     <>
-                        <div className="flex flex-row gap-4 items-center">
+                        <div className="flex flex-row gap-4 items-center flex-wrap">
                             <IconButton
                                 disabled={isLoading}
                                 onClick={() => clearImage()}
@@ -131,7 +135,9 @@ export default function Dashboard({ auth }) {
                                 Selected {totalSizeInMB} MB
                             </p>
                         </div>
-                        <div className="flex flex-wrap gap-4">{thumbs}</div>
+                        <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-6">
+                            {thumbs}
+                        </div>
                     </>
                 )}
             </main>

@@ -5,7 +5,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import Loader from "../components/Loader";
 import { TextInput } from "../components/TextInput";
 
-export default function Login() {
+export default function Login({ auth }) {
     function changeHandler(e) {
         setData(e.target.name, e.target.value);
     }
@@ -29,7 +29,7 @@ export default function Login() {
     });
 
     return (
-        <MainLayout>
+        <MainLayout auth={auth.user} margins={false}>
             <div className="flex flex-col min-h-screen justify-center items-center gap-8">
                 <GalleryTitle />
                 <form onSubmit={submitHandler} className="flex flex-col gap-4">
@@ -47,7 +47,7 @@ export default function Login() {
                     />
                     <PrimaryButton
                         text="Login"
-                        type="button"
+                        onClick={() => {}}
                         processing={processing}
                     />
                 </form>

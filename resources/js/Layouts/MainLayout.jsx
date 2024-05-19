@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
-const MainLayout = ({ auth, children }) => {
+const MainLayout = ({ auth, children, margins = true }) => {
     const [grainPrefs, setGrainPrefs] = useLocalStorage(
         "Preference-grain",
         true
@@ -33,7 +33,15 @@ const MainLayout = ({ auth, children }) => {
             )}
             <div className="bg-gradient-to-t from-bgsecondary to-bg">
                 <Navbar showAdmin={auth ? true : false} />
-                <div className="min-h-screen">{children}</div>
+                <div
+                    className={
+                        margins
+                            ? "pt-nav-height mx-app-small sm:mx-app flex flex-col min-h-screen gap-4"
+                            : ""
+                    }
+                >
+                    {children}
+                </div>
                 <Footer grainPrefs={grainPrefs} setGrainPrefs={setGrainPrefs} />
             </div>
         </>

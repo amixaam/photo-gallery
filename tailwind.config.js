@@ -20,6 +20,11 @@ export default {
                 error: "#E343AC",
                 error20: "#CC008430",
             },
+            spacing: {
+                app: "64px",
+                "app-small": "32px",
+                "nav-height": "96px",
+            },
         },
     },
     plugins: [],

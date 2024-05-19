@@ -39,9 +39,7 @@ h4 {
 p {
     font-weight: 500;
 }
-.link {
-    font-size: 0.9rem;
-}
+
 textarea,
 input {
     font: inherit;

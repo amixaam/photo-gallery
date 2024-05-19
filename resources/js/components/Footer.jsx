@@ -7,32 +7,31 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
             <div className="relative h-[64px] rotate-180">
                 <div className="wave-footer" />
             </div>
-            <div className="relative h-fit sm:h-[15rem] bg-gradient-to-t from-footer to-footersecondary">
-                <div className="opacity-50 h-full flex flex-col sm:justify-between gap-10 py-8 px-8">
-                    <div className="flex flex-row flex-wrap gap-2 gap-x-6 sm:gap-6">
-                        <Link
-                            text="Source code"
-                            href="https://github.com/amixaam/photo-gallery"
-                        />
-                        <Link text="Figma design" />
-                        <Link
-                            text="LinkedIn"
-                            href="https://www.linkedin.com/in/robertsbrinkis/"
-                        />
-                        <Link text="CV" />
+            <div className="relative h-fit bg-gradient-to-t from-footer to-footersecondary">
+                <div className="grid grid-cols-[1fr_1fr] gap-10 p-app-small sm:p-app opacity-75">
+                    <div className="flex flex-col gap-2 sm:gap-6">
+                        <h4 className="text-text">About</h4>
+                        <Link href="https://github.com/amixaam/photo-gallery">
+                            Source code
+                        </Link>
+                        <Link>Figma design</Link>
+                        <Link href="https://www.linkedin.com/in/robertsbrinkis/">
+                            LinkedIn
+                        </Link>
+                        <Link>CV</Link>
                     </div>
-                    <div className="flex flex-row flex-wrap gap-3 sm:gap-6">
-                        <Link
-                            text="Instagram"
-                            href="https://www.instagram.com/robisnis/"
-                        />
-                        <Link text="X" href="https://twitter.com/amixaaam" />
-                        <Link
-                            text="YouTube"
-                            href="https://www.youtube.com/@amixam"
-                        />
+                    <div className="flex flex-col flex-wrap gap-3 sm:gap-6">
+                        <h4 className="text-text">Socials</h4>
+                        <Link href="https://www.instagram.com/robisnis/">
+                            Instagram
+                        </Link>
+                        <Link href="https://twitter.com/amixaaam">X</Link>
+                        <Link href="https://www.youtube.com/@amixam">
+                            YouTube
+                        </Link>
                     </div>
-                    <div className="flex flex-row justify-between">
+
+                    <div className="flex flex-row justify-between gap-3 col-span-2">
                         <p className="text-text link">
                             © Roberts Briņķis, 2024
                         </p>
