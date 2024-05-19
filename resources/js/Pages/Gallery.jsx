@@ -7,16 +7,25 @@ function Gallery({ collection, selectedImage, auth }) {
 
     return (
         <>
-            {/* <ImageModal
+            <ImageModal
                 selectedImage={selectedImage}
                 setViewModal={setViewModal}
                 ViewModal={ViewModal}
-            /> */}
+            />
 
-            <MainLayout auth={auth.user} margins={false}>
-                {/* <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+            <MainLayout auth={auth.user}>
+                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
                     {collection.title}
                 </h1>
+
+                <div className="flex gap-2">
+                    <img src="/images/back.svg" alt="" />
+                    <p className="text-text">Go back</p>
+                </div>
+
+                <div className="relative h-[64px]">
+                    <div className="wave-middle" />
+                </div>
 
                 <main>
                     <div className="gap-6 columns-1 sm:columns-2 md:columns-3 lg:columns-4">
@@ -29,14 +38,18 @@ function Gallery({ collection, selectedImage, auth }) {
                                 className="hover:scale-[1.025] w-full mb-6 transition-all duration-200"
                             >
                                 <img
-                                    src={"/storage/images/" + image.title}
+                                    src={"/storage/" + image.path}
                                     alt={image.alt_text}
                                     className="rounded-3xl w-full mb-6"
                                 />
                             </Link>
                         ))}
                     </div>
-                </main> */}
+                </main>
+
+                <div className="relative h-[64px] opacity-40 mb-64">
+                    <div className="wave-middle" />
+                </div>
             </MainLayout>
         </>
     );

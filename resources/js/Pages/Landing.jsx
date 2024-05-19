@@ -43,7 +43,7 @@ export default function Landing({ auth, collection }) {
                             alt=""
                             className="scale-75 sm:scale-100 select-none rotate-180"
                         />
-                        <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl">
+                        <h1 className="fade-in special-text drop-shadow-md w-min text-4xl sm:text-6xl">
                             My best work
                         </h1>
                         <img

@@ -24,7 +24,7 @@ class ImageController extends Controller
     {
         $request->validate([
             'zip' => 'required|file|mimes:zip|max:512000',
-            'collection_id' => 'optional|exists:collections,id'
+            'collection' => 'nullable|string'
         ]);
 
         if (!$request->file('zip')->isValid()) return response()->json(['message' => 'Invalid file'], 400);
@@ -34,6 +34,18 @@ class ImageController extends Controller
 
         $zip = new ZipArchive();
         $zip->open(storage_path('app/' . $zipPath));
+
+        // handle default collection and create new collection
+        if ($request->filled('collection')) {
+            $collection = Collection::find($request->input('collection'));
+            if (!$collection) {
+                $collection = Collection::create([
+                    'title' => $request->input('collection'),
+                ]);
+            };
+        } else {
+            $collection = Collection::first();
+        }
 
         // Extract and process each file in the zip
         for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -54,11 +66,6 @@ class ImageController extends Controller
             ]);
 
             // Attach the image to the specified collection or the first collection
-            if ($request->filled('collection_id')) {
-                $collection = Collection::find($request->input('collection_id'));
-            } else {
-                $collection = Collection::first();
-            }
             $collection->images()->attach($image->id);
         }
 

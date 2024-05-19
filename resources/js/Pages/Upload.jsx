@@ -10,6 +10,8 @@ export default function Dashboard({ auth }) {
     const [files, setFiles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [collectionInput, setCollectionInput] = useState("");
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             "image/*": [],
@@ -75,6 +77,8 @@ export default function Dashboard({ auth }) {
 
         ZipImages(files).then((zip) => {
             data.append("zip", zip);
+            data.append("collection", collectionInput);
+
             router.post(route("upload.post"), data, {
                 onStart: () => {
                     setIsLoading(true);
@@ -124,7 +128,13 @@ export default function Dashboard({ auth }) {
                                 text="Clear all"
                                 href="/images/close.svg"
                             />
-                            <TextInput name="Collection" disabled={isLoading} />
+                            <TextInput
+                                name="Collection"
+                                disabled={isLoading}
+                                onchange={(e) =>
+                                    setCollectionInput(e.target.value)
+                                }
+                            />
                             <IconButton
                                 disabled={isLoading}
                                 onClick={submitHandler}
