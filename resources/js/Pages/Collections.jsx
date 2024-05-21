@@ -1,8 +1,20 @@
 import React from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { Link } from "@inertiajs/inertia-react";
+import EmptyList from "../components/EmptyList";
 
 export default function Collections({ collections, auth }) {
+    if (collections.length === 0) {
+        return (
+            <MainLayout auth={auth.user}>
+                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+                    Collections
+                </h1>
+
+                <EmptyList text="Whoops! there are no public collections, for now!" />
+            </MainLayout>
+        );
+    }
     return (
         <MainLayout auth={auth.user}>
             <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
@@ -18,7 +30,7 @@ export default function Collections({ collections, auth }) {
                     <Link
                         href={route("gallery", collection.slug)}
                         key={collection.id}
-                        className="w-full aspect-square group flex flex-col gap-2"
+                        className={`aspect-square w-full group flex flex-col gap-2`}
                     >
                         <img
                             src={`/storage/${collection.cover_path}`}
@@ -56,8 +68,6 @@ export default function Collections({ collections, auth }) {
             <div className="relative h-[64px] opacity-40 mb-64">
                 <div className="wave-middle" />
             </div>
-
-
         </MainLayout>
     );
 }

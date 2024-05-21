@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { InertiaLink, Link } from "@inertiajs/inertia-react";
+import EmptyList from "../components/EmptyList";
 
 function Gallery({ collection, selectedImage, auth }) {
     const [ViewModal, setViewModal] = useState(selectedImage ? true : false);
 
+    if (collection.images.length === 0) {
+        return (
+            <MainLayout auth={auth.user}>
+                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+                    {collection.title}
+                </h1>
+                <EmptyList text="No images in this collection, for now!" />
+            </MainLayout>
+        );
+    }
     return (
         <>
             <ImageModal
@@ -18,7 +29,7 @@ function Gallery({ collection, selectedImage, auth }) {
                     {collection.title}
                 </h1>
 
-                <Link href={route("collections")} className="flex gap-2" >
+                <Link href={route("collections")} className="flex gap-2">
                     <img src="/images/back.svg" alt="" />
                     <p className="text-text">Go back</p>
                 </Link>

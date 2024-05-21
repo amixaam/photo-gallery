@@ -61,7 +61,7 @@ export default function Landing({ auth, collection }) {
                                 ].map((image, index) => (
                                     <Link
                                         key={index}
-                                        href="#"
+                                        href={`collections/${collection.slug}`}
                                         className="flex flex-col gap-2 group"
                                     >
                                         <img

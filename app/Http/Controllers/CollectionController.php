@@ -12,7 +12,11 @@ class CollectionController extends Controller
     public function Index()
     {
         // Eager load images for each collection
-        $collections = Collection::where('is_public', true)->with('images')->withCount('images')->get();
+        $collections = Collection::where('is_public', true)
+            ->has('images')
+            ->with('images')
+            ->withCount('images')
+            ->get();
 
         // Transform collections to set cover_path if null
         $collections = $collections->map(function ($collection) {
