@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
-import { Link } from "@inertiajs/inertia-react";
+import { InertiaLink, Link } from "@inertiajs/inertia-react";
 
 function Gallery({ collection, selectedImage, auth }) {
     const [ViewModal, setViewModal] = useState(selectedImage ? true : false);
@@ -18,10 +18,10 @@ function Gallery({ collection, selectedImage, auth }) {
                     {collection.title}
                 </h1>
 
-                <div className="flex gap-2">
+                <Link href={route("collections")} className="flex gap-2" >
                     <img src="/images/back.svg" alt="" />
                     <p className="text-text">Go back</p>
-                </div>
+                </Link>
 
                 <div className="relative h-[64px]">
                     <div className="wave-middle" />

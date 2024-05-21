@@ -17,6 +17,11 @@ export default function Dashboard({ auth }) {
                     style="w-fit"
                 />
                 <PrimaryButton
+                    text="Collections"
+                    href={route("edit-collections")}
+                    style="w-fit"
+                />
+                <PrimaryButton
                     text="Logout"
                     href={route("logout")}
                     style="w-fit"

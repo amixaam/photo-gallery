@@ -91,6 +91,35 @@ input {
     }
 }
 
+.creatable {
+    height: 100%;
+    min-width: 15rem;
+
+    .creatable__control {
+        background: #24153d;
+        color: #f6d4ea;
+        --tw-ring-shadow: none;
+        outline: none;
+        border: none;
+
+        .creatable__input-container,
+        .creatable__input::placeholder {
+            color: #f6d4ea;
+        }
+    }
+    .creatable__menu {
+        border-radius: 15px;
+        background: #24153d;
+
+        .creatable__menu-list,
+        .creatable__option {
+            color: #f6d4ea;
+            background: #24153d;
+            border-radius: 10px;
+        }
+    }
+}
+
 .wave,
 .wave-footer {
     position: absolute;

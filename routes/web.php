@@ -39,8 +39,15 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::get('/upload', function () {
-        return Inertia::render('Upload');
+        $collectionOptions = Collection::all()->map(function ($collection) {
+            return ['value' => $collection->id, 'label' => $collection->title];
+        })->toArray();
+
+        return Inertia::render('Upload', ["options" => $collectionOptions]);
     })->name('upload');
+    Route::get('/edit-collections', function () {
+        return Inertia::render('EditCollections');
+    })->name('edit-collections');
 
     Route::controller(ImageController::class)->group(function () {
         Route::post('/upload', 'upload')->name('upload.post');

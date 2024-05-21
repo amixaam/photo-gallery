@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { useDropzone } from "react-dropzone";
-import { TextInput } from "../components/TextInput";
 import { router } from "@inertiajs/react";
 import ZipImages from "../utils/ZipImages";
 import Loader from "../components/Loader";
 
-export default function Dashboard({ auth }) {
+import Creatable from "react-select/creatable";
+
+export default function Upload({ auth, options }) {
+    console.log(options);
     const [files, setFiles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
     const [collectionInput, setCollectionInput] = useState("");
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -128,12 +129,16 @@ export default function Dashboard({ auth }) {
                                 text="Clear all"
                                 href="/images/close.svg"
                             />
-                            <TextInput
-                                name="Collection"
-                                disabled={isLoading}
-                                onchange={(e) =>
-                                    setCollectionInput(e.target.value)
-                                }
+                            <Creatable
+                                options={options}
+                                placeholder="Select a collection"
+                                className={"creatable"}
+                                classNamePrefix="creatable"
+                                isClearable
+                                isSearchable
+                                onChange={(e) => {
+                                    setCollectionInput(e.value);
+                                }}
                             />
                             <IconButton
                                 disabled={isLoading}
