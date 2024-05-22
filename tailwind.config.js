@@ -21,9 +21,9 @@ export default {
                 error20: "#CC008430",
             },
             spacing: {
-                app: "64px",
+                app: "84px",
                 "app-small": "32px",
-                "nav-height": "96px",
+                "nav-height": "102px",
             },
         },
     },

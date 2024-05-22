@@ -2,7 +2,6 @@ import { useForm } from "@inertiajs/inertia-react";
 import MainLayout from "../Layouts/MainLayout";
 import GalleryTitle from "../components/GalleryTitle";
 import PrimaryButton from "../components/PrimaryButton";
-import Loader from "../components/Loader";
 import { TextInput } from "../components/TextInput";
 
 export default function Login({ auth }) {
@@ -30,7 +29,7 @@ export default function Login({ auth }) {
 
     return (
         <MainLayout auth={auth.user} margins={false}>
-            <div className="flex flex-col min-h-screen justify-center items-center gap-8">
+            <div className="flex min-h-screen flex-col items-center justify-center gap-8">
                 <GalleryTitle />
                 <form onSubmit={submitHandler} className="flex flex-col gap-4">
                     <TextInput

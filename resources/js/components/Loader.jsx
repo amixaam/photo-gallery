@@ -2,7 +2,7 @@ import React from "react";
 
 function Loader({ style, color = "#541B40" }) {
     return (
-        <div className={`${style} loader w-[1.7rem] h-5 relative -skew-x-3`}>
+        <div className={`${style} loader relative h-5 w-[1.7rem] -skew-x-3`}>
             <svg
                 width="17"
                 height="20"

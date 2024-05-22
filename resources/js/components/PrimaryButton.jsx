@@ -14,7 +14,7 @@ function PrimaryButton({
         return (
             <button
                 onClick={onClick}
-                className={`${style} group justify-center items-center flex bg-gradient-to-b from-text from-20% to-60% to-textdark py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100`}
+                className={`${style} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100`}
             >
                 {processing ? (
                     <>
@@ -32,7 +32,7 @@ function PrimaryButton({
     return (
         <Link
             href={href}
-            className={`${style} group justify-center items-center flex bg-gradient-to-b from-text from-20% to-60% to-textdark py-2 px-6 rounded-md transition-all duration-200 hover:drop-shadow-xl hover:scale-105 active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100`}
+            className={`${style} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100`}
         >
             <Text>{text}</Text>
         </Link>
@@ -42,7 +42,7 @@ function PrimaryButton({
 const Text = ({ children, hidden = false }) => {
     return (
         <h4
-            className={`${hidden && "opacity-0"} text-dark drop-shadow-md group-[&:hover]:drop-shadow-xl transition-all`}
+            className={`${hidden && "opacity-0"} text-dark drop-shadow-md transition-all group-[&:hover]:drop-shadow-xl`}
         >
             {children}
         </h4>

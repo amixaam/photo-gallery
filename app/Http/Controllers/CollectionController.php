@@ -15,6 +15,7 @@ class CollectionController extends Controller
         $collections = Collection::where('is_public', true)
             ->has('images')
             ->with('images')
+            ->orderBy('created_at', 'desc')
             ->withCount('images')
             ->get();
 
@@ -29,7 +30,21 @@ class CollectionController extends Controller
             return $collection;
         });
 
-        return Inertia::render('Collections', ['collections' => $collections]);
+        // Feature a new collection that has been created in the last 7 days, if there are none, then feature the featured collection
+        $featuredCollection = $collections->where('created_at', '>=', now()->subDays(7))->first();
+        $reason = 'newly_created';
+        if (is_null($featuredCollection)) {
+            $featuredCollection = $collections->where('is_featured', true)->first();
+            $reason = 'featured';
+        }
+
+        return Inertia::render('Collections', [
+            'collections' => $collections,
+            'featured_collection' => [
+                'collection' => $featuredCollection,
+                'reason' => $reason
+            ]
+        ]);
     }
 
 

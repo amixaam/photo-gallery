@@ -22,8 +22,8 @@ export default function Upload({ auth, options }) {
                 const newFiles = acceptedFiles.filter(
                     (newFile) =>
                         !prevFiles.some(
-                            (prevFile) => prevFile.name === newFile.name
-                        )
+                            (prevFile) => prevFile.name === newFile.name,
+                        ),
                 );
 
                 return [
@@ -31,7 +31,7 @@ export default function Upload({ auth, options }) {
                     ...newFiles.map((file) =>
                         Object.assign(file, {
                             preview: URL.createObjectURL(file),
-                        })
+                        }),
                     ),
                 ];
             });
@@ -42,7 +42,7 @@ export default function Upload({ auth, options }) {
         <img
             key={file.name}
             src={file.preview}
-            className={`${isLoading && "opacity-50"} w-full mb-6 rounded-md hover:scale-105 transition-all duration-200 hover:opacity-75 cursor-pointer`}
+            className={`${isLoading && "opacity-50"} mb-6 w-full cursor-pointer rounded-md transition-all duration-200 hover:scale-105 hover:opacity-75`}
             onLoad={() => {
                 URL.revokeObjectURL(file.preview);
             }}
@@ -95,22 +95,22 @@ export default function Upload({ auth, options }) {
 
     return (
         <MainLayout auth={auth}>
-            <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+            <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
                 Upload
             </h1>
 
             <main className="flex flex-col gap-4">
                 <section
-                    className={`bg-footer h-fit border-text50 border-2 border-dashed rounded-3xl transition-all duration-500 ease-in-out relative`}
+                    className={`relative h-fit rounded-3xl border-2 border-dashed border-text50 bg-footer transition-all duration-500 ease-in-out`}
                 >
                     {isLoading && (
-                        <div className="absolute bg-bg70 w-full h-full flex items-center justify-center rounded-3xl">
+                        <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
                             <Loader style={"scale-[2]"} color="#EC81C7" />
                         </div>
                     )}
                     <div
                         {...getRootProps({ className: "dropzone" })}
-                        className="h-full py-8 rounded-3xl flex flex-col justify-center items-center"
+                        className="flex h-full flex-col items-center justify-center rounded-3xl py-8"
                     >
                         <input {...getInputProps()} />
                         <img src="/images/upload.svg" alt="upload icon" />
@@ -122,7 +122,7 @@ export default function Upload({ auth, options }) {
 
                 {thumbs.length && (
                     <>
-                        <div className="flex flex-row gap-4 items-center flex-wrap">
+                        <div className="flex flex-row flex-wrap items-center gap-4">
                             <IconButton
                                 disabled={isLoading}
                                 onClick={() => clearImage()}
@@ -150,7 +150,7 @@ export default function Upload({ auth, options }) {
                                 Selected {totalSizeInMB} MB
                             </p>
                         </div>
-                        <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-6">
+                        <div className="columns-2 gap-6 sm:columns-3 md:columns-4 lg:columns-5">
                             {thumbs}
                         </div>
                     </>
@@ -171,7 +171,7 @@ const IconButton = ({
     return (
         <button
             onClick={onClick}
-            className="flex gap-2 px-4 py-2 rounded-md text-text font-medium bg-footersecondary hover:scale-105 hover:drop-shadow-xl active:drop-shadow-xl active:scale-100 active:brightness-95 active:duration-100 transition-all duration-200"
+            className="flex gap-2 rounded-md bg-footersecondary px-4 py-2 font-medium text-text transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"
             disabled={disabled}
         >
             <img src={href} alt="" />

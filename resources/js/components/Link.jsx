@@ -1,6 +1,6 @@
 export const Link = ({ href = "#", children }) => {
     return (
-        <a href={href} className="flex flex-row gap-2 items-center w-fit group">
+        <a href={href} className="group flex w-fit flex-row items-center gap-2">
             <p className="text-text group-hover:underline">
                 {href === "#" && "(?) "}
                 {children}

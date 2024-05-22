@@ -36,7 +36,7 @@ const MainLayout = ({ auth, children, margins = true }) => {
                 <div
                     className={
                         margins
-                            ? "pt-nav-height mx-app-small sm:mx-app flex flex-col min-h-screen gap-4"
+                            ? "pt-nav-height mx-app-small sm:mx-app flex flex-col min-h-screen gap-12"
                             : ""
                     }
                 >

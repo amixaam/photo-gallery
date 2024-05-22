@@ -3,24 +3,24 @@ import React from "react";
 
 export default function Navbar({ showAdmin }) {
     return (
-        <nav className="fixed top-0 left-0 right-0 pt-4 sm:pt-8 flex justify-center z-10">
-            <div className="flex gap-5 px-3 py-2 w-fit sm:w-fit bg-secondary20 border-secondary20 border-2 justify-center rounded-full backdrop-blur-xl">
+        <nav className="pointer-events-none fixed left-0 right-0 top-0 z-10 flex select-none justify-center pt-4 sm:pt-8">
+            <div className="pointer-events-auto flex w-fit select-all justify-center gap-5 rounded-full border-2 border-secondary20 bg-secondary20 px-3 py-2 backdrop-blur-xl sm:w-fit">
                 <Link
                     href={route("landing")}
-                    className="group px-4 rounded-full py-1 hover:bg-secondary hover:scale-105 transition-all active:scale-100 active:brightness-95"
+                    className="group rounded-full px-4 py-1 transition-all hover:scale-105 hover:bg-secondary active:scale-100 active:brightness-95"
                 >
                     <h4 className="text-text drop-shadow-lg">Home</h4>
                 </Link>
                 <Link
                     href={route("collections")}
-                    className="group px-4 rounded-full py-1 hover:bg-secondary hover:scale-105 transition-all active:scale-100 active:brightness-95"
+                    className="group rounded-full px-4 py-1 transition-all hover:scale-105 hover:bg-secondary active:scale-100 active:brightness-95"
                 >
                     <h4 className="text-text drop-shadow-lg">Collections</h4>
                 </Link>
                 {showAdmin && (
                     <Link
                         href={route("dashboard")}
-                        className="group px-4 rounded-full py-1 hover:bg-secondary hover:scale-105 transition-all active:scale-100 active:brightness-95"
+                        className="group rounded-full px-4 py-1 transition-all hover:scale-105 hover:bg-secondary active:scale-100 active:brightness-95"
                     >
                         <h4 className="text-text drop-shadow-lg">Admin</h4>
                     </Link>

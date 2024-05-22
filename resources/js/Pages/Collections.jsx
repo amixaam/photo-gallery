@@ -2,72 +2,178 @@ import React from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { Link } from "@inertiajs/inertia-react";
 import EmptyList from "../components/EmptyList";
+import PrimaryButton from "../components/PrimaryButton";
 
-export default function Collections({ collections, auth }) {
+export default function Collections({
+    collections,
+    featured_collection,
+    auth,
+}) {
     if (collections.length === 0) {
         return (
             <MainLayout auth={auth.user}>
-                <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
+                <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
                     Collections
                 </h1>
-
                 <EmptyList text="Whoops! there are no public collections, for now!" />
             </MainLayout>
         );
     }
     return (
         <MainLayout auth={auth.user}>
-            <h1 className="special-text drop-shadow-md w-min text-4xl sm:text-6xl text-nowrap">
-                Collections
-            </h1>
+            <div className=" flex flex-col gap-4">
+                <h1 className="special-text text-center text-4xl drop-shadow-md sm:text-left sm:text-6xl">
+                    Collections
+                </h1>
+
+                <div className="flex justify-center gap-2 sm:w-fit">
+                    <img src="/images/collections.svg" alt="" className="" />
+                    <p className="text-text">
+                        {collections.length} collections
+                    </p>
+                </div>
+            </div>
+
+            {/* New collection banner */}
+            <NewCollectionBanner data={featured_collection} />
 
             <div className="relative h-[64px]">
                 <div className="wave-middle" />
             </div>
 
-            <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 gap-y-10">
+            <main className="mb-48 grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {collections.map((collection) => (
                     <Link
                         href={route("gallery", collection.slug)}
                         key={collection.id}
-                        className={`aspect-square w-full group flex flex-col gap-2`}
+                        className={`group mb-6 flex aspect-square w-full flex-col gap-2`}
                     >
                         <img
                             src={`/storage/${collection.cover_path}`}
                             alt={`${collection.title}'s cover art`}
-                            className="object-cover h-full bg-footersecondary aspect-square rounded-3xl flex items-center justify-center text-text50 font-medium group-[&:hover]:scale-[1.01] transition-all duration-200"
+                            className="flex aspect-square h-full items-center justify-center rounded-3xl bg-footersecondary object-cover font-medium text-text50 opacity-90 transition-all duration-200 hover:opacity-100 group-[&:hover]:scale-[1.01]"
                         />
-                        <div className="flex flex-col sm:flex-row justify-between sm:items-center text-nowrap translate-y-2 group-[&:hover]:translate-y-0 transition-all duration-200">
-                            <div className="flex flex-row gap-2 items-center">
+                        <div className="flex flex-1 translate-y-2 flex-col  justify-between text-nowrap transition-all duration-200 group-[&:hover]:translate-y-0">
+                            <div className="flex flex-row items-center gap-2">
                                 <img
                                     src="/images/star.svg"
                                     alt=""
-                                    className="scale-75 sm:scale-100 select-none "
+                                    className="scale-75 select-none sm:scale-100 "
                                 />
-                                <h3 className="text-text text-base sm:text-3xl">
+                                <h3 className="text-xl text-text ">
                                     {collection.title}
                                 </h3>
                             </div>
-                            <div className="flex flex-row items-center ml-[-4px] sm:ml-0 opacity-70 gap-1">
+                            <div className="ml-[-6px] flex flex-row items-center gap-1 opacity-50">
                                 <img
-                                    src="/images/info.svg"
+                                    src="/images/photo-library.svg"
                                     alt=""
-                                    className="scale-[0.6] select-none sm:scale-75"
+                                    className="scale-[0.6] select-none sm:scale-[0.6]"
                                 />
-                                <p className="text-text text-sm sm:text-base">
-                                    {collection.images_count}{" "}
-                                    {collection.images_count === 1
-                                        ? "image"
-                                        : "images"}
+                                <p className="text-sm text-text sm:text-base">
+                                    {collection.images_count}
                                 </p>
                             </div>
                         </div>
                     </Link>
                 ))}
             </main>
-            <div className="relative h-[64px] opacity-40 mb-64">
-                <div className="wave-middle" />
-            </div>
         </MainLayout>
     );
 }
+
+const NewCollectionBanner = ({ data }) => {
+    if (!data) return null;
+
+    const { collection, reason } = data;
+
+    if (collection === null) return null;
+
+    return (
+        <Link
+            href={route("gallery", collection.slug)}
+            className="
+            group relative flex h-fit flex-col items-center justify-center rounded-[100px] bg-gradient-to-b from-secondary from-10% to-primary 
+            to-90% p-8 transition-all duration-200 hover:scale-[1.01] 
+            hover:shadow-red-50 hover:drop-shadow-[0_10px_50px_#F6D4EA30] sm:flex-row sm:justify-between sm:p-8 
+            md:h-[35rem] lg:p-16"
+        >
+            {/* Star borders */}
+            <img
+                src="/images/star.svg"
+                alt=""
+                className="absolute left-6 top-6 scale-[4] select-none"
+            />
+            <img
+                src="/images/star.svg"
+                alt=""
+                className="absolute bottom-6 right-6 scale-[4] select-none"
+            />
+
+            <div className="flex w-full min-w-[50%] flex-col items-center justify-center gap-8 md:items-start ">
+                {/* new collection tag */}
+                <div className="flex w-fit gap-2 rounded-full border-2 border-secondary60 bg-secondary20 px-6 py-1">
+                    <img
+                        src="/images/collections.svg"
+                        alt=""
+                        className="scale-[0.9]"
+                    />
+                    <p className="uppercase text-text">
+                        {reason === "newly_created"
+                            ? "new collection!"
+                            : "Featured"}
+                    </p>
+                </div>
+
+                {/* collection info */}
+                <div className=" relative flex flex-col gap-2">
+                    {/* filtered text */}
+                    <span className="blend-text absolute -top-1/2 right-[20%] select-none text-[20rem] font-black leading-[74%]">
+                        {collection.images_count}
+                    </span>
+
+                    {/* content */}
+                    <h1 className="special-text text-balance text-center text-4xl drop-shadow-md md:text-left lg:text-6xl">
+                        {collection.title}
+                    </h1>
+                    {reason === "newly_created" && (
+                        <div className="flex  justify-center gap-2 md:justify-normal">
+                            <img
+                                src="/images/photo-library.svg"
+                                alt=""
+                                className="scale-[0.9]"
+                            />
+                            <p className=" text-text">
+                                {collection.images_count} new images!
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* buttons & links */}
+                <div className="flex gap-8">
+                    <PrimaryButton
+                        text="View collection"
+                        href={route("gallery", collection.slug)}
+                    />
+                    <button
+                        className="group hidden items-center gap-2 rounded-md px-6 transition-all duration-200 hover:bg-secondary20 lg:flex"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                route("gallery", collection.slug),
+                            );
+                        }}
+                    >
+                        <img src="/images/share.svg" alt="" />
+                        <p className="text-text">Share</p>
+                    </button>
+                </div>
+            </div>
+            <img
+                src={`/storage/${collection.cover_path}`}
+                alt=""
+                className="hidden h-full min-w-[50%] rounded-full object-cover opacity-90 transition-all duration-200 md:block"
+            />
+        </Link>
+    );
+};

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('cover_path')->nullable(); // cover image id, must be inside 'images' row
             $table->boolean('is_public')->default(true); // mainly for "my best work" section in landing
+            $table->boolean('is_featured')->default(false); // only 1 collection can be featured at a time. This can be ovveriden by a new collection.
             $table->timestamps();
         });
     }

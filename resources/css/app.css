@@ -54,9 +54,20 @@ input {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.blend-text {
+    background: linear-gradient(to bottom, #f6d4ea 50%, white 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    mix-blend-mode: color-burn;
+}
+
 .scroll {
     animation: scroll 100s linear infinite;
 }
+
 @keyframes scroll {
     from {
         transform: translate(-220px);
