@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function Navbar({ showAdmin }) {
     return (

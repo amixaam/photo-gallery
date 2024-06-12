@@ -1,5 +1,4 @@
 import React from "react";
-
 function GalleryTitle() {
     return (
         <div className="flex -skew-x-6 items-center text-nowrap">

@@ -23,7 +23,7 @@ class ImageController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'zip' => 'required|file|mimes:zip|max:512000',
+            'zip' => 'required|file|mimes:zip|max:1024000',
             'collection' => 'nullable'
         ]);
 

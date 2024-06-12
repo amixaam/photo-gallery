@@ -7,22 +7,23 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
-    "axios": "^1.6.4",
-    "laravel-vite-plugin": "^1.0",
+    "axios": "^1.7.2",
+    "laravel-vite-plugin": "^1.0.4",
     "postcss": "^8.4.38",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.5.14",
-    "tailwindcss": "^3.4.3",
-    "vite": "^5.0"
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.2.13"
   },
   "dependencies": {
     "@inertiajs/inertia-react": "^0.8.1",
-    "@inertiajs/react": "^1.0.15",
+    "@inertiajs/react": "^1.1.0",
     "@uidotdev/usehooks": "^2.4.1",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "framer-motion": "^11.2.10",
     "jszip": "^3.10.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
     "react-select": "^5.8.0"
   }
