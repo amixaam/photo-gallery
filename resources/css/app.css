@@ -45,6 +45,24 @@ p {
     font-weight: 500;
 }
 
+.image-preview-overlay {
+    background: linear-gradient(
+        to bottom,
+        theme("colors.footersecondary"),
+        transparent
+    );
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.image-preview-overlay:hover {
+    opacity: 1;
+}
+
+.clip {
+    clip-path: polygon(50% 0%, 0 57%, 100% 57%);
+}
+
 textarea,
 input {
     font: inherit;
