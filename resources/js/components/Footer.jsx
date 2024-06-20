@@ -26,8 +26,8 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                         <Link href="https://twitter.com/amixaaam">X</Link>
                     </div>
 
-                    <div className="col-span-2 flex flex-row justify-between gap-3 items-end">
-                        <p className="link text-text text-xs sm:text-base">
+                    <div className="col-span-2 flex flex-row items-end justify-between gap-3">
+                        <p className="link text-xs text-text sm:text-base">
                             © Roberts Briņķis, 2024
                         </p>
                         <div className="flex flex-row gap-8">
@@ -52,6 +52,8 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                         </div>
                     </div>
                 </div>
+                {/* so the scroll-to-top button does not overlap with any UI elements */}
+                <div className="h-16"></div>
             </div>
         </footer>
     );

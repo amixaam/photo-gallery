@@ -21,24 +21,23 @@ export default function Collections({
     }
     return (
         <MainLayout auth={auth.user}>
-            <div className=" flex flex-col gap-4">
-                <h1 className="special-text text-center text-4xl drop-shadow-md sm:text-left sm:text-6xl">
+            {/* New collection banner */}
+            <NewCollectionBanner data={featured_collection} />
+            <div className="flex justify-between">
+                <h1 className="special-text hidden text-4xl drop-shadow-md sm:text-6xl md:block">
                     Collections
                 </h1>
 
-                <div className="flex justify-center gap-2 sm:w-fit">
-                    <img src="/images/collections.svg" alt="" className="" />
+                <div className="flex flex-row items-center gap-2">
+                    <img
+                        src="/images/collections.svg"
+                        alt=""
+                        className="size-6"
+                    />
                     <p className="text-text">
                         {collections.length} collections
                     </p>
                 </div>
-            </div>
-
-            {/* New collection banner */}
-            <NewCollectionBanner data={featured_collection} />
-
-            <div className="relative h-[64px]">
-                <div className="wave-middle" />
             </div>
 
             <main className="mb-48 grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -94,9 +93,9 @@ const NewCollectionBanner = ({ data }) => {
             href={route("gallery", collection.slug)}
             className="
             group relative flex h-fit flex-col items-center justify-center rounded-[100px] bg-gradient-to-b from-secondary from-10% to-primary 
-            to-90% p-8 transition-all duration-200 hover:scale-[1.01] 
-            hover:shadow-red-50 hover:drop-shadow-[0_10px_50px_#F6D4EA30] sm:flex-row sm:justify-between sm:p-8 
-            md:h-[35rem] lg:p-16"
+            to-90% p-8 transition-all 
+            duration-200 hover:scale-[1.005] hover:shadow-red-50 hover:drop-shadow-[0_10px_50px_#F6D4EA30] sm:flex-row 
+            sm:justify-between sm:p-8 md:h-[35rem] lg:p-16"
         >
             {/* Star borders */}
             <img
@@ -110,7 +109,12 @@ const NewCollectionBanner = ({ data }) => {
                 className="absolute bottom-6 right-6 scale-[4] select-none"
             />
 
-            <div className="flex w-full min-w-[50%] flex-col items-center justify-center gap-8 md:items-start ">
+            <div className="flex w-full min-w-[50%] flex-col items-center justify-center gap-8 md:items-start">
+                {/* filtered text */}
+                <span className="blend-text absolute right-1/2 hidden select-none text-[20rem] font-black leading-[74%] lg:block">
+                    {collection.images_count}
+                </span>
+
                 {/* new collection tag */}
                 <div className="flex w-fit gap-2 rounded-full border-2 border-secondary60 bg-secondary20 px-6 py-1">
                     <img
@@ -127,11 +131,6 @@ const NewCollectionBanner = ({ data }) => {
 
                 {/* collection info */}
                 <div className=" relative flex flex-col gap-2">
-                    {/* filtered text */}
-                    <span className="blend-text absolute -top-1/2 right-[20%] select-none text-[20rem] font-black leading-[74%]">
-                        {collection.images_count}
-                    </span>
-
                     {/* content */}
                     <h1 className="special-text text-balance text-center text-4xl drop-shadow-md md:text-left lg:text-6xl">
                         {collection.title}

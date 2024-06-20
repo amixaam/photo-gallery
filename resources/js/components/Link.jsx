@@ -5,7 +5,7 @@ export const Link = ({ href = "#", children }) => {
                 {href === "#" && "(?) "}
                 {children}
             </p>
-            <img src="images/redirect.svg" alt="" className="scale-75" />
+            <img src="/images/redirect.svg" alt="" className="scale-75" />
         </a>
     );
 };

@@ -23,7 +23,7 @@ export default {
             spacing: {
                 app: "84px",
                 "app-small": "32px",
-                "nav-height": "102px",
+                "nav-height": "134px",
             },
         },
     },

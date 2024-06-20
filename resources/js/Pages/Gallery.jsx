@@ -51,10 +51,6 @@ function Gallery({ collection, selectedImage, auth }) {
                     </Link>
                 </div>
 
-                <div className="relative h-[64px]">
-                    <div className="wave-middle" />
-                </div>
-
                 <main>
                     <div className="columns-1 gap-12 sm:columns-2 md:columns-3 lg:columns-4">
                         {collection.images.map((image) => (
@@ -74,10 +70,6 @@ function Gallery({ collection, selectedImage, auth }) {
                         ))}
                     </div>
                 </main>
-
-                <div className="relative mb-64 h-[64px] opacity-40">
-                    <div className="wave-middle" />
-                </div>
             </MainLayout>
         </>
     );
