@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import Creatable from "react-select/creatable";
 import { TextInput } from "../components/TextInput";
 import PrimaryButton from "../components/PrimaryButton";
+import { IconButton } from "../components/IconButton";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
@@ -295,25 +296,6 @@ const IconTextButton = ({
         >
             <img src={href} alt="" />
             {text}
-        </button>
-    );
-};
-
-const IconButton = ({
-    onClick = () => {
-        console.log("Clicked!");
-    },
-    icon = "close",
-    disabled = false,
-    alt = icon + " icon button",
-}) => {
-    return (
-        <button
-            className="flex h-fit w-fit items-center justify-center rounded-full p-2 transition-all duration-200 hover:scale-105 hover:bg-secondary20"
-            onClick={onClick}
-            disabled={disabled}
-        >
-            <img src={`/images/${icon}.svg`} alt={alt} />
         </button>
     );
 };

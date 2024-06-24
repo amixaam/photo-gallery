@@ -14,6 +14,7 @@ export default {
                 dark: "#541B40",
                 bg: "#110E25",
                 bg70: "rgba(13, 7, 22, 0.7)",
+                black50: "#00000050",
                 bgsecondary: "#0D0716",
                 footer: "#1e1233",
                 footersecondary: "#24153D",

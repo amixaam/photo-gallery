@@ -52,17 +52,18 @@ class CollectionController extends Controller
     public function SingleCollection(Request $request, $slug)
     {
         $collection = Collection::where('slug', $slug)->with('images')->firstOrFail();
-
-        // Check if the request has the 'i' query parameter, to check if the user has selected an image
-        $selectedImage = null;
-        if ($request->has('i')) {
-            $imageId = $request->input('i');
-            $selectedImage = Image::find($imageId);
-        }
-
         return Inertia::render('Gallery', [
             'collection' => $collection,
-            'selectedImage' => $selectedImage,
+        ]);
+    }
+
+    public function ShowImage(Request $request, $slug, $id)
+    {
+        $collection = Collection::where('slug', $slug)->with('images:id')->firstOrFail();
+        $image = Image::find($id);
+        return Inertia::render('Photo', [
+            'collection' => ['title' => $collection['title'], 'slug' => $collection['slug'], 'images' => $collection['images']],
+            'image' => $image
         ]);
     }
 }
