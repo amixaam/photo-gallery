@@ -61,12 +61,10 @@ export default function Landing({ auth, collection }) {
                                 <motion.p
                                     variants={revealItem}
                                     className="text-text"
-                                >
-                                    Check out the new
-                                </motion.p>
+                                ></motion.p>
                                 <motion.div variants={revealItem}>
                                     <PrimaryButton
-                                        text="Collections"
+                                        text="Coming soon!"
                                         href={route("collections")}
                                     />
                                 </motion.div>
@@ -103,10 +101,10 @@ export default function Landing({ auth, collection }) {
                                     ].map((image, index) => (
                                         <Link
                                             key={index}
-                                            href={route(
-                                                "photo",
-                                                [collection.slug, image.id]
-                                            )}
+                                            href={route("photo", [
+                                                collection.slug,
+                                                image.id,
+                                            ])}
                                             className="group flex flex-col gap-2"
                                         >
                                             <img
@@ -177,7 +175,7 @@ export default function Landing({ auth, collection }) {
                                     className="group rounded-md bg-secondary20 px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100 "
                                 >
                                     <p className="text-text drop-shadow-md transition-all group-[&:hover]:drop-shadow-xl">
-                                        Collections
+                                        Collections (Coming soon!)
                                     </p>
                                 </Link>
                             </motion.div>
