@@ -109,11 +109,7 @@ export default function Landing({ auth, collection }) {
                                         >
                                             <img
                                                 src={"storage/" + image.path}
-                                                alt={
-                                                    image.alt_text
-                                                        ? image.alt_text
-                                                        : image.title
-                                                }
+                                                alt={image.alt_text}
                                                 className="w-[220px] flex-1 select-none rounded-3xl bg-secondary20 transition-all duration-200 group-[&:hover]:scale-[1.01] group-[&:hover]:opacity-100 sm:w-[380px] md:opacity-90"
                                             />
                                             <div className="flex translate-y-2 flex-col justify-between text-nowrap transition-all duration-200 group-[&:hover]:translate-y-0 group-[&:hover]:opacity-100 sm:flex-row sm:items-center sm:opacity-10">
@@ -134,10 +130,7 @@ export default function Landing({ auth, collection }) {
                                                         className="scale-[0.6] select-none sm:scale-75"
                                                     />
                                                     <p className="text-sm text-text sm:text-base">
-                                                        {
-                                                            image.metadata
-                                                                .location
-                                                        }
+                                                        {image.location}
                                                     </p>
                                                 </div>
                                             </div>

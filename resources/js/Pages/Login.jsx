@@ -14,15 +14,7 @@ export default function Login({ auth }) {
         post(route("post.login"));
     }
 
-    const {
-        data,
-        setData,
-        post,
-        // delete: destroy, // way of setting these function with different names
-        processing,
-        reset,
-        errors,
-    } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         username: "",
         password: "",
     });

@@ -51,7 +51,6 @@
             return Inertia::render('EditCollections');
         })->name('collections.edit');
 
-        Route::controller(ImageController::class)->group(function () {
-            Route::post('/upload', 'upload')->name('upload.post');
-        });
+        Route::post('/upload', [ImageController::class, 'upload'])->name('upload.post');
+        Route::delete('/photo/{id}', [ImageController::class, 'destroy'])->name('photo.delete');
     });

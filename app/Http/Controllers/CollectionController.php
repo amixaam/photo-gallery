@@ -61,6 +61,15 @@ class CollectionController extends Controller
     {
         $collection = Collection::where('slug', $slug)->with('images:id')->firstOrFail();
         $image = Image::find($id);
+
+        // if (!$image) {
+        //     $image = Image::find($collection->images->first()->id);
+        //     return Inertia::render('Photo', [
+        //         'collection' => ['title' => $collection['title'], 'slug' => $collection['slug'], 'images' => $collection['images']],
+        //         'image' => $image
+        //     ])->with('error', 'Image not found');
+        // }
+
         return Inertia::render('Photo', [
             'collection' => ['title' => $collection['title'], 'slug' => $collection['slug'], 'images' => $collection['images']],
             'image' => $image

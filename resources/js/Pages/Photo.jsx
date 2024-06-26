@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconButton } from "../components/IconButton";
-import { Link } from "@inertiajs/inertia-react";
+import { Link, useForm } from "@inertiajs/inertia-react";
 import { IconLink } from "../components/IconLink";
+import { ModalSkeleton } from "../components/ModalSkeleton";
+import PrimaryButton from "../components/PrimaryButton";
 
-function Photo({ auth, collection, image }) {
+function Photo({ auth, collection, image, error }) {
+    const { delete: destroy, recentlySuccessful, errors } = useForm();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     const imageList = () => {
         return collection.images.map((image) => {
             return image.id;
@@ -22,69 +27,173 @@ function Photo({ auth, collection, image }) {
         else return imageList()[imageList().length - 1];
     };
 
-    return (
-        <div
-            className={`fixed z-20 flex h-screen w-screen items-center justify-center bg-bg transition-all duration-200`}
-        >
-            {/* toolbar */}
-            <div className="absolute top-0 z-10 flex w-full justify-between p-8">
-                <div className="flex items-center gap-2">
-                    <IconLink
-                        icon="back"
-                        alt="Back"
-                        href={route("gallery", collection.slug)}
-                    />
-                    <p className="text-text drop-shadow-md">{image.title}</p>
-                </div>
-                <div className="flex gap-2">
-                    <IconButton icon="share" alt="clear image button" />
-                    {/* Admin only buttons */}
-                    {auth.user && (
-                        <>
-                            <IconButton icon="edit" alt="Edit image" />
-                            <IconButton icon="trash" alt="Delete image" />
-                        </>
-                    )}
-                    <IconButton icon="info" alt="Image info" />
-                </div>
-            </div>
-            {/* fade & controls */}
-            <div className="absolute flex h-full w-full justify-between *:items-center *:px-16">
-                <Link
-                    alt="Previous image"
-                    href={route("photo", [
-                        collection.slug,
-                        ShowPreviousImage(),
-                    ])}
-                    className="group flex h-full w-1/4 bg-gradient-to-r from-black50 to-transparent"
-                >
-                    <img
-                        src="/images/back.svg"
-                        alt="back icon"
-                        className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:-translate-x-1 group-active:scale-90"
-                    />
-                </Link>
-                <Link
-                    alt="Next image"
-                    href={route("photo", [collection.slug, ShowNextImage()])}
-                    className="group flex h-full w-1/4 justify-end bg-gradient-to-l from-black50 to-transparent"
-                >
-                    <img
-                        src="/images/front.svg"
-                        alt="back icon"
-                        className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:translate-x-1 group-active:scale-90"
-                    />
-                </Link>
-            </div>
+    const DeleteImage = (e) => {
+        e.preventDefault();
+        // router.delete(route("photo.delete", image.id));
+        destroy(route("photo.delete", image.id), {
+            onSuccess: () => {
+                setShowDeleteModal(false);
+            },
+        });
+    };
 
-            {/* image */}
-            <img
-                src={`/storage/${image.path}`}
-                alt={image.alt_text}
-                className="max-h-full max-w-full"
-            />
-        </div>
+    return (
+        <>
+            {auth.user && (
+                <DeletePhotoModal
+                    show={showDeleteModal}
+                    CloseModal={() => {
+                        setShowDeleteModal(false);
+                    }}
+                    id={image.id}
+                    DeleteImage={DeleteImage}
+                />
+            )}
+            {recentlySuccessful && (
+                <div className="absolute bottom-0 z-30 flex w-full justify-center bg-primary py-2">
+                    <p className="text-dark">WE DID IT BOYS!!!</p>
+                </div>
+            )}
+            {error && (
+                <div className="absolute bottom-0 z-30 flex w-full justify-center bg-primary py-2">
+                    <p className="text-dark">{JSON.stringify(error)}</p>
+                </div>
+            )}
+
+            <div
+                className={`fixed z-20 flex h-screen w-screen items-center justify-center bg-bg transition-all duration-200`}
+            >
+                {/* toolbar */}
+                <div className="absolute top-0 z-10 flex w-full justify-between p-8">
+                    <div className="flex items-center gap-2">
+                        <IconLink
+                            icon="back"
+                            alt="Back"
+                            href={route("gallery", collection.slug)}
+                        />
+                        <p className="text-text drop-shadow-md">
+                            {image.title}
+                        </p>
+                    </div>
+                    <div className="flex gap-2">
+                        <IconButton
+                            icon="share"
+                            alt="clear image button"
+                            onClick={() => {
+                                navigator.clipboard.writeText(
+                                    route("photo", [collection.slug, image.id]),
+                                );
+                            }}
+                        />
+
+                        {/* Admin only buttons */}
+                        {auth.user && (
+                            <>
+                                <IconButton icon="edit" alt="Edit image" />
+                                <IconButton
+                                    icon="trash"
+                                    alt="Delete image"
+                                    onClick={() => setShowDeleteModal(true)}
+                                />
+                            </>
+                        )}
+                        <div className="group relative">
+                            <IconButton icon="info" alt="View info button" />
+                            <div className="clip absolute left-1/2 z-10 hidden size-8 -translate-x-1/2 rounded-full bg-bgsecondary group-hover:block"></div>
+                            <div className="absolute left-full z-10 hidden w-fit -translate-x-full translate-y-2 rounded-md bg-bgsecondary p-4 *:text-nowrap group-hover:block">
+                                <p className="text-text"> {image.title}</p>
+                                <p className="text-text">
+                                    {image.location
+                                        ? image.location
+                                        : "No location"}
+                                </p>
+                                <p className="text-text">
+                                    {image.time ? image.time : "No time"}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* fade & controls */}
+                <div className="absolute flex h-full w-full justify-between *:items-center *:px-16">
+                    <Link
+                        alt="Previous image"
+                        href={route("photo", [
+                            collection.slug,
+                            ShowPreviousImage(),
+                        ])}
+                        className="group flex h-full w-1/4 bg-gradient-to-r from-black50 to-transparent"
+                    >
+                        <img
+                            src="/images/back.svg"
+                            alt="back icon"
+                            className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:-translate-x-1 group-active:scale-90"
+                        />
+                    </Link>
+                    <Link
+                        alt="Next image"
+                        href={route("photo", [
+                            collection.slug,
+                            ShowNextImage(),
+                        ])}
+                        className="group flex h-full w-1/4 justify-end bg-gradient-to-l from-black50 to-transparent"
+                    >
+                        <img
+                            src="/images/front.svg"
+                            alt="back icon"
+                            className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:translate-x-1 group-active:scale-90"
+                        />
+                    </Link>
+                </div>
+
+                {/* image */}
+                <img
+                    src={`/storage/${image.path}`}
+                    alt={image.alt_text}
+                    className="max-h-full max-w-full"
+                />
+            </div>
+        </>
     );
 }
+
+const DeletePhotoModal = ({
+    show = false,
+    CloseModal = () => {},
+    DeleteImage,
+}) => {
+    return (
+        <ModalSkeleton show={show} CloseModal={CloseModal}>
+            <form className="flex flex-col gap-8" onSubmit={DeleteImage}>
+                <h3 className="text-center text-text">Delete this photo?</h3>
+                <div className="flex max-w-[27rem] flex-col gap-2">
+                    <p className="text-center text-text">
+                        Are you sure you want to delete this photo?
+                    </p>
+                    <p className="text-center text-text">
+                        This action cannot be reversed.
+                    </p>
+                </div>
+                <div className="flex justify-center gap-4">
+                    <PrimaryButton text="Delete" onClick={() => {}} />
+                    <SecondaryButton text="Cancel" onClick={CloseModal} />
+                </div>
+            </form>
+        </ModalSkeleton>
+    );
+};
+const SecondaryButton = ({ text = "Secondary Button", onClick = () => {} }) => {
+    return (
+        <button
+            onClick={onClick}
+            type="reset"
+            className="group rounded-md bg-secondary20 px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100 "
+        >
+            <p className="text-text drop-shadow-md transition-all group-[&:hover]:drop-shadow-xl">
+                {text}
+            </p>
+        </button>
+    );
+};
 
 export default Photo;

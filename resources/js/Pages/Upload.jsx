@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { useDropzone } from "react-dropzone";
-import { router } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import ZipImages from "../utils/ZipImages";
 import Loader from "../components/Loader";
 
@@ -9,15 +9,21 @@ import Creatable from "react-select/creatable";
 import { TextInput } from "../components/TextInput";
 import PrimaryButton from "../components/PrimaryButton";
 import { IconButton } from "../components/IconButton";
+import { ModalSkeleton } from "../components/ModalSkeleton";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [collectionInput, setCollectionInput] = useState("");
-    const [massAssignValues, setMassAssignValues] = useState({
-        place: "",
-        date: "",
+    const { data: massAssignValues, setData: setMassAssignValues } = useForm({
+        location: "",
+        time: "",
     });
+
+    function changeHandler(e) {
+        setMassAssignValues(e.target.name, e.target.value);
+    }
+    const [specificValues, setSpecificValues] = useState({});
 
     const [modalData, setModalData] = useState({
         show: false,
@@ -52,6 +58,7 @@ export default function Upload({ auth, options }) {
     const clearImage = (image = null) => {
         if (image == null) {
             setFiles([]);
+            setSpecificValues({});
             return;
         }
         setFiles(files.filter((file) => file !== image));
@@ -73,8 +80,11 @@ export default function Upload({ auth, options }) {
         ZipImages(files).then((zip) => {
             data.append("zip", zip);
             data.append("collection", collectionInput);
+            data.append("massAssignValues", JSON.stringify(massAssignValues));
+            data.append("specificValues", JSON.stringify(specificValues));
 
             router.post(route("upload.post"), data, {
+                preserveScroll: true,
                 onStart: () => {
                     setIsLoading(true);
                 },
@@ -98,23 +108,37 @@ export default function Upload({ auth, options }) {
         setModalData({ show: false, data: null });
     };
 
+    const EditImage = (name, data) => {
+        setSpecificValues({ ...specificValues, [name]: data });
+    };
+
     const thumbs = files.map((file, id) => (
         <ImagePreview
             key={id}
             file={file}
             isLoading={isLoading}
             clearImage={clearImage}
-            massAssignValues={massAssignValues}
+            data={{
+                ...massAssignValues,
+                ...(specificValues[file.name] || {}),
+                ...((specificValues[file.name] || {}).location === "" && {
+                    location: massAssignValues.location,
+                }),
+                ...((specificValues[file.name] || {}).time === "" && {
+                    time: massAssignValues.time,
+                }),
+            }}
             OpenModal={OpenModal}
         />
     ));
 
     return (
         <>
-            <ModalSkeleton
+            <EditModal
                 show={modalData.show}
                 data={modalData.data}
                 CloseModal={CloseModal}
+                EditImage={EditImage}
             />
             <MainLayout auth={auth}>
                 <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
@@ -163,25 +187,10 @@ export default function Upload({ auth, options }) {
                                 }}
                             />
                             <TextInput
-                                name="place"
-                                value={massAssignValues.place}
-                                onchange={(e) => {
-                                    setMassAssignValues({
-                                        ...massAssignValues,
-                                        place: e.target.value,
-                                    });
-                                }}
+                                name="location"
+                                onchange={changeHandler}
                             />
-                            <TextInput
-                                name="date"
-                                value={massAssignValues.date}
-                                onchange={(e) => {
-                                    setMassAssignValues({
-                                        ...massAssignValues,
-                                        date: e.target.value,
-                                    });
-                                }}
-                            />
+                            <TextInput name="time" onchange={changeHandler} />
                         </div>
                         <div className="flex flex-col gap-4">
                             <p className="text-text">
@@ -201,25 +210,26 @@ export default function Upload({ auth, options }) {
                             />
                         </div>
                     </aside>
-
-                    {thumbs.length && (
-                        <div className="columns-1 gap-6 md:columns-2 lg:columns-3 2xl:columns-4">
-                            {thumbs}
-                        </div>
-                    )}
+                    <div className="flex flex-col">
+                        <code className="bg-black text-text">
+                            {JSON.stringify(massAssignValues)}
+                        </code>
+                        <code className="bg-black text-text">
+                            {JSON.stringify(specificValues)}
+                        </code>
+                        {thumbs.length && (
+                            <div className="columns-1 gap-6 md:columns-2 lg:columns-3 2xl:columns-4">
+                                {thumbs}
+                            </div>
+                        )}
+                    </div>
                 </main>
             </MainLayout>
         </>
     );
 }
 
-const ImagePreview = ({
-    file,
-    isLoading,
-    clearImage,
-    massAssignValues,
-    OpenModal,
-}) => {
+const ImagePreview = ({ file, isLoading, clearImage, data, OpenModal }) => {
     return (
         <div className="relative">
             <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-xl p-4">
@@ -232,18 +242,17 @@ const ImagePreview = ({
                         <div className="group relative">
                             <IconButton icon="info" alt="View info button" />
                             <div className="clip absolute left-1/2 z-10 hidden size-8 -translate-x-1/2 rounded-full bg-bgsecondary group-hover:block"></div>
-                            <div className="absolute left-1/2 z-10 hidden w-fit -translate-x-1/2 translate-y-2 rounded-md bg-bgsecondary p-4 group-hover:block">
-                                <p className="text-text">{file.path}</p>
-                                <p className="text-text">No description</p>
+                            <div className="absolute left-1/2 z-10 hidden w-fit -translate-x-1/2 translate-y-2 rounded-md bg-bgsecondary p-4 *:text-nowrap group-hover:block">
                                 <p className="text-text">
-                                    {massAssignValues.date
-                                        ? massAssignValues.date
-                                        : "No date"}
+                                    {data.title ? data.title : file.path}
                                 </p>
                                 <p className="text-text">
-                                    {massAssignValues.place
-                                        ? massAssignValues.place
-                                        : "No place"}
+                                    {data.time ? data.time : "No time"}
+                                </p>
+                                <p className="text-text">
+                                    {data.location
+                                        ? data.location
+                                        : "No location"}
                                 </p>
                             </div>
                         </div>
@@ -300,28 +309,34 @@ const IconTextButton = ({
     );
 };
 
-const ModalSkeleton = ({ show, CloseModal = () => {}, data }) => {
+const EditModal = ({ show, CloseModal = () => {}, data, EditImage }) => {
+    const { data: formData, setData } = useForm({
+        title: "",
+        location: "",
+        time: "",
+    });
+
+    function changeHandler(e) {
+        setData(e.target.name, e.target.value);
+    }
+
     if (!show || !data) return;
-
-    console.log(data.path);
-
     return (
-        <div
-            className={`fixed z-20 flex h-screen w-screen items-center justify-center bg-bg70 transition-all duration-200 ${!show && "pointer-events-none opacity-0"} `}
-            onClick={CloseModal}
-        >
-            <div className="flex flex-col items-center justify-center bg-bgsecondary p-4">
+        <ModalSkeleton show={show} CloseModal={CloseModal}>
+            <div className="flex flex-col gap-4">
                 <p className="text-text">Edit {data.path}</p>
-                <div className="flex flex-row">
-                    <div className="flex flex-col">
-                        <TextInput name="Title" />
-                        <TextInput name="Place" />
-                        <TextInput name="Date" />
-                    </div>
-                    <TextInput name="Description" />
-                </div>
-                <PrimaryButton />
+                <TextInput name="title" onchange={changeHandler} />
+                <TextInput name="location" onchange={changeHandler} />
+                <TextInput name="time" onchange={changeHandler} />
+                <PrimaryButton
+                    style="w-fit"
+                    text="Edit"
+                    onClick={() => {
+                        EditImage(data.path, formData);
+                        // console.log(formData);
+                    }}
+                />
             </div>
-        </div>
+        </ModalSkeleton>
     );
 };

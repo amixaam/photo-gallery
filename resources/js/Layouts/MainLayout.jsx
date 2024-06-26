@@ -78,7 +78,7 @@ const MainLayout = ({ auth, children, margins = true }) => {
                 <div
                     className={
                         margins
-                            ? "mx-app-small flex min-h-screen flex-col gap-14 pt-nav-height sm:mx-app"
+                            ? "mx-app-small mb-48 flex min-h-screen flex-col gap-14 pt-nav-height sm:mx-app"
                             : ""
                     }
                 >

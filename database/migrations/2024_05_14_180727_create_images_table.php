@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('path');
             $table->string('title');
             $table->string('alt_text')->default('No description given.');
-            $table->json('metadata')->nullable();
+            $table->string('location')->nullable();
+            $table->string('time')->nullable();
+            // could be a cool addition
+            // $table->string('people')->nullable();
             $table->timestamps();
         });
     }

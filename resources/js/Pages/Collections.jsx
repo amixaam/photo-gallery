@@ -40,7 +40,7 @@ export default function Collections({
                 </div>
             </div>
 
-            <main className="mb-48 grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <main className="grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {collections.map((collection) => (
                     <Link
                         href={route("gallery", collection.slug)}
