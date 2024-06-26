@@ -1,10 +1,10 @@
-## Todo for 26.06.24
+## Todo for 26.06 - 27.06
 
 -   [x] Photo share functionality
 -   [x] Photo info popup functionality
--   [ ] Delete photo within photo route functionality
+-   [x] Delete photo within photo route functionality
 -   [ ] Edit photo within photo route functionality
--   [ ] No page refresh on next image
+-   [ ] Upload photo with location and time
 -   [ ] Gallery image pre-loading
 
 ## Todo

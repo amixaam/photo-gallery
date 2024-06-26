@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 use Symfony\Component\ErrorHandler\Debug;
 use ZipArchive;
 
@@ -20,6 +21,13 @@ class ImageController extends Controller
         $images = $collection->images;
         $images = Image::find($images);
         return $images;
+    }
+
+    public function renderEdit($id)
+    {
+        $image = Image::find($id);
+
+        return Inertia::render('EditPhoto', ["image" => $image]);
     }
 
     public function destroy($id)
@@ -46,6 +54,7 @@ class ImageController extends Controller
         // if it's the last image in the collection, get the previous image
         if (!$nextImage) {
             $nextImage = $images->where('id', '<', $id)->sortByDesc('id')->first();
+            // if still null, will get redirected by the CollectionController
         }
 
         try {

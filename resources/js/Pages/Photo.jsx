@@ -4,6 +4,8 @@ import { Link, useForm } from "@inertiajs/inertia-react";
 import { IconLink } from "../components/IconLink";
 import { ModalSkeleton } from "../components/ModalSkeleton";
 import PrimaryButton from "../components/PrimaryButton";
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 
 function Photo({ auth, collection, image, error }) {
     const { delete: destroy, recentlySuccessful, errors } = useForm();
@@ -29,7 +31,6 @@ function Photo({ auth, collection, image, error }) {
 
     const DeleteImage = (e) => {
         e.preventDefault();
-        // router.delete(route("photo.delete", image.id));
         destroy(route("photo.delete", image.id), {
             onSuccess: () => {
                 setShowDeleteModal(false);
@@ -49,16 +50,11 @@ function Photo({ auth, collection, image, error }) {
                     DeleteImage={DeleteImage}
                 />
             )}
-            {recentlySuccessful && (
-                <div className="absolute bottom-0 z-30 flex w-full justify-center bg-primary py-2">
-                    <p className="text-dark">WE DID IT BOYS!!!</p>
-                </div>
-            )}
-            {error && (
-                <div className="absolute bottom-0 z-30 flex w-full justify-center bg-primary py-2">
-                    <p className="text-dark">{JSON.stringify(error)}</p>
-                </div>
-            )}
+
+            <Toast
+                text={"Image successfully deleted."}
+                show={recentlySuccessful}
+            />
 
             <div
                 className={`fixed z-20 flex h-screen w-screen items-center justify-center bg-bg transition-all duration-200`}
@@ -89,7 +85,11 @@ function Photo({ auth, collection, image, error }) {
                         {/* Admin only buttons */}
                         {auth.user && (
                             <>
-                                <IconButton icon="edit" alt="Edit image" />
+                                <IconLink
+                                    icon="edit"
+                                    alt="Edit image"
+                                    href={route("photo.edit", image.id)}
+                                />
                                 <IconButton
                                     icon="trash"
                                     alt="Delete image"
@@ -156,6 +156,29 @@ function Photo({ auth, collection, image, error }) {
         </>
     );
 }
+
+// Need a toast not on show, but on call, stay there for n seconds
+const Toast = ({ text = "Toast!", show = true }) => {
+    if (!show) return null;
+
+    return (
+        <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="fixed bottom-0 z-30 w-full"
+        >
+            <motion.div
+                variants={revealItem}
+                className="flex w-full justify-center bg-primary py-2"
+            >
+                <motion.p variants={revealItem} className="text-dark">
+                    {text}
+                </motion.p>
+            </motion.div>
+        </motion.div>
+    );
+};
 
 const DeletePhotoModal = ({
     show = false,
