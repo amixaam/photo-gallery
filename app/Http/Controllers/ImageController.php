@@ -41,30 +41,24 @@ class ImageController extends Controller
         }
 
         $images = $collection->images->keyBy('id');
+        $nextImage = $images->where('id', '>', $id)->first();
 
+        // if it's the last image in the collection, get the previous image
+        if (!$nextImage) {
+            $nextImage = $images->where('id', '<', $id)->sortByDesc('id')->first();
+        }
 
+        try {
+            $filePath = 'public/storage/' . $image->path;
+            if (Storage::exists($filePath)) Storage::delete($filePath);
+            $image->delete();
 
-        // try {
-        //     $filePath = 'public/storage/' . $image->path;
-        //     if (Storage::exists($filePath)) Storage::delete($filePath);
-        //     $image->delete();
-
-        //     $slug = $image['collection'][0]['slug'];
-        //     $collectionId = $image['collection'][0]['id'];
-
-
-        //     $nextImage = Image::where('collection_id', $collectionId)->where('id', '>', $id)->first();
-        //     if (!$nextImage) {
-        //         $nextImage = Image::where('collection_id', $collectionId)->orderBy('id', 'asc')->first();
-        //     }
-
-        //     Log::debug("Next image: " . print_r($nextImage, true));
-        //     return redirect(route('gallery', ['slug' => $slug]));
-        // } catch (\Exception $e) {
-        //     return back()->withErrors([
-        //         'error' => 'An error occurred while deleting the image.',
-        //     ]);
-        // }
+            return redirect(route('photo', ['slug' => $collection->slug, 'id' => $nextImage->id]))->with('error', 'Image deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'error' => 'An error occurred while deleting the image.',
+            ]);
+        }
     }
 
     public function upload(Request $request)
