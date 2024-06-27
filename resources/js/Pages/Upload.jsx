@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import MainLayout from "../Layouts/MainLayout";
-import { useDropzone } from "react-dropzone";
 import { useForm } from "@inertiajs/inertia-react";
-import ZipImages from "../utils/ZipImages";
+import React, { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import MainLayout from "../Layouts/MainLayout";
 import Loader from "../components/Loader";
+import ZipImages from "../utils/ZipImages";
 
 import Creatable from "react-select/creatable";
-import { TextInput } from "../components/TextInput";
-import PrimaryButton from "../components/PrimaryButton";
 import { IconButton } from "../components/IconButton";
 import { ModalSkeleton } from "../components/ModalSkeleton";
-import { Truncate } from "../utils/Truncate";
-import { router } from "@inertiajs/react";
+import PrimaryButton from "../components/PrimaryButton";
+import { TextInput } from "../components/TextInput";
 import { Toast } from "../components/Toast";
+import { Truncate } from "../utils/Truncate";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);

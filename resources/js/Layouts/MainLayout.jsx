@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { Toaster } from "react-hot-toast";
 
 const MainLayout = ({ auth, children, margins = true }) => {
     const [grainPrefs, setGrainPrefs] = useLocalStorage(
@@ -52,6 +53,11 @@ const MainLayout = ({ auth, children, margins = true }) => {
 
     return (
         <>
+            <Toaster
+                position="bottom-center"
+                containerStyle={{ bottom: 0, left: 0, right: 0 }}
+                gutter={0}
+            />
             <button
                 className={`${isVisible ? "opacity-100" : "opacity-0"} group fixed bottom-0 right-0 z-10 m-app-small rounded-full transition-all duration-200 sm:m-app`}
                 onClick={scrollToTop}

@@ -47,6 +47,17 @@ class CollectionController extends Controller
         ]);
     }
 
+    public function pin($slug)
+    {
+        $collection = Collection::where('slug', $slug)->first();
+
+        if ($collection) {
+            $collection->is_featured = !$collection->is_featured;
+            $collection->save();
+        }
+
+        return back()->with('success', 'Collection pinned/unpinned successfully!');
+    }
 
 
     public function SingleCollection(Request $request, $slug)

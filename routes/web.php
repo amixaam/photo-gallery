@@ -55,4 +55,5 @@
         Route::get('/collections/edit', function () {
             return Inertia::render('EditCollections');
         })->name('collections.edit');
+        Route::get('/collection/{slug}/pin', [CollectionController::class, 'pin'])->name('gallery.pin');
     });
