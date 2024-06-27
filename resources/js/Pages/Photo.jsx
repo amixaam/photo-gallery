@@ -4,8 +4,7 @@ import { Link, useForm } from "@inertiajs/inertia-react";
 import { IconLink } from "../components/IconLink";
 import { ModalSkeleton } from "../components/ModalSkeleton";
 import PrimaryButton from "../components/PrimaryButton";
-import { motion } from "framer-motion";
-import { container, revealItem } from "../utils/FramerVariants";
+import { Toast } from "../components/Toast";
 
 function Photo({ auth, collection, image, error }) {
     const { delete: destroy, recentlySuccessful, errors } = useForm();
@@ -67,7 +66,7 @@ function Photo({ auth, collection, image, error }) {
                             alt="Back"
                             href={route("gallery", collection.slug)}
                         />
-                        <p className="text-text drop-shadow-md">
+                        <p className="hidden text-text drop-shadow-md md:block">
                             {image.title}
                         </p>
                     </div>
@@ -103,6 +102,11 @@ function Photo({ auth, collection, image, error }) {
                             <div className="absolute left-full z-10 hidden w-fit -translate-x-full translate-y-2 rounded-md bg-bgsecondary p-4 *:text-nowrap group-hover:block">
                                 <p className="text-text"> {image.title}</p>
                                 <p className="text-text">
+                                    {image.title !== image.alt_text
+                                        ? image.alt_text
+                                        : ""}
+                                </p>
+                                <p className="text-text">
                                     {image.location
                                         ? image.location
                                         : "No location"}
@@ -115,19 +119,19 @@ function Photo({ auth, collection, image, error }) {
                     </div>
                 </div>
                 {/* fade & controls */}
-                <div className="absolute flex h-full w-full justify-between *:items-center *:px-16">
+                <div className="absolute flex h-full w-full justify-between *:items-center *:px-4 md:*:px-16">
                     <Link
                         alt="Previous image"
                         href={route("photo", [
                             collection.slug,
                             ShowPreviousImage(),
                         ])}
-                        className="group flex h-full w-1/4 bg-gradient-to-r from-black50 to-transparent"
+                        className="group flex h-full w-1/2 bg-gradient-to-r from-black50 to-transparent md:w-1/4"
                     >
                         <img
                             src="/images/back.svg"
                             alt="back icon"
-                            className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:-translate-x-1 group-active:scale-90"
+                            className="pointer-events-none size-10 select-none transition-all group-hover:opacity-100 group-active:-translate-x-1 group-active:scale-90 md:size-12 lg:opacity-0"
                         />
                     </Link>
                     <Link
@@ -136,12 +140,12 @@ function Photo({ auth, collection, image, error }) {
                             collection.slug,
                             ShowNextImage(),
                         ])}
-                        className="group flex h-full w-1/4 justify-end bg-gradient-to-l from-black50 to-transparent"
+                        className="group flex h-full w-1/2 justify-end bg-gradient-to-l from-black50 to-transparent md:w-1/4"
                     >
                         <img
                             src="/images/front.svg"
                             alt="back icon"
-                            className="pointer-events-none size-12 select-none opacity-0 transition-all group-hover:opacity-100 group-active:translate-x-1 group-active:scale-90"
+                            className="pointer-events-none size-10 select-none transition-all group-hover:opacity-100 group-active:translate-x-1 group-active:scale-90 md:size-12 lg:opacity-0"
                         />
                     </Link>
                 </div>
@@ -156,29 +160,6 @@ function Photo({ auth, collection, image, error }) {
         </>
     );
 }
-
-// Need a toast not on show, but on call, stay there for n seconds
-const Toast = ({ text = "Toast!", show = true }) => {
-    if (!show) return null;
-
-    return (
-        <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="fixed bottom-0 z-30 w-full"
-        >
-            <motion.div
-                variants={revealItem}
-                className="flex w-full justify-center bg-primary py-2"
-            >
-                <motion.p variants={revealItem} className="text-dark">
-                    {text}
-                </motion.p>
-            </motion.div>
-        </motion.div>
-    );
-};
 
 const DeletePhotoModal = ({
     show = false,

@@ -28,31 +28,31 @@ class DatabaseSeeder extends Seeder
             [
                 'path' => 'premade/home.webp',
                 'title' => 'Home',
-                'alt_text' => 'A blue sky with sea-bed like clouds',
+                'alt_text' => 'A blue sky with sea-bed like clouds.',
                 'location' => 'Latvia',
             ],
             [
                 'path' => 'premade/lithuania.webp',
                 'title' => 'Nested',
-                'alt_text' => 'A building nested within trees with a pink sky',
+                'alt_text' => 'A building nested within trees with a pink sky.',
                 'location' => 'Lithuania'
             ],
             [
                 'path' => 'premade/freedom.webp',
                 'title' => 'Freedom statue',
-                'alt_text' => 'Freedom statue in Rīga',
+                'alt_text' => 'The Freedom statue with a blue sky in the background.',
                 'location' => 'Latvia'
             ],
             [
                 'path' => 'premade/poland.webp',
                 'title' => 'Stranded',
-                'alt_text' => 'Hilly Poland terrain in the background. A ski lift in the foreground',
+                'alt_text' => 'Hilly Poland terrain in the background, a ski lift in the foreground.',
                 'location' => 'Poland'
             ],
             [
                 'path' => 'premade/cesis.webp',
                 'title' => 'Uzvaras statue',
-                'alt_text' => 'A statue in the night',
+                'alt_text' => 'Uzvaras statue in the night, being illuminated.',
                 'location' => 'Latvia'
             ],
         ];

@@ -20,6 +20,10 @@ export default function Upload({ auth, options }) {
         time: "",
     });
 
+    const { data, setData, post, errors, recentlySuccessful, processing} = useForm({
+        
+    });
+
     function changeHandler(e) {
         setMassAssignValues(e.target.name, e.target.value);
     }
@@ -148,7 +152,7 @@ export default function Upload({ auth, options }) {
                 <main className="grid grid-cols-[1fr_4fr] gap-8">
                     <aside className="sticky flex flex-col gap-8">
                         <div
-                            className={`relative aspect-square w-full rounded-3xl border-2 border-dashed border-text50 bg-footer transition-all duration-500 ease-in-out`}
+                            className={`relative aspect-square w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out`}
                         >
                             {isLoading && (
                                 <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
@@ -177,7 +181,7 @@ export default function Upload({ auth, options }) {
                             <p className="text-text">Mass assign metadata</p>
                             <Creatable
                                 options={options}
-                                placeholder="Select a collection"
+                                placeholder="Collection..."
                                 className={"creatable"}
                                 classNamePrefix="creatable"
                                 isClearable
@@ -196,28 +200,25 @@ export default function Upload({ auth, options }) {
                             <p className="text-text">
                                 {thumbs.length} selected, {totalSizeInMB} MB
                             </p>
-                            <IconTextButton
-                                disabled={isLoading}
-                                onClick={() => clearImage()}
-                                text="Clear all"
-                                href="/images/close.svg"
-                            />
-                            <IconTextButton
-                                disabled={isLoading}
-                                onClick={submitHandler}
-                                text="Upload"
-                                href="/images/upload.svg"
-                            />
+                            <div className="flex w-full flex-row gap-[inherit]">
+                                <IconTextButton
+                                    disabled={isLoading}
+                                    onClick={() => clearImage()}
+                                    text="Clear all"
+                                    href="/images/close.svg"
+                                />
+                                <IconTextButton
+                                    disabled={isLoading}
+                                    onClick={submitHandler}
+                                    text="Upload"
+                                    href="/images/upload.svg"
+                                />
+                            </div>
                         </div>
                     </aside>
                     <div className="flex flex-col">
-                        <code className="bg-black text-text">
-                            {JSON.stringify(massAssignValues)}
-                        </code>
-                        <code className="bg-black text-text">
-                            {JSON.stringify(specificValues)}
-                        </code>
-                        {thumbs.length && (
+                        <code>{JSON.stringify(data)}</code>
+                        {thumbs.length > 0 && (
                             <div className="columns-1 gap-6 md:columns-2 lg:columns-3 2xl:columns-4">
                                 {thumbs}
                             </div>
@@ -300,7 +301,7 @@ const IconTextButton = ({
     return (
         <button
             onClick={onClick}
-            className="flex gap-2 rounded-md bg-footersecondary px-4 py-2 font-medium text-text transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"
+            className="flex flex-1 justify-center gap-2 rounded-md bg-text bg-opacity-10 px-4 py-2 font-medium text-text transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"
             disabled={disabled}
         >
             <img src={href} alt="" />

@@ -44,6 +44,13 @@ h4 {
 p {
     font-weight: 500;
 }
+code {
+    @apply flex w-full bg-black py-2 text-text;
+}
+
+img {
+    object-fit: cover;
+}
 
 .image-preview-overlay {
     background: linear-gradient(
@@ -130,26 +137,35 @@ input {
     min-width: 15rem;
 
     .creatable__control {
-        background: #24153d;
-        color: #f6d4ea;
-        --tw-ring-shadow: none;
-        outline: none;
-        border: none;
+        @apply border-0 bg-text bg-opacity-10 px-1 text-text outline-none transition-all duration-200 focus:outline-secondary;
 
         .creatable__input-container,
-        .creatable__input::placeholder {
-            color: #f6d4ea;
+        .creatable__input-placeholder {
+            @apply font-medium text-text;
         }
     }
+    .creatable__placeholder,
+    .creatable__indicator,
+    .creatable__single-value {
+        @apply font-medium text-text hover:text-text50;
+    }
+    .creatable__placeholder {
+        @apply text-opacity-50;
+    }
+
     .creatable__menu {
         border-radius: 15px;
-        background: #24153d;
+        @apply border-2 border-bgsecondary bg-bg font-medium text-text;
 
-        .creatable__menu-list,
         .creatable__option {
-            color: #f6d4ea;
-            background: #24153d;
+            @apply bg-bg text-text;
             border-radius: 10px;
+        }
+        .creatable__option--is-focused {
+            @apply bg-text50 text-text;
+        }
+        .creatable__option--is-selected {
+            @apply bg-secondary20 text-text;
         }
     }
 }

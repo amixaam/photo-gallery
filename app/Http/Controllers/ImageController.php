@@ -25,9 +25,38 @@ class ImageController extends Controller
 
     public function renderEdit($id)
     {
-        $image = Image::find($id);
+        $image = Image::with('collection:id,title,slug,cover_path')->find($id);
+
+        if (!$image) {
+            return back()->withErrors([
+                'error' => 'Image not found.',
+            ]);
+        }
+
+        foreach ($image->collection as $collection) {
+            // if theres not a cover_path set
+            if (is_null($collection->cover_path)) {
+                $collectionSource = Collection::find($collection->id);
+                $collection->cover_path = $collectionSource->images->first()->path;
+            }
+        }
 
         return Inertia::render('EditPhoto', ["image" => $image]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $image = Image::find($id);
+
+        if (!$image) {
+            return back()->withErrors([
+                'error' => 'Image not found.',
+            ]);
+        }
+
+        $image->update($request->all());
+
+        return back();
     }
 
     public function destroy($id)
@@ -62,7 +91,7 @@ class ImageController extends Controller
             if (Storage::exists($filePath)) Storage::delete($filePath);
             $image->delete();
 
-            return redirect(route('photo', ['slug' => $collection->slug, 'id' => $nextImage->id]))->with('error', 'Image deleted successfully.');
+            return redirect(route('photo', ['slug' => $collection->slug, 'id' => $nextImage->id]));
         } catch (\Exception $e) {
             return back()->withErrors([
                 'error' => 'An error occurred while deleting the image.',

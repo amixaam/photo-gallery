@@ -52,7 +52,6 @@
         // patch - modify, put - replace
         Route::patch('/photo/edit/{id}', [ImageController::class, 'update'])->name('photo.update');
 
-
         Route::get('/collections/edit', function () {
             return Inertia::render('EditCollections');
         })->name('collections.edit');

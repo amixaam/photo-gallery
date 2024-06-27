@@ -10,11 +10,7 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path', 'title', 'alt_text', 'metadata'
-    ];
-
-    protected $casts = [
-        'metadata' => 'array',
+        'path', 'title', 'alt_text', 'location', 'time'
     ];
 
     public function collection()
