@@ -1,3 +1,4 @@
+[![wakatime](https://wakatime.com/badge/user/b9ae0171-376e-4d7d-9ceb-ea72185e2c2e/project/b6565a67-7e2a-48de-b88a-ca2f6c32e3bf.svg)](https://wakatime.com/badge/user/b9ae0171-376e-4d7d-9ceb-ea72185e2c2e/project/b6565a67-7e2a-48de-b88a-ca2f6c32e3bf)  (since 08.06.24)
 ## A personal photo gallery!
 Built with Laravel/React inertia.js
 
