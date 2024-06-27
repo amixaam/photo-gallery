@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->string('original_filename');
             $table->string('title');
-            $table->string('alt_text')->default('No description given.');
+            $table->string('alt_text');
             $table->string('location')->nullable();
             $table->string('time')->nullable();
             // could be a cool addition

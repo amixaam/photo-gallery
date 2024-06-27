@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\Image;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -101,21 +102,15 @@ class ImageController extends Controller
 
     public function upload(Request $request)
     {
-
-        $request->validate([
+        $validator = $request->validate([
             'zip' => 'required|file|mimes:zip|max:1024000',
             'collection' => 'nullable|string',
-            'massAssignValues' => 'nullable|string',
-            'specificValues' => 'nullable|string',
+            'location' => 'nullable|string',
+            'time' => 'nullable|string',
+            'specificValues' => 'nullable|json',
         ]);
 
-        $massAssignValues = json_decode($request->input('massAssignValues'), true);
-        $specificValues = json_decode($request->input('specificValues'), true);
-
-        Log::debug("massAssignValues: " . print_r($massAssignValues, true));
-        Log::debug("specificValues: " . print_r($specificValues, true));
-
-        if (!$request->file('zip')->isValid()) return response()->json(['message' => 'Invalid file'], 400);
+        if (!$request->file('zip')->isValid()) return back()->withErrors(['error' => 'Invalid zip file.']);
 
         // Save the zip file to temporary storage
         $zipPath = $request->file('zip')->storeAs('temp', $request->file('zip')->getClientOriginalName());
@@ -123,7 +118,8 @@ class ImageController extends Controller
         $zip = new ZipArchive();
         $zip->open(storage_path('app/' . $zipPath));
 
-        // handle default collection and create new collection
+
+        // ----------- Handle default collection and create new collection
         if ($request->filled('collection')) {
             // if is numeric, then it should be an id
             if (is_numeric($request->input('collection'))) {
@@ -137,48 +133,71 @@ class ImageController extends Controller
                     ]);
                 }
             } else {
+                // check if it already exists
+                $collection = Collection::find($request->input('collection'));
+
                 // if anything else, create a collection
-                $collection = Collection::create([
-                    'title' => $request->input('collection'),
-                ]);
+                if (!$collection) {
+                    $collection = Collection::create([
+                        'title' => $request->input('collection'),
+                    ]);
+                }
             }
         } else {
             // Defaults to Misc. collection
             $collection = Collection::first();
         }
 
-        // Extract and process each file in the zip
-        for ($i = 0; $i < $zip->numFiles; $i++) {
-            $filename = $zip->getNameIndex($i);
 
-            if (isset($specificValues[$filename])) {
-                Log::debug("Setting specific values for {$filename}: " . print_r($specificValues[$filename], true));
+        // specificValues: {"PXL_20230923_163109859.jpg":{"title":"test","location":"","time":""}}...
+        $specificValues = json_decode($request->input('specificValues') ?? '{}', true);
+
+
+        // ----------- Extract and process each file in the zip
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $filename = $zip->getNameIndex($i, ZipArchive::FL_UNCHANGED);
+
+            $title = null;
+            $location = null;
+            $time = null;
+
+            if (array_key_exists($filename, $specificValues)) {
+                $title = $specificValues[$filename]['title'] ?? $specificValues[$filename]['title'] ?? $filename;
+                $location = $specificValues[$filename]['location'] ?? $specificValues[$filename]['location'] ?? $request->input('location');
+                $time = $specificValues[$filename]['time'] ?? $specificValues[$filename]['time'] ?? $request->input('time');
             } else {
-                Log::debug("Nope {$filename}: ");
+                $title = $filename;
+                $location = $request->input('location');
+                $time = $request->input('time');
             }
 
-            // Read the file contents
+            $location = $location == "" ? null : $location;
+            $time = $time == "" ? null : $time;
+
+
             $fileContents = $zip->getFromIndex($i);
 
-            // Save the image to storage
-            $path = 'images/' . basename($filename); // Adjust the storage path as needed
+            $timestampedFilename = Carbon::now()->timestamp . '_' . basename($filename);
+            Log::info('Uploading image: ' . $timestampedFilename);
+            $path = 'images/' . $timestampedFilename;
             Storage::put("public/" . $path, $fileContents);
 
-            // Create a database entry for the image
             $image = Image::create([
                 'path' => $path,
-                'title' => $filename,
-                'alt_text' => $specificValues[$filename]['title'] ?? $filename,
-                'location' => $specificValues[$filename]['location'] ?? $massAssignValues['location'] ?? null,
-                'time' => $specificValues[$filename]['time'] ?? $massAssignValues['time'] ?? null,
+                'original_filename' => $filename,
+                'title' => $title,
+                'alt_text' => $title,
+                'location' => $location,
+                'time' => $time,
             ]);
 
-            // Attach the image to the specified collection or the first collection
             $collection->images()->attach($image->id);
         }
 
         // Close and delete the zip file
         $zip->close();
         Storage::delete($zipPath);
+
+        return back()->with('success', 'Images uploaded successfully.');
     }
 }

@@ -10,7 +10,7 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path', 'title', 'alt_text', 'location', 'time'
+        'path', 'title', 'alt_text', 'location', 'time', "original_filename"
     ];
 
     public function collection()

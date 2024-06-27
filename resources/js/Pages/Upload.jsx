@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import { useDropzone } from "react-dropzone";
-import { router, useForm } from "@inertiajs/react";
+import { useForm } from "@inertiajs/inertia-react";
 import ZipImages from "../utils/ZipImages";
 import Loader from "../components/Loader";
 
@@ -10,24 +10,31 @@ import { TextInput } from "../components/TextInput";
 import PrimaryButton from "../components/PrimaryButton";
 import { IconButton } from "../components/IconButton";
 import { ModalSkeleton } from "../components/ModalSkeleton";
+import { Truncate } from "../utils/Truncate";
+import { router } from "@inertiajs/react";
+import { Toast } from "../components/Toast";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [collectionInput, setCollectionInput] = useState("");
-    const { data: massAssignValues, setData: setMassAssignValues } = useForm({
+    const {
+        data,
+        setData,
+        processing,
+        reset,
+        post,
+        recentlySuccessful,
+        errors,
+    } = useForm({
         location: "",
         time: "",
-    });
-
-    const { data, setData, post, errors, recentlySuccessful, processing} = useForm({
-        
+        specificValues: [],
+        collection: "",
+        zip: null,
     });
 
     function changeHandler(e) {
-        setMassAssignValues(e.target.name, e.target.value);
+        setData(e.target.name, e.target.value);
     }
-    const [specificValues, setSpecificValues] = useState({});
 
     const [modalData, setModalData] = useState({
         show: false,
@@ -59,12 +66,14 @@ export default function Upload({ auth, options }) {
         },
     });
 
-    const clearImage = (image = null) => {
+    const ClearButton = (image = null) => {
         if (image == null) {
+            reset();
             setFiles([]);
-            setSpecificValues({});
             return;
         }
+
+        // if image is not null, remove a single image
         setFiles(files.filter((file) => file !== image));
     };
 
@@ -78,28 +87,29 @@ export default function Upload({ auth, options }) {
         (1024 * 1024)
     ).toFixed(2);
 
-    function submitHandler() {
-        const data = new FormData();
+    async function SubmitHandler(e) {
+        e.preventDefault();
 
-        ZipImages(files).then((zip) => {
-            data.append("zip", zip);
-            data.append("collection", collectionInput);
-            data.append("massAssignValues", JSON.stringify(massAssignValues));
-            data.append("specificValues", JSON.stringify(specificValues));
+        const zip = await ZipImages(files);
+        setData("zip", zip);
+    }
 
-            router.post(route("upload.post"), data, {
-                preserveScroll: true,
-                onStart: () => {
-                    setIsLoading(true);
-                },
-                onError: (error) => console.error(error),
-                onFinish: () => {
+    // whyy isnt setData async :<<
+    useEffect(() => {
+        if (data.zip !== null) {
+            post(route("photo.post"), {
+                onError: (error) => console.error("error: ", error),
+                onStart: () => console.log("start"),
+                onSuccess: () => {
+                    console.log("success");
                     setFiles([]);
-                    setIsLoading(false);
+                    reset();
                 },
             });
-        });
-    }
+        } else {
+            alert("No files selected!");
+        }
+    }, [data.zip]); // This effect runs when data.zip changes
 
     const OpenModal = (file) => {
         setModalData({
@@ -112,32 +122,48 @@ export default function Upload({ auth, options }) {
         setModalData({ show: false, data: null });
     };
 
-    const EditImage = (name, data) => {
-        setSpecificValues({ ...specificValues, [name]: data });
+    const EditImage = (imagePath, specificData) => {
+        setData({
+            ...data,
+            specificValues: {
+                ...data.specificValues,
+                [imagePath]: {
+                    title:
+                        specificData.title === "" ? null : specificData.title,
+                    time: specificData.time === "" ? null : specificData.time,
+                    location:
+                        specificData.location === ""
+                            ? null
+                            : specificData.location,
+                },
+            },
+        });
+        CloseModal();
     };
 
     const thumbs = files.map((file, id) => (
         <ImagePreview
             key={id}
             file={file}
-            isLoading={isLoading}
-            clearImage={clearImage}
             data={{
-                ...massAssignValues,
-                ...(specificValues[file.name] || {}),
-                ...((specificValues[file.name] || {}).location === "" && {
-                    location: massAssignValues.location,
-                }),
-                ...((specificValues[file.name] || {}).time === "" && {
-                    time: massAssignValues.time,
-                }),
+                title: data.specificValues[file.path]?.title ?? file.path,
+                time: data.specificValues[file.path]?.time ?? data.time ?? null,
+                location:
+                    data.specificValues[file.path]?.location ??
+                    data.location ??
+                    null,
             }}
+            isLoading={processing}
+            clearImage={ClearButton}
             OpenModal={OpenModal}
         />
     ));
-
     return (
         <>
+            <Toast
+                show={recentlySuccessful}
+                text="Images uploaded successfully!"
+            />
             <EditModal
                 show={modalData.show}
                 data={modalData.data}
@@ -150,11 +176,11 @@ export default function Upload({ auth, options }) {
                 </h1>
 
                 <main className="grid grid-cols-[1fr_4fr] gap-8">
-                    <aside className="sticky flex flex-col gap-8">
+                    <aside className="flex flex-col gap-8">
                         <div
                             className={`relative aspect-square w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out`}
                         >
-                            {isLoading && (
+                            {processing && (
                                 <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
                                     <Loader
                                         style={"scale-[2]"}
@@ -187,37 +213,45 @@ export default function Upload({ auth, options }) {
                                 isClearable
                                 isSearchable
                                 onChange={(e) => {
-                                    setCollectionInput(e.value);
+                                    setData("collection", e.value);
                                 }}
                             />
                             <TextInput
                                 name="location"
+                                value={data.location}
                                 onchange={changeHandler}
                             />
-                            <TextInput name="time" onchange={changeHandler} />
+                            <TextInput
+                                name="time"
+                                value={data.time}
+                                onchange={changeHandler}
+                            />
                         </div>
                         <div className="flex flex-col gap-4">
                             <p className="text-text">
-                                {thumbs.length} selected, {totalSizeInMB} MB
+                                {thumbs.length} images, {totalSizeInMB} MB
                             </p>
                             <div className="flex w-full flex-row gap-[inherit]">
                                 <IconTextButton
-                                    disabled={isLoading}
-                                    onClick={() => clearImage()}
+                                    disabled={processing}
+                                    onClick={() => {
+                                        ClearButton();
+                                    }}
                                     text="Clear all"
                                     href="/images/close.svg"
                                 />
-                                <IconTextButton
-                                    disabled={isLoading}
-                                    onClick={submitHandler}
-                                    text="Upload"
-                                    href="/images/upload.svg"
-                                />
+                                <form onSubmit={SubmitHandler}>
+                                    <IconTextButton
+                                        disabled={processing}
+                                        onClick={() => {}}
+                                        text="Upload"
+                                        href="/images/upload.svg"
+                                    />
+                                </form>
                             </div>
                         </div>
                     </aside>
                     <div className="flex flex-col">
-                        <code>{JSON.stringify(data)}</code>
                         {thumbs.length > 0 && (
                             <div className="columns-1 gap-6 md:columns-2 lg:columns-3 2xl:columns-4">
                                 {thumbs}
@@ -236,8 +270,7 @@ const ImagePreview = ({ file, isLoading, clearImage, data, OpenModal }) => {
             <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-xl p-4">
                 <div className="flex h-fit w-full flex-row items-center justify-between">
                     <p className="text-text">
-                        {file.path.slice(0, 12) +
-                            (file.path.length > 12 ? "..." : "")}
+                        {Truncate(data.title ? data.title : file.path, 12)}
                     </p>
                     <div className="flex flex-row">
                         <div className="group relative">
@@ -310,8 +343,8 @@ const IconTextButton = ({
     );
 };
 
-const EditModal = ({ show, CloseModal = () => {}, data, EditImage }) => {
-    const { data: formData, setData } = useForm({
+const EditModal = ({ show, CloseModal = () => {}, data: image, EditImage }) => {
+    const { data, setData, reset } = useForm({
         title: "",
         location: "",
         time: "",
@@ -321,20 +354,37 @@ const EditModal = ({ show, CloseModal = () => {}, data, EditImage }) => {
         setData(e.target.name, e.target.value);
     }
 
-    if (!show || !data) return;
+    if (!show || !image) return;
     return (
-        <ModalSkeleton show={show} CloseModal={CloseModal}>
+        <ModalSkeleton
+            show={show}
+            CloseModal={() => {
+                CloseModal();
+                reset();
+            }}
+        >
             <div className="flex flex-col gap-4">
-                <p className="text-text">Edit {data.path}</p>
-                <TextInput name="title" onchange={changeHandler} />
-                <TextInput name="location" onchange={changeHandler} />
-                <TextInput name="time" onchange={changeHandler} />
+                <p className="text-text">Edit {image.path}</p>
+                <TextInput
+                    name="title"
+                    onchange={changeHandler}
+                    value={data.title}
+                />
+                <TextInput
+                    name="location"
+                    onchange={changeHandler}
+                    value={data.location}
+                />
+                <TextInput
+                    name="time"
+                    onchange={changeHandler}
+                    value={data.time}
+                />
                 <PrimaryButton
                     style="w-fit"
                     text="Edit"
                     onClick={() => {
-                        EditImage(data.path, formData);
-                        // console.log(formData);
+                        EditImage(image.path, data);
                     }}
                 />
             </div>

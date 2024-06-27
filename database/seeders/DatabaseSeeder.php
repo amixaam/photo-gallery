@@ -27,30 +27,35 @@ class DatabaseSeeder extends Seeder
         $images = [
             [
                 'path' => 'premade/home.webp',
+                'original_filename' => 'home.webp',
                 'title' => 'Home',
                 'alt_text' => 'A blue sky with sea-bed like clouds.',
                 'location' => 'Latvia',
             ],
             [
                 'path' => 'premade/lithuania.webp',
+                'original_filename' => 'lithuania.webp',
                 'title' => 'Nested',
                 'alt_text' => 'A building nested within trees with a pink sky.',
                 'location' => 'Lithuania'
             ],
             [
                 'path' => 'premade/freedom.webp',
+                'original_filename' => 'freedom.webp',
                 'title' => 'Freedom statue',
                 'alt_text' => 'The Freedom statue with a blue sky in the background.',
                 'location' => 'Latvia'
             ],
             [
                 'path' => 'premade/poland.webp',
+                'original_filename' => 'poland.webp',
                 'title' => 'Stranded',
                 'alt_text' => 'Hilly Poland terrain in the background, a ski lift in the foreground.',
                 'location' => 'Poland'
             ],
             [
                 'path' => 'premade/cesis.webp',
+                'original_filename' => 'cesis.webp',
                 'title' => 'Uzvaras statue',
                 'alt_text' => 'Uzvaras statue in the night, being illuminated.',
                 'location' => 'Latvia'

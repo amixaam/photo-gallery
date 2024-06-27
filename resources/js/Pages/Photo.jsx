@@ -107,12 +107,10 @@ function Photo({ auth, collection, image, error }) {
                                         : ""}
                                 </p>
                                 <p className="text-text">
-                                    {image.location
-                                        ? image.location
-                                        : "No location"}
+                                    {image.location ? image.location : ""}
                                 </p>
                                 <p className="text-text">
-                                    {image.time ? image.time : "No time"}
+                                    {image.time ? image.time : ""}
                                 </p>
                             </div>
                         </div>

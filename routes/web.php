@@ -46,7 +46,7 @@
 
             return Inertia::render('Upload', ["options" => $collectionOptions]);
         })->name('upload');
-        Route::post('/photo/upload', [ImageController::class, 'upload'])->name('upload.post');
+        Route::post('/photo/upload', [ImageController::class, 'upload'])->name('photo.post');
         Route::delete('/photo/{id}', [ImageController::class, 'destroy'])->name('photo.delete');
         Route::get('/photo/edit/{id}', [ImageController::class, 'renderEdit'])->name('photo.edit');
         // patch - modify, put - replace
