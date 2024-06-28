@@ -23,6 +23,7 @@
 
 ## Todo
 
+-   [ ] Photo view back button like Header component back
 -   [ ] Edit collection page
 -   [ ] Collection cover change functionality / form
 -   [ ] Collection data change functionality / form

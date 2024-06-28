@@ -18,7 +18,7 @@ createInertiaApp({
                     containerStyle={{ bottom: 0, left: 0, right: 0 }}
                     gutter={0}
                 />
-                <App {...props} />,
+                <App {...props} />
             </>,
         );
     },
