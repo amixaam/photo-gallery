@@ -49,6 +49,15 @@ export default function Dashboard({
         <MainLayout auth={auth} admin={true}>
             <Header title="Dashboard" />
             <main className="flex flex-col gap-[inherit]">
+                <section className="flex flex-col gap-4">
+                    <h3>Upload</h3>
+                    <div className="flex flex-row gap-4">
+                        <SecondaryButton as="link" href={route("upload")}>
+                            <p>Upload</p>
+                            <img src="/images/upload.svg" alt="redirect icon" />
+                        </SecondaryButton>
+                    </div>
+                </section>
                 <section className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
                         <h3>Collections</h3>

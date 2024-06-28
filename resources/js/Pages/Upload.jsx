@@ -13,6 +13,7 @@ import { TextInput } from "../components/TextInput";
 import { Toast } from "../components/Toast";
 import { Truncate } from "../utils/Truncate";
 import toast from "react-hot-toast";
+import Header from "../components/Header";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
@@ -166,11 +167,8 @@ export default function Upload({ auth, options }) {
                 CloseModal={CloseModal}
                 EditImage={EditImage}
             />
-            <MainLayout auth={auth} admin={true}>
-                <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
-                    Upload
-                </h1>
-
+            <MainLayout auth={auth} admin={true}>\
+                <Header title="Upload" back={true} />
                 <main className="grid grid-cols-[1fr_4fr] gap-8">
                     <aside className="flex flex-col gap-8">
                         <div
