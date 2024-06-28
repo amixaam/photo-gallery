@@ -36,9 +36,14 @@
 
     // Admin
     Route::middleware('auth')->group(function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('Dashboard');
+        Route::get('/dashboard', function (Request $request) {
+            $collections = Collection::all();
+
+            return Inertia::render('Dashboard', [
+                'collections' => $collections,
+            ]);
         })->name('dashboard');
+
         Route::get('/photo/upload', function () {
             $collectionOptions = Collection::all()->map(function ($collection) {
                 return ['value' => $collection->id, 'label' => $collection->title];
@@ -52,8 +57,16 @@
         // patch - modify, put - replace
         Route::patch('/photo/edit/{id}', [ImageController::class, 'update'])->name('photo.update');
 
-        Route::get('/collections/edit', function () {
-            return Inertia::render('EditCollections');
-        })->name('collections.edit');
+        Route::get('/collection/{slug}/edit', function ($slug) {
+            $collection = Collection::where('slug', $slug)->with('images')->first();
+            return Inertia::render('EditCollection', ['collection' => $collection]);
+        })->name('gallery.edit');
         Route::get('/collection/{slug}/pin', [CollectionController::class, 'pin'])->name('gallery.pin');
+
+        Route::get('/user/edit', function () {
+            return Inertia::render('EditProfile');
+        })->name('user.edit');
+
+        Route::patch('/user/edit/username', [UserController::class, 'updateUsername'])->name('user.update.username');
+        Route::patch('/user/edit/password', [UserController::class, 'updatePassword'])->name('user.update.password');
     });

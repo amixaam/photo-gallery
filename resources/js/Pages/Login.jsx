@@ -27,12 +27,14 @@ export default function Login({ auth }) {
                     <TextInput
                         type="text"
                         name="username"
+                        value={data.username}
                         onchange={changeHandler}
                         error={errors.username || errors.error}
                     />
                     <TextInput
                         type="password"
                         name="password"
+                        value={data.password}
                         onchange={changeHandler}
                         error={errors.password || errors.error}
                     />

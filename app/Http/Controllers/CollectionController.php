@@ -62,7 +62,17 @@ class CollectionController extends Controller
 
     public function SingleCollection(Request $request, $slug)
     {
-        $collection = Collection::where('slug', $slug)->with('images')->firstOrFail();
+        if (auth()->check()) {
+            $collection = Collection::where('slug', $slug)->with('images')->first();
+        } else {
+            $collection = Collection::where('slug', $slug)->where('is_public', true)->with('images')->first();
+        }
+
+        // must not exist or is not public
+        if (!$collection) {
+            return back();
+        }
+
         return Inertia::render('Gallery', [
             'collection' => $collection,
         ]);

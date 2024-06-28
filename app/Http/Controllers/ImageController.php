@@ -119,6 +119,7 @@ class ImageController extends Controller
         $zip->open(storage_path('app/' . $zipPath));
 
 
+        $createdCollection = false;
         // ----------- Handle default collection and create new collection
         if ($request->filled('collection')) {
             // if is numeric, then it should be an id
@@ -131,6 +132,7 @@ class ImageController extends Controller
                     $collection = Collection::create([
                         'title' => $request->input('collection'),
                     ]);
+                    $createdCollection = true;
                 }
             } else {
                 // check if it already exists
@@ -141,6 +143,7 @@ class ImageController extends Controller
                     $collection = Collection::create([
                         'title' => $request->input('collection'),
                     ]);
+                    $createdCollection = true;
                 }
             }
         } else {
@@ -181,6 +184,13 @@ class ImageController extends Controller
             Log::info('Uploading image: ' . $timestampedFilename);
             $path = 'images/' . $timestampedFilename;
             Storage::put("public/" . $path, $fileContents);
+
+            if ($createdCollection && $collection->cover_path == null) {
+                $collection->cover_path = $path;
+                $collection->save();
+
+                $createdCollection = false;
+            }
 
             $image = Image::create([
                 'path' => $path,

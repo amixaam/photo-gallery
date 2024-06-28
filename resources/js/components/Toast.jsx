@@ -2,16 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { container, revealItem } from "../utils/FramerVariants";
 
-// Need a toast not on show, but on call, stay there for n seconds
-export const Toast = ({ text = "Toast!", show = true }) => {
-    if (!show) return null;
-
+export const Toast = ({ text = "Toast!", t }) => {
     return (
         <motion.div
             variants={container}
             initial="hidden"
-            animate="show"
-            className="fixed bottom-0 z-30 w-full"
+            animate={t.visible ? "show" : "hidden"}
+            className="z-[100] w-full"
         >
             <motion.div
                 variants={revealItem}
@@ -23,4 +20,10 @@ export const Toast = ({ text = "Toast!", show = true }) => {
             </motion.div>
         </motion.div>
     );
+
+    // Call toast with:
+    // toast.custom((t) => (
+    //         <Toast t={t} text="Example toast!" />
+    //     ));
+    // }}
 };

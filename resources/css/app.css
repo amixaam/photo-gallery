@@ -27,6 +27,14 @@ html {
     @apply bg-bg;
 }
 
+h1,
+h3,
+h4,
+p,
+code {
+    @apply text-text drop-shadow-md transition-all;
+}
+
 h1 {
     font-weight: 800;
     line-height: 1.2 !important;
@@ -44,8 +52,9 @@ h4 {
 p {
     font-weight: 500;
 }
+
 code {
-    @apply flex w-full bg-black py-2 text-text;
+    @apply flex w-full bg-black py-2;
 }
 
 img {
@@ -137,7 +146,7 @@ input {
     min-width: 15rem;
 
     .creatable__control {
-        @apply border-0 bg-text bg-opacity-10 px-1 text-text outline-none transition-all duration-200 focus:outline-secondary;
+        @apply border-0 bg-text bg-opacity-10 px-[6px] py-[6px] text-text outline-none transition-all duration-200 focus:outline-secondary;
 
         .creatable__input-container,
         .creatable__input-placeholder {

@@ -12,6 +12,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import { TextInput } from "../components/TextInput";
 import { Toast } from "../components/Toast";
 import { Truncate } from "../utils/Truncate";
+import toast from "react-hot-toast";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
@@ -98,15 +99,14 @@ export default function Upload({ auth, options }) {
         if (data.zip !== null) {
             post(route("photo.post"), {
                 onError: (error) => console.error("error: ", error),
-                onStart: () => console.log("start"),
                 onSuccess: () => {
-                    console.log("success");
                     setFiles([]);
                     reset();
+                    toast.custom((t) => (
+                        <Toast t={t} text="Images uploaded successfully!" />
+                    ));
                 },
             });
-        } else {
-            alert("No files selected!");
         }
     }, [data.zip]); // This effect runs when data.zip changes
 
@@ -157,19 +157,16 @@ export default function Upload({ auth, options }) {
             OpenModal={OpenModal}
         />
     ));
+
     return (
         <>
-            <Toast
-                show={recentlySuccessful}
-                text="Images uploaded successfully!"
-            />
             <EditModal
                 show={modalData.show}
                 data={modalData.data}
                 CloseModal={CloseModal}
                 EditImage={EditImage}
             />
-            <MainLayout auth={auth}>
+            <MainLayout auth={auth} admin={true}>
                 <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
                     Upload
                 </h1>
@@ -209,7 +206,8 @@ export default function Upload({ auth, options }) {
                                 placeholder="Collection..."
                                 className={"creatable"}
                                 classNamePrefix="creatable"
-                                isClearable
+                                isDisabled={processing}
+                                isLoading={processing}
                                 isSearchable
                                 onChange={(e) => {
                                     setData("collection", e.value);

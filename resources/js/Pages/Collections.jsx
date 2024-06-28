@@ -7,6 +7,7 @@ import { IconLink } from "../components/IconLink";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { container, revealItem } from "../utils/FramerVariants";
+import { Toast } from "../components/Toast";
 export default function Collections({
     collections,
     featured_collection,
@@ -40,33 +41,6 @@ export default function Collections({
                     <p className="text-text">
                         {collections.length} collections
                     </p>
-                    <button
-                        className="bg-white"
-                        onClick={() => {
-                            toast.custom((t) => (
-                                <motion.div
-                                    variants={container}
-                                    initial="hidden"
-                                    animate={t.visible ? "show" : "hidden"}
-                                    className="z-30 w-full"
-                                >
-                                    <motion.div
-                                        variants={revealItem}
-                                        className="flex w-full justify-center bg-primary py-2"
-                                    >
-                                        <motion.p
-                                            variants={revealItem}
-                                            className="text-dark"
-                                        >
-                                            Toast text!
-                                        </motion.p>
-                                    </motion.div>
-                                </motion.div>
-                            ));
-                        }}
-                    >
-                        Click me!
-                    </button>
                 </div>
             </div>
 

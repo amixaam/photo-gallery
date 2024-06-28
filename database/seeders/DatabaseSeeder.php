@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $bestWorkCollection = Collection::create([
             'title' => 'My best work',
+            'cover_path' => 'premade/home.webp',
             'is_public' => false,
         ]);
 

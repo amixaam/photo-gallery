@@ -5,6 +5,8 @@ import { IconLink } from "../components/IconLink";
 import { ModalSkeleton } from "../components/ModalSkeleton";
 import PrimaryButton from "../components/PrimaryButton";
 import { Toast } from "../components/Toast";
+import toast from "react-hot-toast";
+import { SecondaryButton } from "../components/SecondaryButton";
 
 function Photo({ auth, collection, image, error }) {
     const { delete: destroy, recentlySuccessful, errors } = useForm();
@@ -33,8 +35,13 @@ function Photo({ auth, collection, image, error }) {
         destroy(route("photo.delete", image.id), {
             onSuccess: () => {
                 setShowDeleteModal(false);
+                SetToast("Image successfully deleted.");
             },
         });
+    };
+
+    const SetToast = (text) => {
+        toast.custom((t) => <Toast t={t} text={text} />);
     };
 
     return (
@@ -49,11 +56,6 @@ function Photo({ auth, collection, image, error }) {
                     DeleteImage={DeleteImage}
                 />
             )}
-
-            <Toast
-                text={"Image successfully deleted."}
-                show={recentlySuccessful}
-            />
 
             <div
                 className={`fixed z-20 flex h-screen w-screen items-center justify-center bg-bg transition-all duration-200`}
@@ -78,6 +80,7 @@ function Photo({ auth, collection, image, error }) {
                                 navigator.clipboard.writeText(
                                     route("photo", [collection.slug, image.id]),
                                 );
+                                SetToast("Link copied to clipboard!");
                             }}
                         />
 
@@ -184,18 +187,4 @@ const DeletePhotoModal = ({
         </ModalSkeleton>
     );
 };
-const SecondaryButton = ({ text = "Secondary Button", onClick = () => {} }) => {
-    return (
-        <button
-            onClick={onClick}
-            type="reset"
-            className="group rounded-md bg-secondary20 px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100 "
-        >
-            <p className="text-text drop-shadow-md transition-all group-[&:hover]:drop-shadow-xl">
-                {text}
-            </p>
-        </button>
-    );
-};
-
 export default Photo;
