@@ -5,6 +5,7 @@ import { Link } from "@inertiajs/inertia-react";
 function PrimaryButton({
     text = "Primary button",
     processing = false,
+    disabled = false,
     href,
     onClick,
     style = "",
@@ -14,15 +15,16 @@ function PrimaryButton({
         return (
             <button
                 onClick={onClick}
-                className={`${style} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100`}
+                disabled={disabled || processing}
+                className={`${style} ${disabled ? "brightness-50" : "hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200`}
             >
-                {processing ? (
-                    <>
-                        <Loader />
-                        <Text hidden={true}>{text[0]}</Text>
-                    </>
-                ) : (
+                <div className={`h-full w-full ${processing && "opacity-0"}`}>
                     <Text>{text}</Text>
+                </div>
+                {processing && (
+                    <div className="absolute flex h-full w-full items-center justify-center">
+                        <Loader />
+                    </div>
                 )}
             </button>
         );
@@ -32,9 +34,17 @@ function PrimaryButton({
     return (
         <Link
             href={href}
-            className={`${style} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200 hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100`}
+            disabled={disabled || processing}
+            className={`${style} ${disabled ? "brightness-50" : "hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200`}
         >
-            <Text>{text}</Text>
+            <div className={`h-full w-full ${processing && "opacity-0"}`}>
+                <Text>{text}</Text>
+            </div>
+            {processing && (
+                <div className="absolute flex h-full w-full items-center justify-center">
+                    <Loader />
+                </div>
+            )}
         </Link>
     );
 }

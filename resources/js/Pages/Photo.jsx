@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { IconButton } from "../components/IconButton";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import { IconLink } from "../components/IconLink";
-import { ModalSkeleton } from "../components/ModalSkeleton";
-import PrimaryButton from "../components/PrimaryButton";
 import { Toast } from "../components/Toast";
 import toast from "react-hot-toast";
-import { SecondaryButton } from "../components/SecondaryButton";
+import { DeleteModal } from "../components/DeleteModal";
 
 function Photo({ auth, collection, image, error }) {
     const { delete: destroy, recentlySuccessful, errors } = useForm();
@@ -47,14 +45,21 @@ function Photo({ auth, collection, image, error }) {
     return (
         <>
             {auth.user && (
-                <DeletePhotoModal
+                <DeleteModal
                     show={showDeleteModal}
                     CloseModal={() => {
                         setShowDeleteModal(false);
                     }}
                     id={image.id}
                     DeleteImage={DeleteImage}
-                />
+                >
+                    <p className="text-center text-text">
+                        Are you sure you want to delete this photo?
+                    </p>
+                    <p className="text-center text-text">
+                        This action cannot be reversed.
+                    </p>
+                </DeleteModal>
             )}
 
             <div
@@ -162,29 +167,4 @@ function Photo({ auth, collection, image, error }) {
     );
 }
 
-const DeletePhotoModal = ({
-    show = false,
-    CloseModal = () => {},
-    DeleteImage,
-}) => {
-    return (
-        <ModalSkeleton show={show} CloseModal={CloseModal}>
-            <form className="flex flex-col gap-8" onSubmit={DeleteImage}>
-                <h3 className="text-center text-text">Delete this photo?</h3>
-                <div className="flex max-w-[27rem] flex-col gap-2">
-                    <p className="text-center text-text">
-                        Are you sure you want to delete this photo?
-                    </p>
-                    <p className="text-center text-text">
-                        This action cannot be reversed.
-                    </p>
-                </div>
-                <div className="flex justify-center gap-4">
-                    <PrimaryButton text="Delete" onClick={() => {}} />
-                    <SecondaryButton text="Cancel" onClick={CloseModal} />
-                </div>
-            </form>
-        </ModalSkeleton>
-    );
-};
 export default Photo;

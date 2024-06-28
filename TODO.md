@@ -20,17 +20,23 @@
 -   [x] Edit profile page
 -   [x] Password change functionality / form
 -   [x] Username change functionality / form
+-   [x] Edit collection page
+-   [x] Collection data change functionality / form
+
+## 29.06
+
+-   [x] Updated custom button functionality
+-   [x] Collection delete functionality / form
+-   [x] Multi select photos in Edit collection page
+-   [ ] Multi delete photos in Edit collection page
+-   [ ] Custom checkbox
+-   [ ] Collection edit photo redirect
+-   [ ] Collection cover change functionality / form
+-   [ ] Collection remove photos functionality / form
+-   [ ] Photo view back button like Header component back
 
 ## Todo
 
--   [ ] Photo view back button like Header component back
--   [ ] Edit collection page
--   [ ] Collection cover change functionality / form
--   [ ] Collection data change functionality / form
--   [ ] Collection pin/unpin functionality / form
--   [ ] Collection add photos functionality / form
--   [ ] Collection remove photos functionality / form
--   [ ] Collection edit photo redirect
 -   [ ] Fix mobile info card in Photo view
 -   [ ] Multi-select photos to edit in upload
 -   [ ] Gallery image pre-loading / lazy loading

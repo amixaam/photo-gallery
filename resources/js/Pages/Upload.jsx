@@ -167,8 +167,8 @@ export default function Upload({ auth, options }) {
                 CloseModal={CloseModal}
                 EditImage={EditImage}
             />
-            <MainLayout auth={auth} admin={true}>\
-                <Header title="Upload" back={true} />
+            <MainLayout auth={auth}>
+                <Header title="Upload" back={true} href={route("dashboard")} />
                 <main className="grid grid-cols-[1fr_4fr] gap-8">
                     <aside className="flex flex-col gap-8">
                         <div

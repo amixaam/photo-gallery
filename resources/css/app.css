@@ -59,6 +59,7 @@ code {
 
 img {
     object-fit: cover;
+    color: theme("colors.text");
 }
 
 .image-preview-overlay {

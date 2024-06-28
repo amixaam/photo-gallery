@@ -93,4 +93,28 @@ class CollectionController extends Controller
             'image' => $image
         ]);
     }
+
+    public function update(Request $request, $slug)
+    {
+        $collection = Collection::where('slug', $slug)->first();
+
+        if (!$collection) {
+            return back()->withErrors([
+                'error' => 'Collcetion not found.',
+            ]);
+        }
+
+        $collection->update($request->all());
+
+        return back();
+    }
+
+    public function destroy($slug)
+    {
+        $collection = Collection::where('slug', $slug)->first();
+        if ($collection) {
+            $collection->delete();
+            return redirect(route('dashboard'));
+        }
+    }
 }

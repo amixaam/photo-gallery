@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Collection extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'cover_path', 'slug', 'is_public'];
+    protected $fillable = ['title', 'cover_path', 'slug', 'is_public', 'is_featured'];
 
     public function images()
     {

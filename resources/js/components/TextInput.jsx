@@ -1,3 +1,5 @@
+import { createPlaceholder } from "../utils/createPlaceholder";
+
 export const TextInput = ({
     type = "text",
     name = "Input",
@@ -8,20 +10,13 @@ export const TextInput = ({
     icon,
 }) => {
     // Capitalize first letter, replace underscores with spaces and add elipses
-    const createPlaceholder = () => {
-        return (
-            name.charAt(0).toUpperCase() +
-            name.slice(1).replace(/_/g, " ") +
-            "..."
-        );
-    };
 
     return (
         <div className="flex flex-col">
             <input
                 type={type}
                 name={name}
-                placeholder={createPlaceholder()}
+                placeholder={createPlaceholder(name)}
                 onChange={onchange}
                 value={value}
                 disabled={disabled}

@@ -62,6 +62,8 @@
             return Inertia::render('EditCollection', ['collection' => $collection]);
         })->name('gallery.edit');
         Route::get('/collection/{slug}/pin', [CollectionController::class, 'pin'])->name('gallery.pin');
+        Route::patch('/collection/{slug}/edit', [CollectionController::class, 'update'])->name('gallery.update');
+        Route::delete('/collection/{slug}/delete', [CollectionController::class, 'destroy'])->name('gallery.delete');
 
         Route::get('/user/edit', function () {
             return Inertia::render('EditProfile');
