@@ -70,6 +70,8 @@ class ImageController extends Controller
             ]);
         }
 
+        if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You can not delete premade images.']);
+
         $collection = $image->collection->first();
 
         if (!$collection) {
@@ -88,8 +90,7 @@ class ImageController extends Controller
         }
 
         try {
-            $filePath = 'public/storage/' . $image->path;
-            if (Storage::exists($filePath)) Storage::delete($filePath);
+            if (Storage::exists("public/" . $image->path)) Storage::delete("public/" . $image->path);
             $image->delete();
 
             return redirect(route('photo', ['slug' => $collection->slug, 'id' => $nextImage->id]));
@@ -98,6 +99,22 @@ class ImageController extends Controller
                 'error' => 'An error occurred while deleting the image.',
             ]);
         }
+    }
+
+    public function massDestroy(Request $request)
+    {
+        foreach ($request->all() as $id) {
+            $image = Image::find($id);
+
+            if ($image) {
+                if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You can not delete premade images.']);
+
+                if (Storage::exists("public/" . $image->path)) Storage::delete("public/" . $image->path);
+                $image->delete();
+            }
+        }
+
+        return back();
     }
 
     public function upload(Request $request)

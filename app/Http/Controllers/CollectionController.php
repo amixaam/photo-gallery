@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CollectionController extends Controller
@@ -70,7 +72,7 @@ class CollectionController extends Controller
 
         // must not exist or is not public
         if (!$collection) {
-            return back();
+            return redirect(route('landing'));
         }
 
         return Inertia::render('Gallery', [
@@ -83,7 +85,6 @@ class CollectionController extends Controller
         $collection = Collection::where('slug', $slug)->with('images:id')->firstOrFail();
         $image = Image::find($id);
 
-        // if the image does not exist, redirect to the gallery
         if (!$image) {
             return redirect(route('gallery', ['slug' => $slug]));
         }
@@ -109,12 +110,52 @@ class CollectionController extends Controller
         return back();
     }
 
+    public function setCover($slug, $id)
+    {
+        $collection = Collection::where('slug', $slug)->first();
+
+        if (!$collection) {
+            return back()->withErrors([
+                'error' => 'Collcetion not found.',
+            ]);
+        }
+
+        $image = Image::find($id);
+
+        if (!$image) {
+            return back()->withErrors([
+                'error' => 'Image not found.',
+            ]);
+        }
+
+        $collection->update(['cover_path' => $image->path]);
+
+        return back();
+    }
+
     public function destroy($slug)
     {
         $collection = Collection::where('slug', $slug)->first();
-        if ($collection) {
-            $collection->delete();
-            return redirect(route('dashboard'));
+
+        if (!$collection) {
+            return back()->withErrors([
+                'error' => 'Collcetion not found.',
+            ]);
         }
+
+        foreach ($collection->images as $image) {
+            $image->delete();
+            if (str_contains($image->path, 'premade/')) continue;
+
+            // Check if the image is only in this collection
+            if ($image->collection->count() <= 1) {
+                Log::info('Deleting image ' . $image->path);
+                if (Storage::exists("public/" . $image->path)) Storage::delete("public/" . $image->path);
+            }
+        }
+
+        $collection->delete();
+
+        return redirect(route('dashboard'));
     }
 }

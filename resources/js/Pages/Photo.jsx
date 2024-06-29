@@ -107,7 +107,7 @@ function Photo({ auth, collection, image, error }) {
                         <div className="group relative">
                             <IconButton icon="info" alt="View info button" />
                             <div className="clip absolute left-1/2 z-10 hidden size-8 -translate-x-1/2 rounded-full bg-bgsecondary group-hover:block"></div>
-                            <div className="absolute left-full z-10 hidden w-fit -translate-x-full translate-y-2 rounded-md bg-bgsecondary p-4 *:text-nowrap group-hover:block">
+                            <div className="absolute left-full z-10 hidden w-72 -translate-x-full translate-y-2 rounded-md bg-bgsecondary p-4 group-hover:block md:w-fit md:*:text-nowrap">
                                 <p className="text-text"> {image.title}</p>
                                 <p className="text-text">
                                     {image.title !== image.alt_text
@@ -132,7 +132,7 @@ function Photo({ auth, collection, image, error }) {
                             collection.slug,
                             ShowPreviousImage(),
                         ])}
-                        className="group flex h-full w-1/2 bg-gradient-to-r from-black50 to-transparent md:w-1/4"
+                        className="from-black30 group flex h-full w-1/2 bg-gradient-to-r to-transparent md:w-1/4 md:from-black50"
                     >
                         <img
                             src="/images/back.svg"
@@ -146,7 +146,7 @@ function Photo({ auth, collection, image, error }) {
                             collection.slug,
                             ShowNextImage(),
                         ])}
-                        className="group flex h-full w-1/2 justify-end bg-gradient-to-l from-black50 to-transparent md:w-1/4"
+                        className="from-black30 group flex h-full w-1/2 justify-end bg-gradient-to-l to-transparent md:w-1/4 md:from-black50"
                     >
                         <img
                             src="/images/front.svg"

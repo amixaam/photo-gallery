@@ -76,6 +76,7 @@ img {
     opacity: 1;
 }
 
+
 .clip {
     clip-path: polygon(50% 0%, 0 57%, 100% 57%);
 }

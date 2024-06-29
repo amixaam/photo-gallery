@@ -14,9 +14,9 @@ export const Toast = ({ text = "Toast!", t }) => {
                 variants={revealItem}
                 className="flex w-full justify-center bg-primary py-2"
             >
-                <motion.p variants={revealItem} className="text-dark">
+                <p variants={revealItem} className="text-dark">
                     {text}
-                </motion.p>
+                </p>
             </motion.div>
         </motion.div>
     );

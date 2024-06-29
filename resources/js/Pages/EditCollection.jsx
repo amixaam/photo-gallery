@@ -9,28 +9,35 @@ import { Toast } from "../components/Toast";
 import Header from "../components/Header";
 import { DeleteModal } from "../components/DeleteModal";
 import { IconButton } from "../components/IconButton";
+import { router } from "@inertiajs/react";
 
 // "Misc." and "My best work"
 const undeletableCollections = [1, 2];
 
 export default function EditCollection({ auth, collection }) {
-    const [selected, setSelected] = useState([]);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showCollectionDeleteModal, setShowCollectionDeleteModal] =
+        useState(false);
+    const [showImageDeleteModal, setShowImageDeleteModal] = useState(false);
 
     const { data, setData, patch, processing, errors } = useForm({
         title: collection.title,
         is_public: collection.is_public,
         is_featured: collection.is_featured,
     });
+    const { delete: destroy, processing: deleteProcessing } = useForm({});
+    const { patch: pathCover, processing: coverProcessing } = useForm({});
     const {
-        delete: destroy,
-        processing: deleteProcessing,
-        errors: deleteErrors,
-    } = useForm({});
+        data: selected,
+        setData: setSelected,
+        delete: massDestroy,
+        processing: massDeleteProcessing,
+    } = useForm([]);
 
     function SubmitUpdate(e) {
         e.preventDefault();
         patch(route("gallery.update", collection.slug), {
+            preserveState: true,
+            preserveScroll: true,
             onSuccess: () => {
                 toast.custom((t) => (
                     <Toast t={t} text="Collection updated successfully!" />
@@ -43,12 +50,30 @@ export default function EditCollection({ auth, collection }) {
         e.preventDefault();
         destroy(route("gallery.delete", collection.slug), {
             onStart: () => {
-                setShowDeleteModal(false);
+                setShowCollectionDeleteModal(false);
             },
             onSuccess: () => {
                 toast.custom((t) => (
                     <Toast t={t} text="Collection deleted successfully!" />
                 ));
+            },
+        });
+    }
+
+    function SubmitMassDelete(e) {
+        e.preventDefault();
+        massDestroy(route("photo.massDelete"), {
+            preserveScroll: true,
+            preserveState: true,
+            onStart: () => {
+                setShowImageDeleteModal(false);
+            },
+            onError: (error) => console.error("error: ", error),
+            onSuccess: () => {
+                toast.custom((t) => (
+                    <Toast t={t} text="Images deleted successfully!" />
+                ));
+                setSelected([]);
             },
         });
     }
@@ -64,9 +89,24 @@ export default function EditCollection({ auth, collection }) {
     return (
         <>
             <DeleteModal
-                show={showDeleteModal}
+                show={showImageDeleteModal}
                 CloseModal={() => {
-                    setShowDeleteModal(false);
+                    setShowImageDeleteModal(false);
+                }}
+                DeleteImage={SubmitMassDelete}
+                title="Mass delete images?"
+            >
+                <p className="text-center text-text">
+                    Are you sure you want to delete the selected images?
+                </p>
+                <p className="text-center text-text">
+                    This action cannot be reversed.
+                </p>
+            </DeleteModal>
+            <DeleteModal
+                show={showCollectionDeleteModal}
+                CloseModal={() => {
+                    setShowCollectionDeleteModal(false);
                 }}
                 DeleteImage={SubmitDelete}
                 title="Delete this collection?"
@@ -128,7 +168,9 @@ export default function EditCollection({ auth, collection }) {
                                 />
                                 <DangerButton
                                     text="Delete"
-                                    onClick={() => setShowDeleteModal(true)}
+                                    onClick={() =>
+                                        setShowCollectionDeleteModal(true)
+                                    }
                                     disabled={undeletableCollections.includes(
                                         collection.id,
                                     )}
@@ -138,7 +180,7 @@ export default function EditCollection({ auth, collection }) {
                         </form>
                     </section>
                     <div className="flex flex-col gap-8">
-                        <div className="flex flex-col items-center gap-2 md:flex-row md:justify-between">
+                        <div className="flex flex-col gap-2 md:flex-row md:justify-between">
                             <h3>Photos</h3>
                             <div
                                 className={
@@ -149,16 +191,22 @@ export default function EditCollection({ auth, collection }) {
                             >
                                 <DangerButton
                                     text={`Delete ${selected.length}`}
+                                    onClick={() =>
+                                        setShowImageDeleteModal(true)
+                                    }
+                                    className="w-full md:w-fit"
+                                    processing={massDeleteProcessing}
                                 />
                             </div>
                         </div>
-                        <div className="grid grid-cols-6 gap-6">
+                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                             {collection.images.map((image) => (
                                 <PhotoCard
                                     key={image.id}
                                     image={image}
                                     Select={SelectImage}
                                     selected={selected.includes(image.id)}
+                                    collectionSlug={collection.slug}
                                 />
                             ))}
                         </div>
@@ -169,10 +217,17 @@ export default function EditCollection({ auth, collection }) {
     );
 }
 
-const PhotoCard = ({ image, selected = false, Select = () => {} }) => {
+const PhotoCard = ({
+    image,
+    selected = false,
+    Select = () => {},
+    collectionSlug,
+}) => {
     return (
-        <div className="relative h-full w-full">
-            <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-xl p-4">
+        <div
+            className={`${selected ? "outline-text" : "outline-transparent"} relative h-full w-full rounded-3xl outline transition-all`}
+        >
+            <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-3xl p-4">
                 <IconButton
                     icon={selected ? "checkbox" : "checkbox-empty"}
                     onClick={() => {
@@ -180,10 +235,19 @@ const PhotoCard = ({ image, selected = false, Select = () => {} }) => {
                     }}
                 />
                 <div className="flex flex-row">
-                    <IconButton icon="collections" />
-                    <IconButton icon="info" />
-                    <IconButton icon="edit" />
-                    <IconButton />
+                    <IconButton
+                        icon="collections"
+                        as="link"
+                        href={route("gallery.setCover", [
+                            collectionSlug,
+                            image.id,
+                        ])}
+                    />
+                    <IconButton
+                        icon="edit"
+                        as="link"
+                        href={route("photo.edit", image.id)}
+                    />
                 </div>
             </div>
             <img

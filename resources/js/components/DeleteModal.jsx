@@ -17,7 +17,7 @@ export const DeleteModal = ({
                 <div className="flex max-w-[27rem] flex-col gap-2">
                     {children}
                 </div>
-                <div className="flex justify-center gap-4">
+                <div className="flex flex-row justify-center gap-4">
                     <PrimaryButton text="Delete" onClick={() => {}} />
                     <SecondaryButton text="Cancel" onClick={CloseModal} />
                 </div>

@@ -28,17 +28,19 @@
 -   [x] Updated custom button functionality
 -   [x] Collection delete functionality / form
 -   [x] Multi select photos in Edit collection page
--   [ ] Multi delete photos in Edit collection page
--   [ ] Custom checkbox
--   [ ] Collection edit photo redirect
--   [ ] Collection cover change functionality / form
--   [ ] Collection remove photos functionality / form
--   [ ] Photo view back button like Header component back
+-   [x] Collection edit photo redirect
+-   [x] Multi delete photos in Edit collection page
+-   [x] Delete photos from storage when collection is deleted
+-   [x] Collection cover change functionality / form
+-   [x] Photo view back button like Header component back
+-   [x] Fix mobile info card in Photo view
 
 ## Todo
 
--   [ ] Fix mobile info card in Photo view
+-   [ ] Custom checkbox
+-   [ ] Skip duplicate file on upload and notify user
 -   [ ] Multi-select photos to edit in upload
 -   [ ] Gallery image pre-loading / lazy loading
 -   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
 -   [ ] Animation for switching photos
+-   [ ] Framer motion-ify the site with animations

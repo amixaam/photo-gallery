@@ -21,16 +21,23 @@ class DatabaseSeeder extends Seeder
 
         $bestWorkCollection = Collection::create([
             'title' => 'My best work',
-            'cover_path' => 'premade/home.webp',
+            'cover_path' => 'premade/czechia.webp',
             'is_public' => false,
         ]);
 
         $images = [
             [
-                'path' => 'premade/home.webp',
-                'original_filename' => 'home.webp',
-                'title' => 'Home',
-                'alt_text' => 'A blue sky with sea-bed like clouds.',
+                'path' => 'premade/freedom.webp',
+                'original_filename' => 'freedom.webp',
+                'title' => 'Freedom statue',
+                'alt_text' => 'The Freedom statue with a blue sky in the background.',
+                'location' => 'Latvia'
+            ],
+            [
+                'path' => 'premade/mood.webp',
+                'original_filename' => 'mood.webp',
+                'title' => 'Mood',
+                'alt_text' => 'Blue moody sky with clouds illuminated by the setting sun.',
                 'location' => 'Latvia',
             ],
             [
@@ -41,11 +48,11 @@ class DatabaseSeeder extends Seeder
                 'location' => 'Lithuania'
             ],
             [
-                'path' => 'premade/freedom.webp',
-                'original_filename' => 'freedom.webp',
-                'title' => 'Freedom statue',
-                'alt_text' => 'The Freedom statue with a blue sky in the background.',
-                'location' => 'Latvia'
+                'path' => 'premade/czechia.webp',
+                'original_filename' => 'czechia.webp',
+                'title' => 'Water alley',
+                'alt_text' => 'A water canal in prague.',
+                'location' => 'Czechia'
             ],
             [
                 'path' => 'premade/poland.webp',
@@ -53,13 +60,6 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Stranded',
                 'alt_text' => 'Hilly Poland terrain in the background, a ski lift in the foreground.',
                 'location' => 'Poland'
-            ],
-            [
-                'path' => 'premade/cesis.webp',
-                'original_filename' => 'cesis.webp',
-                'title' => 'Uzvaras statue',
-                'alt_text' => 'Uzvaras statue in the night, being illuminated.',
-                'location' => 'Latvia'
             ],
         ];
 

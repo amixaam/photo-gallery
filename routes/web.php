@@ -52,6 +52,7 @@
             return Inertia::render('Upload', ["options" => $collectionOptions]);
         })->name('upload');
         Route::post('/photo/upload', [ImageController::class, 'upload'])->name('photo.post');
+        Route::delete('/photo/mass-delete', [ImageController::class, 'massDestroy'])->name('photo.massDelete');
         Route::delete('/photo/{id}', [ImageController::class, 'destroy'])->name('photo.delete');
         Route::get('/photo/edit/{id}', [ImageController::class, 'renderEdit'])->name('photo.edit');
         // patch - modify, put - replace
@@ -63,6 +64,7 @@
         })->name('gallery.edit');
         Route::get('/collection/{slug}/pin', [CollectionController::class, 'pin'])->name('gallery.pin');
         Route::patch('/collection/{slug}/edit', [CollectionController::class, 'update'])->name('gallery.update');
+        Route::get('/collection/{slug}/cover/{id}', [CollectionController::class, 'setCover'])->name('gallery.setCover');
         Route::delete('/collection/{slug}/delete', [CollectionController::class, 'destroy'])->name('gallery.delete');
 
         Route::get('/user/edit', function () {

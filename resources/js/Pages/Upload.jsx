@@ -14,6 +14,7 @@ import { Toast } from "../components/Toast";
 import { Truncate } from "../utils/Truncate";
 import toast from "react-hot-toast";
 import Header from "../components/Header";
+import { SecondaryButton } from "../components/SecondaryButton";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
@@ -169,10 +170,10 @@ export default function Upload({ auth, options }) {
             />
             <MainLayout auth={auth}>
                 <Header title="Upload" back={true} href={route("dashboard")} />
-                <main className="grid grid-cols-[1fr_4fr] gap-8">
+                <main className="grid gap-8 md:grid-cols-[1fr_4fr]">
                     <aside className="flex flex-col gap-8">
                         <div
-                            className={`relative aspect-square w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out`}
+                            className={`relative w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out md:aspect-square`}
                         >
                             {processing && (
                                 <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
@@ -191,7 +192,7 @@ export default function Upload({ auth, options }) {
                                     src="/images/upload.svg"
                                     alt="upload icon"
                                 />
-                                <p className="text-text">
+                                <p className="text-center text-text">
                                     Drag and drop or select images here!
                                 </p>
                             </div>
@@ -227,21 +228,32 @@ export default function Upload({ auth, options }) {
                                 {thumbs.length} images, {totalSizeInMB} MB
                             </p>
                             <div className="flex w-full flex-row gap-[inherit]">
-                                <IconTextButton
+                                <SecondaryButton
+                                    type="button"
                                     disabled={processing}
                                     onClick={() => {
                                         ClearButton();
                                     }}
-                                    text="Clear all"
-                                    href="/images/close.svg"
-                                />
-                                <form onSubmit={SubmitHandler}>
-                                    <IconTextButton
+                                    className="flex-grow justify-center"
+                                >
+                                    <img src="/images/close.svg" alt="" />
+                                    <p>Clear</p>
+                                </SecondaryButton>
+                                <form
+                                    onSubmit={SubmitHandler}
+                                    className="flex-grow"
+                                >
+                                    <SecondaryButton
+                                        type="submit"
                                         disabled={processing}
-                                        onClick={() => {}}
-                                        text="Upload"
-                                        href="/images/upload.svg"
-                                    />
+                                        className="w-full justify-center"
+                                    >
+                                        <img
+                                            src="/images/upload.svg"
+                                            alt="upload icon"
+                                        />
+                                        <p>Upload</p>
+                                    </SecondaryButton>
                                 </form>
                             </div>
                         </div>
