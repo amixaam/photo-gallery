@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('alt_text');
             $table->string('location')->nullable();
             $table->string('time')->nullable();
+
+            $table->integer('width')->nullable();
+            $table->integer('height')->nullable();
+            $table->string('aspect_ratio')->nullable();
+
             // could be a cool addition
             // $table->string('people')->nullable();
             $table->timestamps();

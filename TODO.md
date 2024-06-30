@@ -42,7 +42,7 @@
 -   [x] Image preview overlays will now be automatically displayed on smaller devices
 -   [x] All inputs disabled when uploading
 -   [x] Filesize warning and disable upload button when over limit
--   [ ] image lazy loading
+-   [x] image lazy loading
 
 ## Todo
 

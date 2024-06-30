@@ -6,6 +6,7 @@ import Reveal from "../components/Reveal";
 import { motion } from "framer-motion";
 import { container, revealItem } from "../utils/FramerVariants";
 import { SecondaryButton } from "../components/SecondaryButton";
+import { ImageComponent } from "../components/ImageComponent";
 
 export default function Landing({ auth, collection }) {
     return (
@@ -144,10 +145,15 @@ const ShowcaseImage = ({ image, slug }) => {
             href={route("photo", [slug, image.id])}
             className="group flex flex-col gap-2"
         >
-            <img
+            <ImageComponent
                 src={"storage/" + image.path}
+                blurhash={image.blurhash}
                 alt={image.alt_text}
-                className="w-[220px] flex-1 select-none rounded-3xl bg-secondary20 transition-all duration-200 group-[&:hover]:scale-[1.01] group-[&:hover]:opacity-100 sm:w-[380px] md:opacity-90"
+                parentClassname={"h-full flex flex-1"}
+                className={
+                    "rounded-3xl bg-secondary20 transition-all duration-200 group-[&:hover]:scale-[1.01] group-[&:hover]:opacity-100"
+                }
+                imageClassName={`w-[220px] flex-1 select-none sm:w-[380px] md:opacity-90"`}
             />
             <div className="flex translate-y-2 flex-col justify-between text-nowrap transition-all duration-200 group-[&:hover]:translate-y-0 group-[&:hover]:opacity-100 sm:flex-row sm:items-center sm:opacity-10">
                 <div className="flex flex-row items-center gap-2">
@@ -166,6 +172,7 @@ const ShowcaseImage = ({ image, slug }) => {
                         alt=""
                         className="scale-[0.6] select-none sm:scale-75"
                     />
+
                     <p className="text-sm text-text sm:text-base">
                         {image.location}
                     </p>

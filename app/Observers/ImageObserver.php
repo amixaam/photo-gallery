@@ -19,8 +19,14 @@ class ImageObserver
      */
     public function created(Image $image): void
     {
+        // generate blurhash
         $blurhash = $this->GenerateBlurhash(Storage::path("public/" . $image->path));
-        $image->update(['blurhash' => $blurhash]);
+
+        // calculate aspect ratio
+        $dimensions = getimagesize(Storage::path("public/" . $image->path));
+        $aspect_ratio = round($dimensions[0] / $dimensions[1], 2);
+
+        $image->update(['blurhash' => $blurhash, 'width' => $dimensions[0], 'height' => $dimensions[1], 'aspect_ratio' => $aspect_ratio]);
     }
 
     /**

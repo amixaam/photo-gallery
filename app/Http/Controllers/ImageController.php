@@ -6,11 +6,9 @@ use App\Models\Collection;
 use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use Symfony\Component\ErrorHandler\Debug;
 use ZipArchive;
 
 class ImageController extends Controller
@@ -26,7 +24,7 @@ class ImageController extends Controller
 
     public function renderEdit($id)
     {
-        $image = Image::with('collection:id,title,slug,cover_path')->find($id);
+        $image = Image::with('collection:id,title,slug,cover_path,cover_blurhash')->find($id);
 
         if (!$image) {
             return back()->withErrors([

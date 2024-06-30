@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import { InertiaLink, Link } from "@inertiajs/inertia-react";
 import EmptyList from "../components/EmptyList";
 import { IconButton } from "../components/IconButton";
+import { ImageComponent } from "../components/ImageComponent";
 
 function Gallery({ collection, auth }) {
     if (collection.images.length === 0) {
@@ -56,11 +57,11 @@ function Gallery({ collection, auth }) {
                                 only={["selectedImage"]}
                                 className="w-full transition-all duration-200 hover:scale-[1.025]"
                             >
-                                <img
+                                <ImageComponent
                                     src={"/storage/" + image.path}
+                                    blurhash={image.blurhash}
                                     alt={image.alt_text}
-                                    className="mb-12 w-full rounded-3xl"
-                                    loading="lazy"
+                                    className={`mb-12 w-full rounded-3xl aspect-[${image.aspect_ratio}]`}
                                 />
                             </Link>
                         ))}

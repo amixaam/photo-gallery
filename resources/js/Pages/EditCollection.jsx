@@ -11,6 +11,7 @@ import { DeleteModal } from "../components/DeleteModal";
 import { IconButton } from "../components/IconButton";
 import { router } from "@inertiajs/react";
 import { SetToast } from "../utils/SetToast";
+import { ImageComponent } from "../components/ImageComponent";
 
 // "Misc." and "My best work"
 const undeletableCollections = [1, 2];
@@ -151,8 +152,9 @@ export default function EditCollection({ auth, collection }) {
                 <main className="flex flex-col gap-[inherit]">
                     {/* Edit form */}
                     <section className="flex flex-col gap-4 sm:grid sm:grid-cols-[auto_1fr]">
-                        <img
+                        <ImageComponent
                             src={`/storage/${collection.cover_path}`}
+                            blurhash={collection.cover_blurhash}
                             alt={collection.title}
                             className="aspect-square w-full rounded-3xl object-cover md:h-[250px] md:w-[250px]"
                         />
@@ -262,7 +264,7 @@ const PhotoCard = ({
         <div
             className={`${selected ? "outline-text" : "outline-transparent"} relative h-full w-full rounded-3xl outline transition-all`}
         >
-            <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-3xl p-4">
+            <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-3xl p-4 z-10">
                 <IconButton
                     icon={selected ? "checkbox" : "checkbox-empty"}
                     onClick={() => {
@@ -285,9 +287,10 @@ const PhotoCard = ({
                     />
                 </div>
             </div>
-            <img
+            <ImageComponent
                 src={`/storage/${image.path}`}
-                alt={image.title}
+                blurhash={image.blurhash}
+                alt={image.alt_text}
                 className="aspect-square w-full rounded-3xl object-cover"
             />
         </div>

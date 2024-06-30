@@ -25,6 +25,7 @@ class CollectionController extends Controller
         $collections = $collections->map(function ($collection) {
             if (is_null($collection->cover_path) && $collection->images->isNotEmpty()) {
                 $collection->cover_path = $collection->images->first()->path;
+                $collection->cover_blurhash = $collection->images->first()->blurhash;
             }
 
             // Remove the images relationship from the final output
@@ -128,7 +129,7 @@ class CollectionController extends Controller
             ]);
         }
 
-        $collection->update(['cover_path' => $image->path]);
+        $collection->update(['cover_path' => $image->path, 'cover_blurhash' => $image->blurhash]);
 
         return back();
     }

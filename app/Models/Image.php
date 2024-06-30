@@ -13,7 +13,7 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path', 'title', 'alt_text', 'location', 'time', "original_filename", "blurhash"
+        'path', 'title', 'alt_text', 'location', 'time', "original_filename", "blurhash", "width", "height", "aspect_ratio"
     ];
 
     public function collection()
