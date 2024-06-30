@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'eb27a9dad27e16170d43754ecbefb5607581ccc5',
+        'reference' => 'ee0cf5001d1b126ed4731e35223cdfc9d4b72eae',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'bepsvpt/blurhash' => array(
+            'pretty_version' => '3.0.1',
+            'version' => '3.0.1.0',
+            'reference' => 'dc58974c2543998e09cdf246566165727123a140',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bepsvpt/blurhash',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'brianium/paratest' => array(
             'pretty_version' => 'v7.4.3',
             'version' => '7.4.3.0',
@@ -427,7 +436,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'eb27a9dad27e16170d43754ecbefb5607581ccc5',
+            'reference' => 'ee0cf5001d1b126ed4731e35223cdfc9d4b72eae',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

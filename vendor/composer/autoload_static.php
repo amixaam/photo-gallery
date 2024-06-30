@@ -198,6 +198,7 @@ class ComposerStaticInitd51d1428274e3e099029e5da1e20ebad
         'B' => 
         array (
             'Brick\\Math\\' => 11,
+            'Bepsvpt\\Blurhash\\' => 17,
         ),
         'A' => 
         array (
@@ -358,13 +359,13 @@ class ComposerStaticInitd51d1428274e3e099029e5da1e20ebad
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            1 => __DIR__ . '/..' . '/spatie/ignition/src',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -607,6 +608,10 @@ class ComposerStaticInitd51d1428274e3e099029e5da1e20ebad
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
+        'Bepsvpt\\Blurhash\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bepsvpt/blurhash/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -624,8 +629,25 @@ class ComposerStaticInitd51d1428274e3e099029e5da1e20ebad
         'App\\Models\\CollectionImage' => __DIR__ . '/../..' . '/app/Models/CollectionImage.php',
         'App\\Models\\Image' => __DIR__ . '/../..' . '/app/Models/Image.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Observers\\ImageObserver' => __DIR__ . '/../..' . '/app/Observers/ImageObserver.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Bepsvpt\\Blurhash\\Base83' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Base83.php',
+        'Bepsvpt\\Blurhash\\BlurHash' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/BlurHash.php',
+        'Bepsvpt\\Blurhash\\BlurHashServiceProvider' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/BlurHashServiceProvider.php',
+        'Bepsvpt\\Blurhash\\Drivers\\Driver' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Drivers/Driver.php',
+        'Bepsvpt\\Blurhash\\Drivers\\GdDriver' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Drivers/GdDriver.php',
+        'Bepsvpt\\Blurhash\\Drivers\\ImagickDriver' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Drivers/ImagickDriver.php',
+        'Bepsvpt\\Blurhash\\Drivers\\VipsDriver' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Drivers/VipsDriver.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\BlurHashException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/BlurHashException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\DriverNotFoundException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/DriverNotFoundException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnableToConvertColorException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnableToConvertColorException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnableToCreateImageException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnableToCreateImageException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnableToGetColorException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnableToGetColorException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnableToReadFileException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnableToReadFileException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnableToSetPixelException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnableToSetPixelException.php',
+        'Bepsvpt\\Blurhash\\Exceptions\\UnsupportedFileException' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Exceptions/UnsupportedFileException.php',
+        'Bepsvpt\\Blurhash\\Facades\\BlurHash' => __DIR__ . '/..' . '/bepsvpt/blurhash/src/Facades/BlurHash.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
         'Brick\\Math\\BigNumber' => __DIR__ . '/..' . '/brick/math/src/BigNumber.php',
