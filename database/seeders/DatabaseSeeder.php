@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'title' => 'My best work',
             'cover_path' => 'premade/czechia.webp',
             'is_public' => false,
+            'cover_blurhash' => "UrFP,3j?aJt7%%fka}fkyFt6fRazWFozozae",
         ]);
 
         $images = [

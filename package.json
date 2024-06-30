@@ -9,11 +9,11 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "laravel-vite-plugin": "^1.0.4",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.4",
-    "vite": "^5.3.1"
+    "vite": "^5.3.2"
   },
   "dependencies": {
     "@inertiajs/inertia-react": "^0.8.1",
