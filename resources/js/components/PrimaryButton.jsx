@@ -18,7 +18,7 @@ function PrimaryButton({
                 disabled={disabled || processing}
                 className={`${style} ${disabled ? "brightness-50" : "hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200`}
             >
-                <div className={`h-full w-full ${processing && "opacity-0"}`}>
+                <div className={`h-full w-full flex justify-center ${processing && "opacity-0"}`}>
                     <Text>{text}</Text>
                 </div>
                 {processing && (
@@ -37,7 +37,9 @@ function PrimaryButton({
             disabled={disabled || processing}
             className={`${style} ${disabled ? "brightness-50" : "hover:scale-105 hover:drop-shadow-xl active:scale-100 active:brightness-95 active:drop-shadow-xl active:duration-100"} group flex items-center justify-center rounded-md bg-gradient-to-b from-text from-20% to-textdark to-60% px-6 py-2 transition-all duration-200`}
         >
-            <div className={`h-full w-full ${processing && "opacity-0"}`}>
+            <div
+                className={`flex h-full w-full justify-center ${processing && "opacity-0"}`}
+            >
                 <Text>{text}</Text>
             </div>
             {processing && (

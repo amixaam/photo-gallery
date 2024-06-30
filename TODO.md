@@ -35,12 +35,21 @@
 -   [x] Photo view back button like Header component back
 -   [x] Fix mobile info card in Photo view
 
+## 30.06
+
+-   [x] Error toasts
+-   [x] Select all photos checkbox in Edit collection page
+-   [x] Image preview overlays will now be automatically displayed on smaller devices
+-   [x] All inputs disabled when uploading
+-   [x] Filesize warning and disable upload button when over limit
+-   [ ] image lazy loading
+
 ## Todo
 
--   [ ] Custom checkbox
+-   [ ] Upload is sticky to top on desktop
 -   [ ] Skip duplicate file on upload and notify user
 -   [ ] Multi-select photos to edit in upload
--   [ ] Gallery image pre-loading / lazy loading
+-   [ ] Custom checkbox
 -   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
 -   [ ] Animation for switching photos
 -   [ ] Framer motion-ify the site with animations

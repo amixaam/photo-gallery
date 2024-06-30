@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('path');
             $table->string('original_filename');
+            $table->string('blurhash');
             $table->string('title');
             $table->string('alt_text');
             $table->string('location')->nullable();

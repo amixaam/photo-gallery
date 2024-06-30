@@ -21,7 +21,9 @@ const NavButton = ({ href, text }) => {
             href={href}
             className="group rounded-full px-4 py-1 transition-all hover:scale-105 hover:bg-secondary active:scale-100 active:brightness-95"
         >
-            <h4 className="drop-shadow-lg">{text}</h4>
+            <div className="flex">
+                <h4 className="drop-shadow-lg">{text}</h4>
+            </div>
         </Link>
     );
 };

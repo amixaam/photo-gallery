@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import { Icon } from "../Pages/Dashboard";
+import { Truncate } from "../utils/Truncate";
 
 export const SmallCollectionCard = ({ collection, href }) => {
     return (
@@ -24,7 +25,7 @@ export const SmallCollectionCard = ({ collection, href }) => {
                         alt=""
                         className="scale-90 select-none"
                     />
-                    <p className="text-text">{collection.title}</p>
+                    <p className="text-text">{Truncate(collection.title, 16)}</p>
                 </div>
                 <div className="flex gap-1">
                     <Icon

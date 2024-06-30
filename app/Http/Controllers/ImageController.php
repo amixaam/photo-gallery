@@ -70,7 +70,7 @@ class ImageController extends Controller
             ]);
         }
 
-        if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You can not delete premade images.']);
+        if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You cannot delete premade images.']);
 
         $collection = $image->collection->first();
 
@@ -107,7 +107,7 @@ class ImageController extends Controller
             $image = Image::find($id);
 
             if ($image) {
-                if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You can not delete premade images.']);
+                if (str_contains($image->path, 'premade/')) return back()->withErrors(['error' => 'You cannot delete premade images.']);
 
                 if (Storage::exists("public/" . $image->path)) Storage::delete("public/" . $image->path);
                 $image->delete();

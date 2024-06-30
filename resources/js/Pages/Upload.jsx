@@ -88,9 +88,31 @@ export default function Upload({ auth, options }) {
         files.reduce((acc, file) => acc + file.size, 0) /
         (1024 * 1024)
     ).toFixed(2);
+    const limit = 50;
+    const limitReached = totalSizeInMB > limit;
 
     async function SubmitHandler(e) {
         e.preventDefault();
+
+        if (files.length === 0) {
+            toast.custom((t) => (
+                <Toast
+                    t={t}
+                    text="Please select at least one image to upload."
+                />
+            ));
+            return;
+        }
+
+        if (limitReached) {
+            toast.custom((t) => (
+                <Toast
+                    t={t}
+                    text={`Please upload no more than ${limit} MB of images.`}
+                />
+            ));
+            return;
+        }
 
         const zip = await ZipImages(files);
         setData("zip", zip);
@@ -100,7 +122,14 @@ export default function Upload({ auth, options }) {
     useEffect(() => {
         if (data.zip !== null) {
             post(route("photo.post"), {
-                onError: (error) => console.error("error: ", error),
+                onError: (e) => {
+                    toast.custom((t) => (
+                        <Toast
+                            t={t}
+                            text="Something went wrong. Please try again later."
+                        />
+                    ));
+                },
                 onSuccess: () => {
                     setFiles([]);
                     reset();
@@ -216,17 +245,26 @@ export default function Upload({ auth, options }) {
                                 name="location"
                                 value={data.location}
                                 onchange={changeHandler}
+                                disabled={processing}
                             />
                             <TextInput
                                 name="time"
                                 value={data.time}
                                 onchange={changeHandler}
+                                disabled={processing}
                             />
                         </div>
                         <div className="flex flex-col gap-4">
-                            <p className="text-text">
-                                {thumbs.length} images, {totalSizeInMB} MB
-                            </p>
+                            <div className="flex flex-row justify-between">
+                                <p className="text-text">
+                                    {thumbs.length} images, {totalSizeInMB} MB
+                                </p>
+                                {limitReached && (
+                                    <p className="inline text-error">
+                                        LIMIT REACHED
+                                    </p>
+                                )}
+                            </div>
                             <div className="flex w-full flex-row gap-[inherit]">
                                 <SecondaryButton
                                     type="button"
@@ -260,7 +298,7 @@ export default function Upload({ auth, options }) {
                     </aside>
                     <div className="flex flex-col">
                         {thumbs.length > 0 && (
-                            <div className="columns-1 gap-6 md:columns-2 lg:columns-3 2xl:columns-4">
+                            <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 2xl:columns-4">
                                 {thumbs}
                             </div>
                         )}
@@ -276,7 +314,7 @@ const ImagePreview = ({ file, isLoading, clearImage, data, OpenModal }) => {
         <div className="relative">
             <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-xl p-4">
                 <div className="flex h-fit w-full flex-row items-center justify-between">
-                    <p className="text-text">
+                    <p className="text-text sm:hidden xl:block">
                         {Truncate(data.title ? data.title : file.path, 12)}
                     </p>
                     <div className="flex flex-row">

@@ -10,6 +10,7 @@ import Header from "../components/Header";
 import { DeleteModal } from "../components/DeleteModal";
 import { IconButton } from "../components/IconButton";
 import { router } from "@inertiajs/react";
+import { SetToast } from "../utils/SetToast";
 
 // "Misc." and "My best work"
 const undeletableCollections = [1, 2];
@@ -48,6 +49,14 @@ export default function EditCollection({ auth, collection }) {
 
     function SubmitDelete(e) {
         e.preventDefault();
+
+        if (undeletableCollections.includes(collection.id)) {
+            toast.custom((t) => (
+                <Toast t={t} text="This collection can't be deleted!" />
+            ));
+            return;
+        }
+
         destroy(route("gallery.delete", collection.slug), {
             onStart: () => {
                 setShowCollectionDeleteModal(false);
@@ -68,12 +77,18 @@ export default function EditCollection({ auth, collection }) {
             onStart: () => {
                 setShowImageDeleteModal(false);
             },
-            onError: (error) => console.error("error: ", error),
             onSuccess: () => {
                 toast.custom((t) => (
                     <Toast t={t} text="Images deleted successfully!" />
                 ));
                 setSelected([]);
+            },
+            onError: (e) => {
+                SetToast(
+                    e.error
+                        ? e.error
+                        : "Something went wrong. Please try again later.",
+                );
             },
         });
     }
@@ -83,6 +98,14 @@ export default function EditCollection({ auth, collection }) {
             setSelected(selected.filter((i) => i !== id));
         } else {
             setSelected([...selected, id]);
+        }
+    }
+
+    function SelectAllImages() {
+        if (selected.length === collection.images.length) {
+            setSelected([]);
+        } else {
+            setSelected(collection.images.map((image) => image.id));
         }
     }
 
@@ -181,7 +204,19 @@ export default function EditCollection({ auth, collection }) {
                     </section>
                     <div className="flex flex-col gap-8">
                         <div className="flex flex-col gap-2 md:flex-row md:justify-between">
-                            <h3>Photos</h3>
+                            <div className="flex flex-row items-center justify-between gap-8 md:justify-normal">
+                                <h3>Photos</h3>
+                                <button
+                                    className="flex flex-row items-center justify-center gap-2"
+                                    onClick={SelectAllImages}
+                                >
+                                    <img
+                                        src={`/images/checkbox${selected.length === collection.images.length ? "" : "-empty"}.svg`}
+                                        alt="checkbox"
+                                    />
+                                    <p>Select all</p>
+                                </button>
+                            </div>
                             <div
                                 className={
                                     selected.length

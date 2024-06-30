@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { IconButton } from "../components/IconButton";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import { IconLink } from "../components/IconLink";
-import { Toast } from "../components/Toast";
-import toast from "react-hot-toast";
 import { DeleteModal } from "../components/DeleteModal";
+import { SetToast } from "../utils/SetToast";
 
 function Photo({ auth, collection, image, error }) {
     const { delete: destroy, recentlySuccessful, errors } = useForm();
@@ -30,16 +29,22 @@ function Photo({ auth, collection, image, error }) {
 
     const DeleteImage = (e) => {
         e.preventDefault();
+
         destroy(route("photo.delete", image.id), {
-            onSuccess: () => {
+            onStart: () => {
                 setShowDeleteModal(false);
+            },
+            onSuccess: () => {
                 SetToast("Image successfully deleted.");
             },
+            onError: (e) => {
+                SetToast(
+                    e.error
+                        ? e.error
+                        : "Something went wrong. Please try again later.",
+                );
+            },
         });
-    };
-
-    const SetToast = (text) => {
-        toast.custom((t) => <Toast t={t} text={text} />);
     };
 
     return (
@@ -132,7 +137,7 @@ function Photo({ auth, collection, image, error }) {
                             collection.slug,
                             ShowPreviousImage(),
                         ])}
-                        className="from-black30 group flex h-full w-1/2 bg-gradient-to-r to-transparent md:w-1/4 md:from-black50"
+                        className="group flex h-full w-1/2 bg-gradient-to-r from-black30 to-transparent md:w-1/4 md:from-black50"
                     >
                         <img
                             src="/images/back.svg"
@@ -146,7 +151,7 @@ function Photo({ auth, collection, image, error }) {
                             collection.slug,
                             ShowNextImage(),
                         ])}
-                        className="from-black30 group flex h-full w-1/2 justify-end bg-gradient-to-l to-transparent md:w-1/4 md:from-black50"
+                        className="group flex h-full w-1/2 justify-end bg-gradient-to-l from-black30 to-transparent md:w-1/4 md:from-black50"
                     >
                         <img
                             src="/images/front.svg"

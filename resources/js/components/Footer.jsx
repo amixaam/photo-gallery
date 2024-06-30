@@ -31,14 +31,6 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                             © Roberts Briņķis, 2024
                         </p>
                         <div className="flex flex-row gap-8">
-                            <button
-                                onClick={() => setGrainPrefs(!grainPrefs)}
-                                className="transition-all hover:scale-110"
-                            >
-                                <p className="link text-text">
-                                    Grain {grainPrefs ? "on" : "off"}
-                                </p>
-                            </button>
                             <InertiaLink
                                 href="/dashboard"
                                 className="transition-all hover:scale-125"

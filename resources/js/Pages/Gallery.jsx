@@ -60,6 +60,7 @@ function Gallery({ collection, auth }) {
                                     src={"/storage/" + image.path}
                                     alt={image.alt_text}
                                     className="mb-12 w-full rounded-3xl"
+                                    loading="lazy"
                                 />
                             </Link>
                         ))}
