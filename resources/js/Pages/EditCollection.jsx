@@ -264,7 +264,7 @@ const PhotoCard = ({
         <div
             className={`${selected ? "outline-text" : "outline-transparent"} relative h-full w-full rounded-3xl outline transition-all`}
         >
-            <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-3xl p-4 z-10">
+            <div className="image-preview-overlay absolute z-[1] flex h-full w-full flex-row justify-between rounded-3xl p-4">
                 <IconButton
                     icon={selected ? "checkbox" : "checkbox-empty"}
                     onClick={() => {
