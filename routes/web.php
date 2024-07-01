@@ -56,6 +56,8 @@
         Route::delete('/photo/{id}', [ImageController::class, 'destroy'])->name('photo.delete');
         Route::get('/photo/edit/{id}', [ImageController::class, 'renderEdit'])->name('photo.edit');
         // patch - modify, put - replace
+        Route::patch('/collection/add/{id}/', [ImageController::class, 'AddToCollection'])->name('photo.addToCollection');
+        Route::patch('/collection/remove/{id}/', [ImageController::class, 'RemoveFromCollection'])->name('photo.removeFromCollection');
         Route::patch('/photo/edit/{id}', [ImageController::class, 'update'])->name('photo.update');
 
         Route::get('/collection/{slug}/edit', function ($slug) {

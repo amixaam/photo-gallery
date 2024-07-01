@@ -1,13 +1,11 @@
-import { InertiaLink, Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 import MainLayout from "../Layouts/MainLayout";
 import EmptyList from "../components/EmptyList";
 import PrimaryButton from "../components/PrimaryButton";
-import { IconLink } from "../components/IconLink";
-import toast from "react-hot-toast";
-import { motion } from "framer-motion";
-import { container, revealItem } from "../utils/FramerVariants";
-import { Toast } from "../components/Toast";
+import Header from "../components/Header";
+import { ImageComponent } from "../components/ImageComponent";
+
 export default function Collections({
     collections,
     featured_collection,
@@ -25,12 +23,10 @@ export default function Collections({
     }
     return (
         <MainLayout auth={auth.user}>
-            {/* New collection banner */}
             <NewCollectionBanner data={featured_collection} />
+
             <div className="flex justify-between">
-                <h1 className="special-text hidden text-4xl drop-shadow-md sm:text-6xl md:block">
-                    Collections
-                </h1>
+                <Header title="Collections" />
 
                 <div className="flex flex-row items-center gap-2">
                     <img
@@ -45,70 +41,77 @@ export default function Collections({
             </div>
 
             <main className="grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {collections
-                    .sort((a, b) => (a.is_featured > b.is_featured ? -1 : 1))
-                    .map((collection) => (
-                        <Link
-                            href={route("gallery", collection.slug)}
-                            key={collection.id}
-                            className={`group relative mb-6 flex aspect-square w-full flex-col gap-2`}
-                        >
-                            {!auth.user && collection.is_featured == 1 && (
-                                <div className="pointer-events-none absolute right-0 top-0 z-[2] m-4 size-8 rotate-45 drop-shadow-2xl transition-all duration-200 group-hover:scale-110">
-                                    <img
-                                        src="/images/pin.svg"
-                                        alt="pin icon"
-                                        className="h-full w-full"
-                                    />
-                                </div>
-                            )}
-                            {auth.user && (
-                                <InertiaLink
-                                    href={route("gallery.pin", collection.slug)}
-                                    className="absolute right-0 top-0 z-[2] m-4 size-8 rotate-45 drop-shadow-2xl transition-all duration-200 hover:opacity-50 group-hover:scale-105"
-                                    preserveScroll
-                                    preserveState
-                                >
-                                    <img
-                                        src={`/images/${collection.is_featured ? "pin" : "pin-empty"}.svg`}
-                                        alt="pin icon"
-                                        className="h-full w-full"
-                                    />
-                                </InertiaLink>
-                            )}
-                            <img
-                                src={`/storage/${collection.cover_path}`}
-                                alt={`${collection.title}'s cover art`}
-                                className="flex aspect-square h-full items-center justify-center rounded-3xl bg-footersecondary object-cover font-medium text-text50 opacity-90 transition-all duration-200 hover:opacity-100 group-[&:hover]:scale-[1.01]"
-                            />
-                            <div className="flex flex-1 translate-y-2 flex-col  justify-between text-nowrap transition-all duration-200 group-[&:hover]:translate-y-0">
-                                <div className="flex flex-row items-center gap-2">
-                                    <img
-                                        src="/images/star.svg"
-                                        alt=""
-                                        className="scale-75 select-none sm:scale-100 "
-                                    />
-                                    <h3 className="text-xl text-text ">
-                                        {collection.title}
-                                    </h3>
-                                </div>
-                                <div className="ml-[-6px] flex flex-row items-center gap-1 opacity-50">
-                                    <img
-                                        src="/images/photo-library.svg"
-                                        alt=""
-                                        className="scale-[0.6] select-none sm:scale-[0.6]"
-                                    />
-                                    <p className="text-sm text-text sm:text-base">
-                                        {collection.images_count}
-                                    </p>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
+                {collections.map((collection) => (
+                    <CollectionCard
+                        key={collection.id}
+                        collection={collection}
+                        auth={auth}
+                    />
+                ))}
             </main>
         </MainLayout>
     );
 }
+
+const CollectionCard = ({ collection, auth }) => {
+    return (
+        <Link
+            href={route("gallery", collection.slug)}
+            className={`group relative mb-6 flex aspect-square w-full flex-col gap-2`}
+        >
+            {!auth.user && collection.is_featured == 1 && (
+                <div className="pointer-events-none absolute right-0 top-0 z-[2] m-4 size-8 rotate-45 drop-shadow-2xl transition-all duration-200 group-hover:scale-110">
+                    <img
+                        src="/images/pin.svg"
+                        alt="pin icon"
+                        className="h-full w-full"
+                    />
+                </div>
+            )}
+            {auth.user && (
+                <Link
+                    href={route("gallery.pin", collection.slug)}
+                    className="absolute right-0 top-0 z-[2] m-4 size-8 rotate-45 drop-shadow-2xl transition-all duration-200 hover:opacity-50 group-hover:scale-105"
+                    preserveScroll
+                    preserveState
+                >
+                    <img
+                        src={`/images/${collection.is_featured ? "pin" : "pin-empty"}.svg`}
+                        alt="pin icon"
+                        className="h-full w-full"
+                    />
+                </Link>
+            )}
+            <ImageComponent
+                src={`/storage/${collection.cover_path}`}
+                blurhash={collection.cover_blurhash}
+                alt={`${collection.title}'s cover art`}
+                parentClassname="h-full aspect-square"
+                className={"h-full w-full rounded-3xl object-cover"}
+            />
+            <div className="flex flex-1 translate-y-2 flex-col  justify-between text-nowrap transition-all duration-200 group-[&:hover]:translate-y-0">
+                <div className="flex flex-row items-center gap-2">
+                    <img
+                        src="/images/star.svg"
+                        alt=""
+                        className="scale-75 select-none sm:scale-100 "
+                    />
+                    <h3 className="text-xl text-text ">{collection.title}</h3>
+                </div>
+                <div className="ml-[-6px] flex flex-row items-center gap-1 opacity-50">
+                    <img
+                        src="/images/photo-library.svg"
+                        alt=""
+                        className="scale-[0.6] select-none sm:scale-[0.6]"
+                    />
+                    <p className="text-sm text-text sm:text-base">
+                        {collection.images_count}
+                    </p>
+                </div>
+            </div>
+        </Link>
+    );
+};
 
 const NewCollectionBanner = ({ data }) => {
     if (!data) return null;
@@ -186,10 +189,12 @@ const NewCollectionBanner = ({ data }) => {
                     />
                 </div>
             </div>
-            <img
+            <ImageComponent
                 src={`/storage/${collection.cover_path}`}
-                alt=""
-                className="hidden h-full min-w-[50%] rounded-full object-cover opacity-90 transition-all duration-200 md:block"
+                blurhash={collection.cover_blurhash}
+                alt={`${collection.title}'s cover art`}
+                parentClassname="hidden h-full min-w-[50%] rounded-full opacity-90 transition-all duration-200 md:block"
+                className="h-full w-full rounded-full"
             />
         </Link>
     );

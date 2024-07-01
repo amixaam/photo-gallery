@@ -11,7 +11,7 @@ export const ImageComponent = ({
 }) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    if (!src || !blurhash) return console.log("Image or Blurhash missing");;
+    if (!src || !blurhash) return console.log("Image or Blurhash missing");
 
     return (
         <div className={`relative ${parentClassname}`}>

@@ -158,6 +158,12 @@ input {
     animation: fade-in 0.1s ease-in-out reverse forwards;
 }
 
+.stick-test {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
 @keyframes pulse-animation {
     from,
     to {

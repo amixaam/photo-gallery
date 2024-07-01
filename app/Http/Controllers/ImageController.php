@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\Image;
+use Bepsvpt\Blurhash\Facades\BlurHash;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -40,7 +41,11 @@ class ImageController extends Controller
             }
         }
 
-        return Inertia::render('EditPhoto', ["image" => $image]);
+        $collectionOptions = Collection::whereNotIn('id', $image->collection->pluck('id'))->get()->map(function ($collection) {
+            return ['value' => $collection->id, 'label' => $collection->title];
+        })->toArray();
+
+        return Inertia::render('EditPhoto', ["image" => $image, "options" => $collectionOptions]);
     }
 
     public function update(Request $request, $id)
@@ -101,6 +106,10 @@ class ImageController extends Controller
 
     public function massDestroy(Request $request)
     {
+        $validator = $request->validate([
+            'images' => 'required|array',
+        ]);
+
         foreach ($request->all() as $id) {
             $image = Image::find($id);
 
@@ -200,8 +209,11 @@ class ImageController extends Controller
             $path = 'images/' . $timestampedFilename;
             Storage::put("public/" . $path, $fileContents);
 
+            $blurhash = BlurHash::encode(Storage::path("public/" . $path));
+
             if ($createdCollection && $collection->cover_path == null) {
                 $collection->cover_path = $path;
+                $collection->cover_blurhash = $blurhash;
                 $collection->save();
 
                 $createdCollection = false;
@@ -214,6 +226,7 @@ class ImageController extends Controller
                 'alt_text' => $title,
                 'location' => $location,
                 'time' => $time,
+                'blurhash' => $blurhash,
             ]);
 
             $collection->images()->attach($image->id);
@@ -224,5 +237,39 @@ class ImageController extends Controller
         Storage::delete($zipPath);
 
         return back()->with('success', 'Images uploaded successfully.');
+    }
+
+    public function AddToCollection(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'collection' => 'required|exists:collections,id',
+        ]);
+
+        $image = Image::find($id);
+        $collection = Collection::find($request->input('collection'));
+
+        if ($collection->images->contains($image)) {
+            return back()->withErrors(['error' => 'Image is already in this collection!']);
+        }
+
+        $collection->images()->attach($image->id);
+        return back();
+    }
+
+    public function RemoveFromCollection(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'collection' => 'required|exists:collections,id',
+        ]);
+
+        $image = Image::find($id);
+        $collection = Collection::find($request->input('collection'));
+
+        if (!$collection->images->contains($image)) {
+            return back()->withErrors(['error' => 'Image is not in this collection!']);
+        }
+
+        $collection->images()->detach($image->id);
+        return back();
     }
 }

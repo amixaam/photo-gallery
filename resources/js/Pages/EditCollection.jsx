@@ -124,7 +124,8 @@ export default function EditCollection({ auth, collection }) {
                     Are you sure you want to delete the selected images?
                 </p>
                 <p className="text-center text-text">
-                    This action cannot be reversed.
+                    This action will remove the image from all collections and
+                    cannot be reversed.
                 </p>
             </DeleteModal>
             <DeleteModal
@@ -305,15 +306,19 @@ const CheckBox = ({
 }) => {
     return (
         <div
-            className={`${className} flex w-full items-center gap-2 rounded-md bg-text bg-opacity-10 px-4 py-3 transition-all duration-200`}
+            className={`${className} relative flex w-full items-center gap-2 rounded-md bg-text bg-opacity-10 px-4 py-3 transition-all duration-200`}
         >
+            <img
+                src={`/images/checkbox${value ? "" : "-empty"}.svg`}
+                alt="checkbox"
+            />
             <input
                 type="checkbox"
                 name={name}
                 value={value}
                 onChange={onChange}
                 checked={value}
-                className="size-4 rounded-md"
+                className="absolute size-5 rounded-md opacity-0"
             />
             <label htmlFor={name} className="font-medium text-text">
                 {name}

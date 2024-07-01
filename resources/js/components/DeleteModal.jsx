@@ -8,6 +8,7 @@ export const DeleteModal = ({
     CloseModal = () => {},
     DeleteImage = () => {},
     title = "Delete this photo?",
+    confirmButtonText = "Delete",
     children,
 }) => {
     return (
@@ -18,7 +19,10 @@ export const DeleteModal = ({
                     {children}
                 </div>
                 <div className="flex flex-row justify-center gap-4">
-                    <PrimaryButton text="Delete" onClick={() => {}} />
+                    <PrimaryButton
+                        text={confirmButtonText}
+                        onClick={() => {}}
+                    />
                     <SecondaryButton text="Cancel" onClick={CloseModal} />
                 </div>
             </form>

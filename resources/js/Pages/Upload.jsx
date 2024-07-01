@@ -200,7 +200,7 @@ export default function Upload({ auth, options }) {
             <MainLayout auth={auth}>
                 <Header title="Upload" back={true} href={route("dashboard")} />
                 <main className="grid gap-8 md:grid-cols-[1fr_4fr]">
-                    <aside className="flex flex-col gap-8">
+                    <aside className="flex flex-col gap-8 md:sticky md:top-8 md:h-fit">
                         <div
                             className={`relative w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out md:aspect-square`}
                         >
@@ -216,12 +216,18 @@ export default function Upload({ auth, options }) {
                                 {...getRootProps({ className: "dropzone" })}
                                 className="flex h-full flex-col items-center justify-center rounded-3xl py-8"
                             >
-                                <input {...getInputProps()} />
+                                <input
+                                    {...getInputProps()}
+                                    disabled={processing}
+                                />
                                 <img
                                     src="/images/upload.svg"
                                     alt="upload icon"
+                                    className={processing ? "opacity-0" : ""}
                                 />
-                                <p className="text-center text-text">
+                                <p
+                                    className={`text-center ${processing ? "opacity-0" : ""}`}
+                                >
                                     Drag and drop or select images here!
                                 </p>
                             </div>

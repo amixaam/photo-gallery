@@ -32,12 +32,12 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                         </p>
                         <div className="flex flex-row gap-8">
                             <InertiaLink
-                                href="/dashboard"
-                                className="transition-all hover:scale-125"
+                                href={route("dashboard")}
+                                className="transition-all hover:scale-110"
                             >
                                 <img
                                     src="/images/key.svg"
-                                    alt=""
+                                    alt="key"
                                     className="scale-75 select-none sm:scale-100"
                                 />
                             </InertiaLink>

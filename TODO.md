@@ -44,12 +44,22 @@
 -   [x] Filesize warning and disable upload button when over limit
 -   [x] image lazy loading
 
+## 01.07
+
+-   [x] ImageComponent in ImageShowcase in collections page
+-   [x] Custom checkbox
+-   [x] Add existing image to collection functionality / form
+-   [x] Remove existing image from collection functionality / form
+-   [x] Upload sidebar is sticky to top on desktop
+
 ## Todo
 
--   [ ] Upload is sticky to top on desktop
--   [ ] Skip duplicate file on upload and notify user
--   [ ] Multi-select photos to edit in upload
--   [ ] Custom checkbox
 -   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
--   [ ] Animation for switching photos
 -   [ ] Framer motion-ify the site with animations
+-   [ ] Multi-select photos to edit in upload
+
+
+## possibly for V3
+
+-   [ ] Pre-convert to .WEBP before uploading in the client
+-   [ ] Animation for switching photos
