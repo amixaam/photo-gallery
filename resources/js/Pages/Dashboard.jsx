@@ -1,13 +1,13 @@
+import { useForm } from "@inertiajs/inertia-react";
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import MainLayout from "../Layouts/MainLayout";
 import Header from "../components/Header";
 import { SecondaryButton } from "../components/SecondaryButton";
-import { TextInput } from "../components/TextInput";
-import { useForm } from "@inertiajs/inertia-react";
-import Select from "react-select";
 import { SmallCollectionCard } from "../components/SmallCollectionCard";
-import { motion } from "framer-motion";
-import { container, revealItem } from "../utils/FramerVariants";
+import { TextInput } from "../components/TextInput";
 const selectOptions = [
     { value: "all", label: "All" },
     { value: "public", label: "Public" },

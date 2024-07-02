@@ -5,28 +5,24 @@ import MainLayout from "../Layouts/MainLayout";
 import Loader from "../components/Loader";
 import ZipImages from "../utils/ZipImages";
 
+import toast from "react-hot-toast";
 import Creatable from "react-select/creatable";
+import Header from "../components/Header";
 import { IconButton } from "../components/IconButton";
 import { ModalSkeleton } from "../components/ModalSkeleton";
 import PrimaryButton from "../components/PrimaryButton";
+import { SecondaryButton } from "../components/SecondaryButton";
 import { TextInput } from "../components/TextInput";
 import { Toast } from "../components/Toast";
+import { SetToast } from "../utils/SetToast";
 import { Truncate } from "../utils/Truncate";
-import toast from "react-hot-toast";
-import Header from "../components/Header";
-import { SecondaryButton } from "../components/SecondaryButton";
+
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 
 export default function Upload({ auth, options }) {
     const [files, setFiles] = useState([]);
-    const {
-        data,
-        setData,
-        processing,
-        reset,
-        post,
-        recentlySuccessful,
-        errors,
-    } = useForm({
+    const { data, setData, processing, reset, post } = useForm({
         location: "",
         time: "",
         specificValues: [],
@@ -95,22 +91,12 @@ export default function Upload({ auth, options }) {
         e.preventDefault();
 
         if (files.length === 0) {
-            toast.custom((t) => (
-                <Toast
-                    t={t}
-                    text="Please select at least one image to upload."
-                />
-            ));
+            SetToast("Please select at least one image to upload.");
             return;
         }
 
         if (limitReached) {
-            toast.custom((t) => (
-                <Toast
-                    t={t}
-                    text={`Please upload no more than ${limit} MB of images.`}
-                />
-            ));
+            SetToast("Please upload no more than " + limit + " MB of images.");
             return;
         }
 
@@ -123,12 +109,11 @@ export default function Upload({ auth, options }) {
         if (data.zip !== null) {
             post(route("photo.post"), {
                 onError: (e) => {
-                    toast.custom((t) => (
-                        <Toast
-                            t={t}
-                            text="Something went wrong. Please try again later."
-                        />
-                    ));
+                    SetToast(
+                        e.error
+                            ? e.error
+                            : "Something went wrong. Please try again later.",
+                    );
                 },
                 onSuccess: () => {
                     setFiles([]);
@@ -198,118 +183,152 @@ export default function Upload({ auth, options }) {
                 EditImage={EditImage}
             />
             <MainLayout auth={auth}>
-                <Header title="Upload" back={true} href={route("dashboard")} />
-                <main className="grid gap-8 md:grid-cols-[1fr_4fr]">
-                    <aside className="flex flex-col gap-8 md:sticky md:top-8 md:h-fit">
-                        <div
-                            className={`relative w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out md:aspect-square`}
-                        >
-                            {processing && (
-                                <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
-                                    <Loader
-                                        style={"scale-[2]"}
-                                        color="#EC81C7"
-                                    />
-                                </div>
-                            )}
-                            <div
-                                {...getRootProps({ className: "dropzone" })}
-                                className="flex h-full flex-col items-center justify-center rounded-3xl py-8"
-                            >
-                                <input
-                                    {...getInputProps()}
-                                    disabled={processing}
-                                />
-                                <img
-                                    src="/images/upload.svg"
-                                    alt="upload icon"
-                                    className={processing ? "opacity-0" : ""}
-                                />
-                                <p
-                                    className={`text-center ${processing ? "opacity-0" : ""}`}
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="flex h-full flex-col gap-[inherit]"
+                >
+                    <motion.div variants={revealItem}>
+                        <Header
+                            title="Upload"
+                            back={true}
+                            href={route("dashboard")}
+                        />
+                    </motion.div>
+                    <main className="grid gap-8 md:grid-cols-[1fr_4fr]">
+                        <motion.div variants={revealItem}>
+                            <aside className="flex flex-col gap-8 md:sticky md:top-8 md:h-fit">
+                                <div
+                                    className={`relative w-full rounded-3xl border-2 border-dashed border-text bg-text bg-opacity-10 transition-all duration-500 ease-in-out md:aspect-square`}
                                 >
-                                    Drag and drop or select images here!
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-4">
-                            <p className="text-text">Mass assign metadata</p>
-                            <Creatable
-                                options={options}
-                                placeholder="Collection..."
-                                className={"creatable"}
-                                classNamePrefix="creatable"
-                                isDisabled={processing}
-                                isLoading={processing}
-                                isSearchable
-                                onChange={(e) => {
-                                    setData("collection", e.value);
-                                }}
-                            />
-                            <TextInput
-                                name="location"
-                                value={data.location}
-                                onchange={changeHandler}
-                                disabled={processing}
-                            />
-                            <TextInput
-                                name="time"
-                                value={data.time}
-                                onchange={changeHandler}
-                                disabled={processing}
-                            />
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <div className="flex flex-row justify-between">
-                                <p className="text-text">
-                                    {thumbs.length} images, {totalSizeInMB} MB
-                                </p>
-                                {limitReached && (
-                                    <p className="inline text-error">
-                                        LIMIT REACHED
-                                    </p>
-                                )}
-                            </div>
-                            <div className="flex w-full flex-row gap-[inherit]">
-                                <SecondaryButton
-                                    type="button"
-                                    disabled={processing}
-                                    onClick={() => {
-                                        ClearButton();
-                                    }}
-                                    className="flex-grow justify-center"
-                                >
-                                    <img src="/images/close.svg" alt="" />
-                                    <p>Clear</p>
-                                </SecondaryButton>
-                                <form
-                                    onSubmit={SubmitHandler}
-                                    className="flex-grow"
-                                >
-                                    <SecondaryButton
-                                        type="submit"
-                                        disabled={processing}
-                                        className="w-full justify-center"
+                                    {processing && (
+                                        <div className="absolute flex h-full w-full items-center justify-center rounded-3xl bg-bg70">
+                                            <Loader
+                                                style={"scale-[2]"}
+                                                color="#EC81C7"
+                                            />
+                                        </div>
+                                    )}
+                                    <div
+                                        {...getRootProps({
+                                            className: "dropzone",
+                                        })}
+                                        className="flex h-full flex-col items-center justify-center rounded-3xl py-8"
                                     >
+                                        <input
+                                            {...getInputProps()}
+                                            disabled={processing}
+                                        />
                                         <img
                                             src="/images/upload.svg"
                                             alt="upload icon"
+                                            className={
+                                                processing ? "opacity-0" : ""
+                                            }
                                         />
-                                        <p>Upload</p>
-                                    </SecondaryButton>
-                                </form>
-                            </div>
+                                        <p
+                                            className={`text-center ${processing ? "opacity-0" : ""}`}
+                                        >
+                                            Drag and drop or select images here!
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-4">
+                                    <p className="text-text">
+                                        Mass assign metadata
+                                    </p>
+                                    <Creatable
+                                        options={options}
+                                        placeholder="Collection..."
+                                        className={"creatable"}
+                                        classNamePrefix="creatable"
+                                        isDisabled={processing}
+                                        isLoading={processing}
+                                        isSearchable
+                                        onChange={(e) => {
+                                            setData("collection", e.value);
+                                        }}
+                                    />
+                                    <TextInput
+                                        name="location"
+                                        value={data.location}
+                                        onchange={changeHandler}
+                                        disabled={processing}
+                                    />
+                                    <TextInput
+                                        name="time"
+                                        value={data.time}
+                                        onchange={changeHandler}
+                                        disabled={processing}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex flex-row justify-between">
+                                        <p className="text-text">
+                                            {thumbs.length} images,{" "}
+                                            {totalSizeInMB} MB
+                                        </p>
+                                        {limitReached && (
+                                            <p className="inline text-error">
+                                                LIMIT REACHED
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div className="flex w-full flex-row gap-[inherit]">
+                                        <SecondaryButton
+                                            type="button"
+                                            disabled={processing}
+                                            onClick={() => {
+                                                ClearButton();
+                                            }}
+                                            className="flex-grow justify-center"
+                                        >
+                                            <img
+                                                src="/images/close.svg"
+                                                alt=""
+                                            />
+                                            <p>Clear</p>
+                                        </SecondaryButton>
+                                        <form
+                                            onSubmit={SubmitHandler}
+                                            className="flex-grow"
+                                        >
+                                            <SecondaryButton
+                                                type="submit"
+                                                disabled={processing}
+                                                className="w-full justify-center"
+                                            >
+                                                <img
+                                                    src="/images/upload.svg"
+                                                    alt="upload icon"
+                                                />
+                                                <p>Upload</p>
+                                            </SecondaryButton>
+                                        </form>
+                                    </div>
+                                </div>
+                            </aside>
+                        </motion.div>
+                        <div className="flex flex-col">
+                            {thumbs.length > 0 ? (
+                                <motion.div
+                                    variants={container}
+                                    initial="hidden"
+                                    animate="show"
+                                    className="columns-1 gap-6 sm:columns-2 lg:columns-3 2xl:columns-4"
+                                >
+                                    {thumbs}
+                                </motion.div>
+                            ) : (
+                                <p className="my-8 text-center lg:my-64">
+                                    Soon-to-be uploaded images will appear here!
+                                </p>
+                            )}
                         </div>
-                    </aside>
-                    <div className="flex flex-col">
-                        {thumbs.length > 0 && (
-                            <div className="columns-1 gap-6 sm:columns-2 lg:columns-3 2xl:columns-4">
-                                {thumbs}
-                            </div>
-                        )}
-                    </div>
-                </main>
+                    </main>
+                </motion.div>
             </MainLayout>
         </>
     );
@@ -317,7 +336,7 @@ export default function Upload({ auth, options }) {
 
 const ImagePreview = ({ file, isLoading, clearImage, data, OpenModal }) => {
     return (
-        <div className="relative">
+        <motion.div variants={revealItem} className="relative">
             <div className="image-preview-overlay absolute flex h-full w-full flex-row justify-between rounded-xl p-4">
                 <div className="flex h-fit w-full flex-row items-center justify-between">
                     <p className="text-text sm:hidden xl:block">
@@ -370,7 +389,7 @@ const ImagePreview = ({ file, isLoading, clearImage, data, OpenModal }) => {
                     URL.revokeObjectURL(file.preview);
                 }}
             />
-        </div>
+        </motion.div>
     );
 };
 

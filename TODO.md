@@ -55,15 +55,14 @@
 ## 02.07
 
 -   [x] Draggable infinite carousel in landing, using framer motion
+-   [x] Framer motion-ify the site with animations
 
 ## Todo
 
--   [ ] Framer motion-ify the site with animations
-
 -   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
--   [ ] Multi-select photos to edit in upload
 
 ## possibly for V3
 
 -   [ ] Pre-convert to .WEBP before uploading in the client
+-   [ ] Multi-select photos to edit in upload
 -   [ ] Animation for switching photos

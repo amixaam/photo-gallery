@@ -1,19 +1,16 @@
+import { useForm } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
-import MainLayout from "../Layouts/MainLayout";
-import { Link, useForm } from "@inertiajs/inertia-react";
-import { TextInput } from "../components/TextInput";
-import PrimaryButton from "../components/PrimaryButton";
-import { Toast } from "../components/Toast";
-import { Truncate } from "../utils/Truncate";
-import toast from "react-hot-toast";
-import Header from "../components/Header";
-import { SmallCollectionCard } from "../components/SmallCollectionCard";
 import Creatable from "react-select/creatable";
-import { SetToast } from "../utils/SetToast";
-import { IconLink } from "../components/IconLink";
-import { IconButton } from "../components/IconButton";
+import MainLayout from "../Layouts/MainLayout";
 import { DeleteModal } from "../components/DeleteModal";
-
+import Header from "../components/Header";
+import { IconButton } from "../components/IconButton";
+import PrimaryButton from "../components/PrimaryButton";
+import { SmallCollectionCard } from "../components/SmallCollectionCard";
+import { TextInput } from "../components/TextInput";
+import { SetToast } from "../utils/SetToast";
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 function EditPhoto({ image, options, auth }) {
     const [confirmModal, setConfirmModal] = useState(false);
 
@@ -53,9 +50,7 @@ function EditPhoto({ image, options, auth }) {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-                toast.custom((t) => (
-                    <Toast t={t} text="Image updated successfully!" />
-                ));
+                SetToast("Image updated successfully!");
             },
             onError: (e) => {
                 SetToast(
@@ -123,45 +118,58 @@ function EditPhoto({ image, options, auth }) {
                 </p>
             </DeleteModal>
             <MainLayout auth={auth} admin={true}>
-                <main className="flex flex-col gap-[inherit]">
-                    <Header title="Edit photo" back={true} />
+                <motion.main
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="flex flex-col gap-[inherit]"
+                >
+                    <motion.div variants={revealItem}>
+                        <Header title="Edit photo" back={true} />
+                    </motion.div>
 
                     {/* collections & form */}
-                    <form
-                        onSubmit={SubmitHandler}
-                        className="flex flex-col gap-4"
+                    <motion.div variants={revealItem}>
+                        <form
+                            onSubmit={SubmitHandler}
+                            className="flex flex-col gap-4"
+                        >
+                            <TextInput
+                                name="title"
+                                value={data.title}
+                                onchange={changeHandler}
+                                error={errors.title || errors.error}
+                            />
+                            <TextInput
+                                name="alt_text"
+                                value={data.alt_text}
+                                onchange={changeHandler}
+                                error={errors.alt_text || errors.error}
+                            />
+                            <TextInput
+                                name="location"
+                                value={data.location}
+                                onchange={changeHandler}
+                                error={errors.location || errors.error}
+                            />
+                            <TextInput
+                                name="time"
+                                value={data.time}
+                                onchange={changeHandler}
+                                error={errors.time || errors.error}
+                            />
+                            <PrimaryButton
+                                text="Save"
+                                onClick={() => {}}
+                                style="w-fit"
+                            />
+                        </form>
+                    </motion.div>
+
+                    <motion.section
+                        variants={revealItem}
+                        className="flex w-full flex-col gap-8"
                     >
-                        <TextInput
-                            name="title"
-                            value={data.title}
-                            onchange={changeHandler}
-                            error={errors.title || errors.error}
-                        />
-                        <TextInput
-                            name="alt_text"
-                            value={data.alt_text}
-                            onchange={changeHandler}
-                            error={errors.alt_text || errors.error}
-                        />
-                        <TextInput
-                            name="location"
-                            value={data.location}
-                            onchange={changeHandler}
-                            error={errors.location || errors.error}
-                        />
-                        <TextInput
-                            name="time"
-                            value={data.time}
-                            onchange={changeHandler}
-                            error={errors.time || errors.error}
-                        />
-                        <PrimaryButton
-                            text="Save"
-                            onClick={() => {}}
-                            style="w-fit"
-                        />
-                    </form>
-                    <section className="flex w-full flex-col gap-8">
                         <h3>Add to collection</h3>
                         <form
                             className="flew-row flex gap-4"
@@ -191,11 +199,18 @@ function EditPhoto({ image, options, auth }) {
                                 processing={collectionProcessing}
                             />
                         </form>
-                    </section>
-                    <section className="flex w-full flex-col gap-8">
+                    </motion.section>
+                    <motion.section
+                        variants={revealItem}
+                        className="flex w-full flex-col gap-8"
+                    >
                         <h3 className="text-text">Collections</h3>
                         <div className="w-full overflow-x-scroll">
-                            <div className="relative flex w-max flex-row gap-4">
+                            <div
+                                initial="hidden"
+                                animate="show"
+                                className="relative flex w-max flex-row gap-4"
+                            >
                                 {image.collection.map((collection) => (
                                     <div className="relative">
                                         <div className="absolute right-0 top-0 z-[1] m-2 rounded-full bg-bg drop-shadow-2xl">
@@ -225,8 +240,8 @@ function EditPhoto({ image, options, auth }) {
                                 ))}
                             </div>
                         </div>
-                    </section>
-                </main>
+                    </motion.section>
+                </motion.main>
             </MainLayout>
         </>
     );

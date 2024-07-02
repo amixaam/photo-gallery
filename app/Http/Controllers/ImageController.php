@@ -131,7 +131,7 @@ class ImageController extends Controller
             'collection' => 'nullable|string',
             'location' => 'nullable|string',
             'time' => 'nullable|string',
-            'specificValues' => 'nullable|json',
+            'specificValues' => 'nullable|array',
         ]);
 
         if (!$request->file('zip')->isValid()) return back()->withErrors(['error' => 'Invalid zip file.']);
@@ -177,7 +177,7 @@ class ImageController extends Controller
 
 
         // specificValues: {"PXL_20230923_163109859.jpg":{"title":"test","location":"","time":""}}...
-        $specificValues = json_decode($request->input('specificValues') ?? '{}', true);
+        $specificValues = $request->input('specificValues');
 
 
         // ----------- Extract and process each file in the zip

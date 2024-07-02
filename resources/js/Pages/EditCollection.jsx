@@ -1,18 +1,17 @@
+import { Link, useForm } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import MainLayout from "../Layouts/MainLayout";
+import { DeleteModal } from "../components/DeleteModal";
+import Header from "../components/Header";
+import { IconButton } from "../components/IconButton";
+import { ImageComponent } from "../components/ImageComponent";
+import Loader from "../components/Loader";
 import PrimaryButton from "../components/PrimaryButton";
 import { TextInput } from "../components/TextInput";
-import { Link, useForm } from "@inertiajs/inertia-react";
-import Loader from "../components/Loader";
-import toast from "react-hot-toast";
-import { Toast } from "../components/Toast";
-import Header from "../components/Header";
-import { DeleteModal } from "../components/DeleteModal";
-import { IconButton } from "../components/IconButton";
-import { router } from "@inertiajs/react";
 import { SetToast } from "../utils/SetToast";
-import { ImageComponent } from "../components/ImageComponent";
-
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 // "Misc." and "My best work"
 const undeletableCollections = [1, 2];
 
@@ -27,7 +26,6 @@ export default function EditCollection({ auth, collection }) {
         is_featured: collection.is_featured,
     });
     const { delete: destroy, processing: deleteProcessing } = useForm({});
-    const { patch: pathCover, processing: coverProcessing } = useForm({});
     const {
         data: selected,
         setData: setSelected,
@@ -41,9 +39,7 @@ export default function EditCollection({ auth, collection }) {
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
-                toast.custom((t) => (
-                    <Toast t={t} text="Collection updated successfully!" />
-                ));
+                SetToast("Collection updated successfully!");
             },
         });
     }
@@ -52,9 +48,7 @@ export default function EditCollection({ auth, collection }) {
         e.preventDefault();
 
         if (undeletableCollections.includes(collection.id)) {
-            toast.custom((t) => (
-                <Toast t={t} text="This collection can't be deleted!" />
-            ));
+            SetToast("This collection can't be deleted!");
             return;
         }
 
@@ -63,9 +57,7 @@ export default function EditCollection({ auth, collection }) {
                 setShowCollectionDeleteModal(false);
             },
             onSuccess: () => {
-                toast.custom((t) => (
-                    <Toast t={t} text="Collection deleted successfully!" />
-                ));
+                SetToast("Collection deleted successfully!");
             },
         });
     }
@@ -79,9 +71,7 @@ export default function EditCollection({ auth, collection }) {
                 setShowImageDeleteModal(false);
             },
             onSuccess: () => {
-                toast.custom((t) => (
-                    <Toast t={t} text="Images deleted successfully!" />
-                ));
+                SetToast("Images deleted successfully!");
                 setSelected([]);
             },
             onError: (e) => {
@@ -145,111 +135,145 @@ export default function EditCollection({ auth, collection }) {
             </DeleteModal>
 
             <MainLayout auth={auth} admin={true}>
-                <Header
-                    title="Edit collection"
-                    back={true}
-                    href={route("dashboard")}
-                />
-                <main className="flex flex-col gap-[inherit]">
-                    {/* Edit form */}
-                    <section className="flex flex-col gap-4 sm:grid sm:grid-cols-[auto_1fr]">
-                        <ImageComponent
-                            src={`/storage/${collection.cover_path}`}
-                            blurhash={collection.cover_blurhash}
-                            alt={collection.title}
-                            className="aspect-square w-full rounded-3xl object-cover md:h-[250px] md:w-[250px]"
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="flex h-full flex-col gap-[inherit]"
+                >
+                    <motion.div variants={revealItem}>
+                        <Header
+                            title="Edit collection"
+                            back={true}
+                            href={route("dashboard")}
                         />
-                        <form
-                            onSubmit={SubmitUpdate}
-                            className="flex w-full flex-col gap-4 sm:w-[320px]"
-                        >
-                            <TextInput
-                                name="title"
-                                value={data.title}
-                                onchange={(e) =>
-                                    setData("title", e.target.value)
-                                }
-                                error={errors.title}
-                            />
-                            <CheckBox
-                                name="public"
-                                value={data.is_public}
-                                onChange={(e) =>
-                                    setData("is_public", e.target.checked)
-                                }
-                            />
-                            <CheckBox
-                                name="pinned"
-                                value={data.is_featured}
-                                onChange={(e) =>
-                                    setData("is_featured", e.target.checked)
-                                }
-                            />
-
-                            <div className="flex flex-row gap-4">
-                                <PrimaryButton
-                                    text="Save"
-                                    onClick={() => {}}
-                                    processing={processing}
+                    </motion.div>
+                    <main className="flex flex-col gap-[inherit]">
+                        {/* Edit form */}
+                        <motion.div variants={revealItem}>
+                            <section className="flex flex-col gap-4 sm:grid sm:grid-cols-[auto_1fr]">
+                                <ImageComponent
+                                    src={`/storage/${collection.cover_path}`}
+                                    blurhash={collection.cover_blurhash}
+                                    alt={collection.title}
+                                    className="aspect-square w-full rounded-3xl object-cover md:h-[250px] md:w-[250px]"
                                 />
-                                <DangerButton
-                                    text="Delete"
-                                    onClick={() =>
-                                        setShowCollectionDeleteModal(true)
-                                    }
-                                    disabled={undeletableCollections.includes(
-                                        collection.id,
-                                    )}
-                                    processing={deleteProcessing}
-                                />
-                            </div>
-                        </form>
-                    </section>
-                    <div className="flex flex-col gap-8">
-                        <div className="flex flex-col gap-2 md:flex-row md:justify-between">
-                            <div className="flex flex-row items-center justify-between gap-8 md:justify-normal">
-                                <h3>Photos</h3>
-                                <button
-                                    className="flex flex-row items-center justify-center gap-2"
-                                    onClick={SelectAllImages}
+                                <form
+                                    onSubmit={SubmitUpdate}
+                                    className="flex w-full flex-col gap-4 sm:w-[320px]"
                                 >
-                                    <img
-                                        src={`/images/checkbox${selected.length === collection.images.length ? "" : "-empty"}.svg`}
-                                        alt="checkbox"
+                                    <TextInput
+                                        name="title"
+                                        value={data.title}
+                                        onchange={(e) =>
+                                            setData("title", e.target.value)
+                                        }
+                                        error={errors.title}
                                     />
-                                    <p>Select all</p>
-                                </button>
-                            </div>
-                            <div
-                                className={
-                                    selected.length
-                                        ? "pointer-events-auto select-all opacity-100"
-                                        : "pointer-events-none select-none opacity-0"
-                                }
+                                    <CheckBox
+                                        name="public"
+                                        value={data.is_public}
+                                        onChange={(e) =>
+                                            setData(
+                                                "is_public",
+                                                e.target.checked,
+                                            )
+                                        }
+                                    />
+                                    <CheckBox
+                                        name="pinned"
+                                        value={data.is_featured}
+                                        onChange={(e) =>
+                                            setData(
+                                                "is_featured",
+                                                e.target.checked,
+                                            )
+                                        }
+                                    />
+
+                                    <div className="flex flex-row gap-4">
+                                        <PrimaryButton
+                                            text="Save"
+                                            onClick={() => {}}
+                                            processing={processing}
+                                        />
+                                        <DangerButton
+                                            text="Delete"
+                                            onClick={() =>
+                                                setShowCollectionDeleteModal(
+                                                    true,
+                                                )
+                                            }
+                                            disabled={undeletableCollections.includes(
+                                                collection.id,
+                                            )}
+                                            processing={deleteProcessing}
+                                        />
+                                    </div>
+                                </form>
+                            </section>
+                        </motion.div>
+
+                        <div className="flex flex-col gap-8">
+                            <motion.div
+                                variants={revealItem}
+                                className="flex flex-col gap-2 md:flex-row md:justify-between"
                             >
-                                <DangerButton
-                                    text={`Delete ${selected.length}`}
-                                    onClick={() =>
-                                        setShowImageDeleteModal(true)
+                                <div className="flex flex-row items-center justify-between gap-8 md:justify-normal">
+                                    <h3>Photos</h3>
+                                    <button
+                                        className="flex flex-row items-center justify-center gap-2"
+                                        onClick={SelectAllImages}
+                                    >
+                                        <img
+                                            src={`/images/checkbox${selected.length === collection.images.length ? "" : "-empty"}.svg`}
+                                            alt="checkbox"
+                                        />
+                                        <p>Select all</p>
+                                    </button>
+                                </div>
+                                <div
+                                    className={
+                                        selected.length
+                                            ? "pointer-events-auto select-all opacity-100"
+                                            : "pointer-events-none select-none opacity-0"
                                     }
-                                    className="w-full md:w-fit"
-                                    processing={massDeleteProcessing}
-                                />
-                            </div>
+                                >
+                                    <DangerButton
+                                        text={`Delete ${selected.length}`}
+                                        onClick={() =>
+                                            setShowImageDeleteModal(true)
+                                        }
+                                        className="w-full md:w-fit"
+                                        processing={massDeleteProcessing}
+                                    />
+                                </div>
+                            </motion.div>
+                            <motion.div variants={revealItem}>
+                                <motion.div
+                                    variants={container}
+                                    initial="hidden"
+                                    animate="show"
+                                    className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+                                >
+                                    {collection.images.map((image) => (
+                                        <motion.div variants={revealItem}>
+                                            <PhotoCard
+                                                key={image.id}
+                                                image={image}
+                                                Select={SelectImage}
+                                                selected={selected.includes(
+                                                    image.id,
+                                                )}
+                                                collectionSlug={collection.slug}
+                                            />
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            </motion.div>
                         </div>
-                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                            {collection.images.map((image) => (
-                                <PhotoCard
-                                    key={image.id}
-                                    image={image}
-                                    Select={SelectImage}
-                                    selected={selected.includes(image.id)}
-                                    collectionSlug={collection.slug}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </main>
+                    </main>
+                </motion.div>
             </MainLayout>
         </>
     );

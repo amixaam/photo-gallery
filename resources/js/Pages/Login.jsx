@@ -3,7 +3,8 @@ import MainLayout from "../Layouts/MainLayout";
 import GalleryTitle from "../components/GalleryTitle";
 import PrimaryButton from "../components/PrimaryButton";
 import { TextInput } from "../components/TextInput";
-
+import { motion } from "framer-motion";
+import { container, revealItem } from "../utils/FramerVariants";
 export default function Login({ auth }) {
     function changeHandler(e) {
         setData(e.target.name, e.target.value);
@@ -21,9 +22,16 @@ export default function Login({ auth }) {
 
     return (
         <MainLayout auth={auth.user} margins={false}>
-            <div className="flex min-h-screen flex-col items-center justify-center gap-8">
-                <GalleryTitle />
-                <form onSubmit={submitHandler} className="flex flex-col gap-4">
+            <motion.div
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="flex min-h-screen flex-col items-center justify-center gap-8"
+            >
+                <motion.div variants={revealItem}>
+                    <GalleryTitle />
+                </motion.div>
+                <motion.form variants={revealItem} onSubmit={submitHandler} className="flex flex-col gap-4">
                     <TextInput
                         type="text"
                         name="username"
@@ -43,8 +51,8 @@ export default function Login({ auth }) {
                         onClick={() => {}}
                         processing={processing}
                     />
-                </form>
-            </div>
+                </motion.form>
+            </motion.div>
         </MainLayout>
     );
 }
