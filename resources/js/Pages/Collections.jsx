@@ -1,10 +1,12 @@
 import { Link } from "@inertiajs/inertia-react";
+import { motion } from "framer-motion";
 import React from "react";
 import MainLayout from "../Layouts/MainLayout";
 import EmptyList from "../components/EmptyList";
-import PrimaryButton from "../components/PrimaryButton";
 import Header from "../components/Header";
 import { ImageComponent } from "../components/ImageComponent";
+import PrimaryButton from "../components/PrimaryButton";
+import { container, revealItem } from "../utils/FramerVariants";
 
 export default function Collections({
     collections,
@@ -23,32 +25,51 @@ export default function Collections({
     }
     return (
         <MainLayout auth={auth.user}>
-            <NewCollectionBanner data={featured_collection} />
+            <motion.div
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="flex h-full flex-col justify-center gap-[inherit]"
+            >
+                <motion.div variants={revealItem}>
+                    <NewCollectionBanner data={featured_collection} />
+                </motion.div>
 
-            <div className="flex justify-between">
-                <Header title="Collections" />
+                <motion.div variants={revealItem}>
+                    <div className="flex justify-between">
+                        <Header title="Collections" />
 
-                <div className="flex flex-row items-center gap-2">
-                    <img
-                        src="/images/collections.svg"
-                        alt=""
-                        className="size-6"
-                    />
-                    <p className="text-text">
-                        {collections.length} collections
-                    </p>
-                </div>
-            </div>
+                        <div className="flex flex-row items-center gap-2">
+                            <img
+                                src="/images/collections.svg"
+                                alt=""
+                                className="size-6"
+                            />
+                            <p className="text-text">
+                                {collections.length} collections
+                            </p>
+                        </div>
+                    </div>
+                </motion.div>
 
-            <main className="grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {collections.map((collection) => (
-                    <CollectionCard
-                        key={collection.id}
-                        collection={collection}
-                        auth={auth}
-                    />
-                ))}
-            </main>
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                >
+                    <main className="grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        {collections.map((collection) => (
+                            <motion.div variants={revealItem}>
+                                <CollectionCard
+                                    key={collection.id}
+                                    collection={collection}
+                                    auth={auth}
+                                />
+                            </motion.div>
+                        ))}
+                    </main>
+                </motion.div>
+            </motion.div>
         </MainLayout>
     );
 }

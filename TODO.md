@@ -52,12 +52,16 @@
 -   [x] Remove existing image from collection functionality / form
 -   [x] Upload sidebar is sticky to top on desktop
 
+## 02.07
+
+-   [x] Draggable infinite carousel in landing, using framer motion
+
 ## Todo
 
--   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
 -   [ ] Framer motion-ify the site with animations
--   [ ] Multi-select photos to edit in upload
 
+-   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
+-   [ ] Multi-select photos to edit in upload
 
 ## possibly for V3
 
