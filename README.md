@@ -1,18 +1,32 @@
-# Photo gallery
-This is my photo gallery!
+## photo-gallery - A site to showcase my photos!
 
-I made this with React as the frontend and Laravel as the backend!
-This was meant for practice and oh boy did i sure get some practice..
+[![wakatime](https://wakatime.com/badge/user/b9ae0171-376e-4d7d-9ceb-ea72185e2c2e/project/b6565a67-7e2a-48de-b88a-ca2f6c32e3bf.svg)](https://wakatime.com/badge/user/b9ae0171-376e-4d7d-9ceb-ea72185e2c2e/project/b6565a67-7e2a-48de-b88a-ca2f6c32e3bf)  
+(wakatime since 08.06.24) Rewrite started May 10, 2024
 
-There's a Vercel link for it, but you won't get much out of it, since you need laravel for it and they don't support that from what i know.
+photo-gallery is a personal image gallery designed for sharing and viewing photos, with an unique design in mind! Built in Laravel / React Inertia.js
 
-website screenshots
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/a12e16e4-6b0c-40ba-90b3-b9f329e10cb4)
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/c60e5da6-119b-40f7-998a-fa4c9e595ad2)
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/591e01cc-2a74-4c43-b80c-b9574c98d8c4)
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/80bfd4e0-fe16-4a7c-b759-6023171bce77)
+### Features:
 
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/cbd4a1e1-080f-4ff3-801b-bade8b684d03)
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/f585d965-7244-491d-a39a-b859138d59a0)
-![image](https://github.com/amixaam/photo-gallery/assets/60570885/b5d83154-0337-43ef-8c39-8599d2a4cbaa)
+-   Edit, delete, add / upload, update collections and images
+-   Collections - Folders for your images
+-   Image viewer
+-   Update admin data
+-   Lazy loading using Blurhash
+-   Framer motion animations
+-   Mobile responsitivity
+-   Pin / unpin collections
+-   Pinned / new collection banner
+-   Public / Private collections
+-   And immaculate style ✨
 
+### Demo site:
+
+https://photos.amixam.id.lv/
+
+### Figma design:
+
+Coming soon
+
+### Product images:
+
+Coming soon
