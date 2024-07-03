@@ -35,6 +35,7 @@ function Gallery({ collection, auth }) {
                         <Header
                             title={collection.title}
                             back={true}
+                            textNoWrap={false}
                             href={route("collections")}
                         />
                     </motion.div>

@@ -1,7 +1,12 @@
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
-function Header({ back = false, title = "Header", href = null }) {
+function Header({
+    back = false,
+    title = "Header",
+    href = null,
+    textNoWrap = true,
+}) {
     function Back() {
         window.history.back();
     }
@@ -22,7 +27,9 @@ function Header({ back = false, title = "Header", href = null }) {
     if (back) {
         return (
             <div className="flex flex-col gap-4">
-                <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
+                <h1
+                    className={` ${textNoWrap ? "text-nowrap" : ""} special-text w-min text-4xl drop-shadow-md sm:text-6xl`}
+                >
                     {title}
                 </h1>
 
