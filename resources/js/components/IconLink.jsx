@@ -5,6 +5,7 @@ export const IconLink = ({
     href = "#",
     icon = "close",
     disabled = false,
+    replace = false,
     alt = icon + "icon link",
     style = "",
 }) => {
@@ -15,6 +16,7 @@ export const IconLink = ({
             disabled={disabled}
             preserveScroll
             preserveState
+            replace={replace}
         >
             <img src={`/images/${icon}.svg`} alt={alt} />
         </Link>

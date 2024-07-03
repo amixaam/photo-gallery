@@ -41,7 +41,7 @@ class ImageController extends Controller
             }
         }
 
-        $collectionOptions = Collection::whereNotIn('id', $image->collection->pluck('id'))->get()->map(function ($collection) {
+        $collectionOptions = Collection::whereNotIn('id', $image->collection->pluck('id'))->orderBy('created_at', 'desc')->get()->map(function ($collection) {
             return ['value' => $collection->id, 'label' => $collection->title];
         })->toArray();
 
@@ -188,7 +188,8 @@ class ImageController extends Controller
             $location = null;
             $time = null;
 
-            if (array_key_exists($filename, $specificValues)) {
+
+            if ($specificValues != null && array_key_exists($filename, $specificValues)) {
                 $title = $specificValues[$filename]['title'] ?? $specificValues[$filename]['title'] ?? $filename;
                 $location = $specificValues[$filename]['location'] ?? $specificValues[$filename]['location'] ?? $request->input('location');
                 $time = $specificValues[$filename]['time'] ?? $specificValues[$filename]['time'] ?? $request->input('time');

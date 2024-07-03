@@ -13,7 +13,7 @@
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.4",
-    "vite": "^5.3.2"
+    "vite": "^5.3.3"
   },
   "dependencies": {
     "@inertiajs/inertia-react": "^0.8.1",

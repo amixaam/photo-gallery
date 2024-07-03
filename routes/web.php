@@ -37,7 +37,7 @@
     // Admin
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', function (Request $request) {
-            $collections = Collection::all();
+            $collections = Collection::orderBy('created_at', 'desc')->get();
 
             return Inertia::render('Dashboard', [
                 'collections' => $collections,

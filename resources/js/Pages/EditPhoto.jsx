@@ -212,7 +212,10 @@ function EditPhoto({ image, options, auth }) {
                                 className="relative flex w-max flex-row gap-4"
                             >
                                 {image.collection.map((collection) => (
-                                    <div className="relative">
+                                    <div
+                                        className="relative"
+                                        key={collection.id}
+                                    >
                                         <div className="absolute right-0 top-0 z-[1] m-2 rounded-full bg-bg drop-shadow-2xl">
                                             <IconButton
                                                 icon="close"
@@ -229,7 +232,6 @@ function EditPhoto({ image, options, auth }) {
                                             />
                                         </div>
                                         <SmallCollectionCard
-                                            key={collection.id}
                                             collection={collection}
                                             href={route(
                                                 "gallery.edit",

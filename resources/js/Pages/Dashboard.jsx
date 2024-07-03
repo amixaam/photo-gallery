@@ -1,13 +1,14 @@
 import { useForm } from "@inertiajs/inertia-react";
 import { motion } from "framer-motion";
 import { container, revealItem } from "../utils/FramerVariants";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import MainLayout from "../Layouts/MainLayout";
 import Header from "../components/Header";
 import { SecondaryButton } from "../components/SecondaryButton";
 import { SmallCollectionCard } from "../components/SmallCollectionCard";
 import { TextInput } from "../components/TextInput";
+import { useMeasure } from "@uidotdev/usehooks";
 const selectOptions = [
     { value: "all", label: "All" },
     { value: "public", label: "Public" },
@@ -45,6 +46,13 @@ export default function Dashboard({
 
         setCollections(filteredCollections);
     }, [data, unmodifiedCollections]);
+
+    const carousel = useRef();
+    const [width, setWidth] = useState(0);
+
+    useEffect(() => {
+        setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+    }, []);
 
     return (
         <MainLayout auth={auth} admin={true}>
@@ -101,8 +109,15 @@ export default function Dashboard({
                                     />
                                 </div>
                             </div>
-                            <div className="relative w-full overflow-x-scroll">
-                                <div className="relative flex w-max flex-row gap-4">
+                            <motion.div
+                                ref={carousel}
+                                className="relative w-full cursor-grab overflow-hidden"
+                            >
+                                <motion.div
+                                    dragConstraints={{ left: -width, right: 0 }}
+                                    drag="x"
+                                    className="relative flex w-max flex-row gap-4"
+                                >
                                     {collections.map((collection) => (
                                         <SmallCollectionCard
                                             key={collection.id}
@@ -113,8 +128,8 @@ export default function Dashboard({
                                             )}
                                         />
                                     ))}
-                                </div>
-                            </div>
+                                </motion.div>
+                            </motion.div>
                         </section>
                     </motion.div>
                     <motion.div variants={revealItem}>

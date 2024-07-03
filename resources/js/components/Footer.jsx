@@ -27,7 +27,7 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                     </div>
 
                     <div className="col-span-2 flex flex-row items-end justify-between gap-3">
-                        <p className="link text-xs text-text sm:text-base">
+                        <p className="link text-text">
                             © Roberts Briņķis, 2024
                         </p>
                         <div className="flex flex-row gap-8">
@@ -38,7 +38,7 @@ export const Footer = ({ grainPrefs, setGrainPrefs }) => {
                                 <img
                                     src="/images/key.svg"
                                     alt="key"
-                                    className="scale-75 select-none sm:scale-100"
+                                    className="select-none"
                                 />
                             </InertiaLink>
                         </div>

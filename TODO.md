@@ -57,9 +57,12 @@
 -   [x] Draggable infinite carousel in landing, using framer motion
 -   [x] Framer motion-ify the site with animations
 
-## Todo
+## 03.07 (release day)
 
--   [ ] Navigate photo route with keyboard (arrow left, right, esc, del for admins)
+-   [x] Draggable collection list using framer motion in Dashboard
+-   [x] "N collections" text shortened for mobile
+-   [x] Navigate photo view page with keyboard (arrow left, right, esc)
+-   [x] Replace history for next, previous buttons in photo view page
 
 ## possibly for V3
 

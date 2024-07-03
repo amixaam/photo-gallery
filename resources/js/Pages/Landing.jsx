@@ -76,10 +76,12 @@ export default function Landing({ auth, collection }) {
                                 </motion.div>
                             </div>
                             <div className="flex flex-col items-center justify-center gap-2 ">
-                                <motion.p variants={revealItem}></motion.p>
+                                <motion.div variants={revealItem}>
+                                    <p>It's finally here!</p>
+                                </motion.div>
                                 <motion.div variants={revealItem}>
                                     <PrimaryButton
-                                        text="Coming soon!"
+                                        text="Collections"
                                         href={route("collections")}
                                     />
                                 </motion.div>
@@ -102,7 +104,7 @@ export default function Landing({ auth, collection }) {
                     <section>
                         <Reveal>
                             {/* Carousel */}
-                            <motion.div className="flex w-screen cursor-grab py-2">
+                            <div className="flex w-screen cursor-grab py-2">
                                 {/* Inner carousel */}
                                 <motion.div
                                     ref={ref}
@@ -144,7 +146,7 @@ export default function Landing({ auth, collection }) {
                                         ),
                                     )}
                                 </motion.div>
-                            </motion.div>
+                            </div>
                         </Reveal>
                     </section>
                 </main>
@@ -153,12 +155,12 @@ export default function Landing({ auth, collection }) {
                 <section className="flex h-screen items-center justify-center">
                     <Reveal styles="flex items-center justify-center gap-8 flex-col">
                         <StarryHeader title="Like what you see?" />
-                        <div className="mb-[15vh] flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
+                        <div className="mb-[15vh] flex flex-row items-center gap-4">
                             <motion.div variants={revealItem} className="flex">
                                 <SecondaryButton
                                     href={route("collections")}
                                     as="link"
-                                    text="Collections (Coming soon!)"
+                                    text="Collections"
                                 ></SecondaryButton>
                             </motion.div>
                             <motion.div variants={revealItem} className="flex">
@@ -169,7 +171,7 @@ export default function Landing({ auth, collection }) {
                                     href="https://github.com/amixaam/photo-gallery"
                                     as="a"
                                 >
-                                    <p>View source</p>
+                                    <p>Source</p>
                                     <img src="/images/redirect.svg" alt="" />
                                 </SecondaryButton>
                             </motion.div>

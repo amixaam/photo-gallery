@@ -16,10 +16,22 @@ export default function Collections({
     if (collections.length === 0) {
         return (
             <MainLayout auth={auth.user}>
-                <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
-                    Collections
-                </h1>
-                <EmptyList text="Whoops! there are no public collections, for now!" />
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="flex h-full flex-col justify-center gap-[inherit]"
+                >
+                    <motion.div variants={revealItem}>
+                        <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
+                            Collections
+                        </h1>
+                    </motion.div>
+
+                    <motion.div variants={revealItem}>
+                        <EmptyList text="Whoops! there are no public collections, for now!" />
+                    </motion.div>
+                </motion.div>
             </MainLayout>
         );
     }
@@ -45,8 +57,11 @@ export default function Collections({
                                 alt=""
                                 className="size-6"
                             />
-                            <p className="text-text">
+                            <p className="hidden sm:block">
                                 {collections.length} collections
+                            </p>
+                            <p className="block sm:hidden">
+                                {collections.length}
                             </p>
                         </div>
                     </div>
@@ -57,11 +72,13 @@ export default function Collections({
                     initial="hidden"
                     animate="show"
                 >
-                    <main className="grid grid-cols-1 gap-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <main className="grid grid-cols-1 gap-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {collections.map((collection) => (
-                            <motion.div variants={revealItem}>
+                            <motion.div
+                                variants={revealItem}
+                                key={collection.id}
+                            >
                                 <CollectionCard
-                                    key={collection.id}
                                     collection={collection}
                                     auth={auth}
                                 />

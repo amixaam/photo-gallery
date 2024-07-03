@@ -1,10 +1,11 @@
-import { Link, useForm } from "@inertiajs/inertia-react";
-import React, { useState } from "react";
+import { InertiaLink, Link, useForm } from "@inertiajs/inertia-react";
+import React, { useEffect, useState } from "react";
 import { DeleteModal } from "../components/DeleteModal";
 import { IconButton } from "../components/IconButton";
 import { IconLink } from "../components/IconLink";
 import { SetToast } from "../utils/SetToast";
 import { ImageComponent } from "../components/ImageComponent";
+import { Inertia } from "@inertiajs/inertia";
 
 function Photo({ auth, collection, image }) {
     const { delete: destroy } = useForm();
@@ -47,6 +48,35 @@ function Photo({ auth, collection, image }) {
             },
         });
     };
+
+    const handleKeyDown = (event) => {
+        console.log(event.key);
+        switch (event.key) {
+            case "ArrowLeft":
+                Inertia.visit(
+                    route("photo", [collection.slug, ShowPreviousImage()]),
+                    { replace: true },
+                );
+                break;
+            case "ArrowRight":
+                Inertia.visit(
+                    route("photo", [collection.slug, ShowNextImage()]),
+                    { replace: true },
+                );
+                break;
+            case "Escape":
+                Inertia.visit(route("gallery", collection.slug));
+                break;
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, []);
 
     return (
         <>
@@ -168,6 +198,7 @@ const Overlay = ({
                         collection.slug,
                         ShowPreviousImage(),
                     ])}
+                    replace
                     className="group flex h-full w-1/2 bg-gradient-to-r from-black30 to-transparent md:w-1/4 md:from-black50"
                 >
                     <img
@@ -178,6 +209,7 @@ const Overlay = ({
                 </Link>
                 <Link
                     alt="Next image"
+                    replace
                     href={route("photo", [collection.slug, ShowNextImage()])}
                     className="group flex h-full w-1/2 justify-end bg-gradient-to-l from-black30 to-transparent md:w-1/4 md:from-black50"
                 >

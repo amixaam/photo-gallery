@@ -257,9 +257,11 @@ export default function EditCollection({ auth, collection }) {
                                     className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
                                 >
                                     {collection.images.map((image) => (
-                                        <motion.div variants={revealItem}>
+                                        <motion.div
+                                            variants={revealItem}
+                                            key={image.id}
+                                        >
                                             <PhotoCard
-                                                key={image.id}
                                                 image={image}
                                                 Select={SelectImage}
                                                 selected={selected.includes(
