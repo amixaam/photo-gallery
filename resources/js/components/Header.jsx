@@ -28,7 +28,7 @@ function Header({
         return (
             <div className="flex flex-col gap-4">
                 <h1
-                    className={` ${textNoWrap ? "text-nowrap" : ""} special-text w-min text-4xl drop-shadow-md sm:text-6xl`}
+                    className={` ${textNoWrap ? "text-nowrap" : ""} special-text text-4xl drop-shadow-md sm:text-6xl`}
                 >
                     {title}
                 </h1>
