@@ -21,7 +21,7 @@ photo-gallery is a personal image gallery designed for sharing and viewing photo
 
 ### Demo site:
 
-https://photos.amixam.id.lv/
+https://photos.amixam.net/
 
 ### Figma design:
 
