@@ -16,7 +16,7 @@ class AddInertiaHeaders
 
         if ($request->header('X-Inertia')) {
             $response->header('X-Inertia', 'true');
-            $response->header('Vary', 'Accept');
+            $response->header('Vary', 'X-Inertia');
             $response->headers->add(['Vary' => 'X-Inertia']);
 
             // Ensure proper content type for Inertia responses
