@@ -42,16 +42,11 @@ function Gallery({ collection, auth }) {
 
                     <main>
                         <motion.div
-                            variants={container}
-                            initial="hidden"
-                            animate="show"
+                            variants={revealItem}
                             className="columns-1 gap-12 sm:columns-2 md:columns-3 lg:columns-4"
                         >
                             {collection.images.map((image) => (
-                                <motion.div
-                                    variants={revealItem}
-                                    key={image.id}
-                                >
+                                <div key={image.id}>
                                     <Link
                                         href={route("photo", [
                                             collection.slug,
@@ -68,7 +63,7 @@ function Gallery({ collection, auth }) {
                                             className={`mb-12 w-full rounded-3xl aspect-[${image.aspect_ratio}]`}
                                         />
                                     </Link>
-                                </motion.div>
+                                </div>
                             ))}
                         </motion.div>
                     </main>

@@ -72,19 +72,24 @@ export default function Collections({
                     initial="hidden"
                     animate="show"
                 >
-                    <main className="grid grid-cols-1 gap-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {collections.map((collection) => (
-                            <motion.div
-                                variants={revealItem}
-                                key={collection.id}
-                            >
-                                <CollectionCard
-                                    collection={collection}
-                                    auth={auth}
-                                />
-                            </motion.div>
-                        ))}
-                    </main>
+                    <motion.div
+                        variants={revealItem}
+                        key={featured_collection.id}
+                    >
+                        <main className="grid grid-cols-1 gap-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {collections.map((collection) => (
+                                <motion.div
+                                    variants={revealItem}
+                                    key={collection.id}
+                                >
+                                    <CollectionCard
+                                        collection={collection}
+                                        auth={auth}
+                                    />
+                                </motion.div>
+                            ))}
+                        </main>
+                    </motion.div>
                 </motion.div>
             </motion.div>
         </MainLayout>
