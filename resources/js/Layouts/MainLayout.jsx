@@ -13,7 +13,7 @@ const MainLayout = ({ auth, children, margins = true, admin = false }) => {
         children = (
             <div className="flex min-h-screen w-full items-center justify-center">
                 <h1 className="special-text w-min text-nowrap text-4xl drop-shadow-md sm:text-6xl">
-                    Coming soon!
+                    Not found
                 </h1>
             </div>
         );
