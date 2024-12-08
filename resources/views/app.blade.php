@@ -7,7 +7,7 @@
         <link rel="icon" href="../favicon.png">
         <meta name="title" content="photo-gallery">
         <meta name="description" content="A stylish photo gallery">
-        <meta name="keywords" content="gallery, photos, laravel, react">
+        <meta name="keywords" content="gallery, photos">
         <meta name="author" content="Roberts Briņķis">
 
         @viteReactRefresh 
